@@ -30,6 +30,7 @@ class StaffPanelProvider extends PanelProvider
                 'primary' => Color::hex('#8B4513'),
                 'gray' => Color::Slate,
             ])
+            ->theme(asset('css/filament/theme.css'))
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')
             ->pages([
@@ -53,6 +54,7 @@ class StaffPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                'role:staff',
             ]);
     }
 }

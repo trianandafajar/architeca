@@ -30,6 +30,7 @@ class ContractorPanelProvider extends PanelProvider
                 'primary' => Color::hex('#8B4513'),
                 'gray' => Color::Slate,
             ])
+            ->theme(asset('css/filament/theme.css'))
             ->discoverResources(in: app_path('Filament/Contractor/Resources'), for: 'App\\Filament\\Contractor\\Resources')
             ->discoverPages(in: app_path('Filament/Contractor/Pages'), for: 'App\\Filament\\Contractor\\Pages')
             ->pages([
@@ -53,6 +54,7 @@ class ContractorPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                'role:contractor',
             ]);
     }
 }

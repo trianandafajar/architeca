@@ -25,8 +25,10 @@ class StaffPanelProvider extends PanelProvider
         return $panel
             ->id('staff')
             ->path('staff')
+            ->login(\App\Filament\Pages\Auth\Login::class)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::hex('#8B4513'),
+                'gray' => Color::Slate,
             ])
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')

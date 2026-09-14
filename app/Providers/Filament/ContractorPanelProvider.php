@@ -25,8 +25,10 @@ class ContractorPanelProvider extends PanelProvider
         return $panel
             ->id('contractor')
             ->path('contractor')
+            ->login(\App\Filament\Pages\Auth\Login::class)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::hex('#8B4513'),
+                'gray' => Color::Slate,
             ])
             ->discoverResources(in: app_path('Filament/Contractor/Resources'), for: 'App\\Filament\\Contractor\\Resources')
             ->discoverPages(in: app_path('Filament/Contractor/Pages'), for: 'App\\Filament\\Contractor\\Pages')

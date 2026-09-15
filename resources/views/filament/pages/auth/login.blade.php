@@ -22,12 +22,12 @@
 
     <div class="flex w-1/2 flex-col justify-center bg-[#FFFBF7] px-16 py-16">
         <div class="mx-auto w-full max-w-md">
-            <div class="mb-8 flex items-center gap-2">
+            {{-- <div class="mb-8 flex items-center gap-2">
                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8B4513]">
                     <x-heroicon-o-building-office-2 class="h-6 w-6 text-white" />
                 </div>
                 <span class="text-xl font-bold text-[#2D1810]">ARCHITECA</span>
-            </div>
+            </div> --}}
 
             <h1 class="mb-2 text-2xl font-bold text-[#2D1810]">Welcome back</h1>
             <p class="mb-8 text-sm text-[#8B7355]">Enter your credentials to access your account.</p>

@@ -24,7 +24,7 @@
         @if (filament()->hasNavigation())
             <x-filament-panels::sidebar
                 :navigation="$navigation"
-                class="fi-main-sidebar shrink-0 border-r border-border"
+                class="fi-main-sidebar shrink-0"
             />
         @endif
 
@@ -58,8 +58,10 @@
                 {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::TOPBAR_AFTER, scopes: $livewire?->getRenderHookScopes()) }}
             @endif
 
-            <main class="flex-1 overflow-auto bg-background p-8">
-                {{ $slot }}
+            <main class="flex-1 overflow-auto bg-background">
+                <div class="mx-auto w-full max-w-[1600px] px-4 py-8 sm:px-6 lg:px-10">
+                    {{ $slot }}
+                </div>
             </main>
 
         </div>

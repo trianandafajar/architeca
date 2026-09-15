@@ -30,6 +30,9 @@ class StaffPanelProvider extends PanelProvider
                 'primary' => Color::hex('#8B4513'),
                 'gray' => Color::Slate,
             ])
+            ->sidebarWidth('20rem')
+            ->sidebarCollapsibleOnDesktop()
+            ->collapsedSidebarWidth('4.5rem')
             ->theme(asset('css/filament/theme.css'))
             ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')

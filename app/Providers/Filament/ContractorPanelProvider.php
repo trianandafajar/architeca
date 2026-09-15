@@ -30,6 +30,9 @@ class ContractorPanelProvider extends PanelProvider
                 'primary' => Color::hex('#8B4513'),
                 'gray' => Color::Slate,
             ])
+            ->sidebarWidth('20rem')
+            ->sidebarCollapsibleOnDesktop()
+            ->collapsedSidebarWidth('4.5rem')
             ->theme(asset('css/filament/theme.css'))
             ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Contractor/Resources'), for: 'App\\Filament\\Contractor\\Resources')

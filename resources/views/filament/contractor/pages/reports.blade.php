@@ -5,7 +5,7 @@
         <p class="mt-1 text-gray-500">Rangkuman budget, progress, dan aktivitas proyek</p>
     </div>
 
-    {{-- Summary Cards --}}
+    {{-- summary cards --}}
     <div class="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div class="rounded-xl bg-white p-6 shadow-sm">
             <div class="text-sm text-gray-500">Total Project</div>
@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    {{-- Budget vs Expense --}}
+    {{-- budget vs expense --}}
     <div class="mb-8 rounded-xl bg-white p-6 shadow-sm">
         <h2 class="mb-4 text-lg font-semibold text-gray-800">Budget vs Expense</h2>
         <div class="overflow-x-auto">
@@ -41,20 +41,25 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
                     @foreach ($budgetVsExpense as $row)
-                        <tr>
-                            <td class="px-4 py-3 text-sm font-medium text-gray-800">{{ $row['name'] }}</td>
-                            <td class="px-4 py-3 text-sm text-gray-800">Rp {{ number_format($row['budget'], 0, ',', '.') }}</td>
-                            <td class="px-4 py-3 text-sm text-gray-800">Rp {{ number_format($row['expense'], 0, ',', '.') }}</td>
-                            <td class="px-4 py-3 text-sm font-medium {{ $row['remaining'] >= 0 ? 'text-green-600' : 'text-red-600' }}">Rp {{ number_format($row['remaining'], 0, ',', '.') }}</td>
-                            <td class="px-4 py-3 text-sm text-gray-800">{{ $row['budget'] > 0 ? round(($row['expense'] / $row['budget']) * 100) : 0 }}%</td>
-                        </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-gray-800">{{ $row['name'] }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-800">Rp {{ number_format($row['budget'], 0, ',', '.') }}
+                        </td>
+                        <td class="px-4 py-3 text-sm text-gray-800">Rp {{ number_format($row['expense'], 0, ',', '.') }}
+                        </td>
+                        <td
+                            class="px-4 py-3 text-sm font-medium {{ $row['remaining'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
+                            Rp {{ number_format($row['remaining'], 0, ',', '.') }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-800">{{ $row['budget'] > 0 ? round(($row['expense'] /
+                            $row['budget']) * 100) : 0 }}%</td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 
-    {{-- Progress Report --}}
+    {{-- progress report --}}
     <div class="mb-8 rounded-xl bg-white p-6 shadow-sm">
         <h2 class="mb-4 text-lg font-semibold text-gray-800">Progress Report</h2>
         <div class="overflow-x-auto">
@@ -69,21 +74,23 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
                     @foreach ($progressReport as $row)
-                        <tr>
-                            <td class="px-4 py-3 text-sm font-medium text-gray-800">{{ $row['project'] }}</td>
-                            <td class="px-4 py-3 text-sm">
-                                <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium {{ $row['progress'] >= 100 ? 'bg-green-100 text-green-800' : ($row['progress'] >= 50 ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800') }}">{{ $row['progress'] }}%</span>
-                            </td>
-                            <td class="px-4 py-3 text-sm text-gray-500">{{ $row['date'] }}</td>
-                            <td class="px-4 py-3 text-sm text-gray-500">{{ $row['by'] }}</td>
-                        </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-gray-800">{{ $row['project'] }}</td>
+                        <td class="px-4 py-3 text-sm">
+                            <span
+                                class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium {{ $row['progress'] >= 100 ? 'bg-green-100 text-green-800' : ($row['progress'] >= 50 ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800') }}">{{
+                                $row['progress'] }}%</span>
+                        </td>
+                        <td class="px-4 py-3 text-sm text-gray-500">{{ $row['date'] }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-500">{{ $row['by'] }}</td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 
-    {{-- Daily Activity --}}
+    {{-- daily activity --}}
     <div class="rounded-xl bg-white p-6 shadow-sm">
         <h2 class="mb-4 text-lg font-semibold text-gray-800">Aktivitas Harian Terbaru</h2>
         <div class="overflow-x-auto">
@@ -99,13 +106,13 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
                     @foreach ($dailyActivity as $row)
-                        <tr>
-                            <td class="px-4 py-3 text-sm text-gray-800">{{ $row['date'] }}</td>
-                            <td class="px-4 py-3 text-sm font-medium text-gray-800">{{ $row['project'] }}</td>
-                            <td class="px-4 py-3 text-sm text-gray-500">{{ $row['staff'] }}</td>
-                            <td class="px-4 py-3 text-sm text-gray-500">{{ Str::limit($row['desc'], 60) }}</td>
-                            <td class="px-4 py-3 text-sm text-gray-800">{{ $row['progress'] }}%</td>
-                        </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm text-gray-800">{{ $row['date'] }}</td>
+                        <td class="px-4 py-3 text-sm font-medium text-gray-800">{{ $row['project'] }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-500">{{ $row['staff'] }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-500">{{ Str::limit($row['desc'], 60) }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-800">{{ $row['progress'] }}%</td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>

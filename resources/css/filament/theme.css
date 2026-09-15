@@ -3,6 +3,7 @@
 @config "tailwind.config.js";
 
 :root {
+    color-scheme: light;
     --primary-50: #fdf8f3;
     --primary-100: #fbeed9;
     --primary-200: #f5d5b3;
@@ -16,10 +17,21 @@
     --primary-950: #260e08;
 }
 
+html.dark {
+    color-scheme: light;
+}
+
+html.dark .fi-sidebar,
 .fi-sidebar {
     background-color: #fdfaf6;
 }
 
+html.dark .fi-main,
 .fi-main {
+    background-color: #ffffff;
+}
+
+html.dark .fi-body,
+.fi-body {
     background-color: #ffffff;
 }

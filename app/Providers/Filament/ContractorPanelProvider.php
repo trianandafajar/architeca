@@ -31,10 +31,13 @@ class ContractorPanelProvider extends PanelProvider
                 'gray' => Color::Slate,
             ])
             ->theme(asset('css/filament/theme.css'))
+            ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Contractor/Resources'), for: 'App\\Filament\\Contractor\\Resources')
             ->discoverPages(in: app_path('Filament/Contractor/Pages'), for: 'App\\Filament\\Contractor\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+                \App\Filament\Contractor\Pages\ProjectDetail::class,
+                \App\Filament\Contractor\Pages\Reports::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Contractor/Widgets'), for: 'App\\Filament\\Contractor\\Widgets')
             ->widgets([

@@ -31,10 +31,12 @@ class StaffPanelProvider extends PanelProvider
                 'gray' => Color::Slate,
             ])
             ->theme(asset('css/filament/theme.css'))
+            ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+                \App\Filament\Staff\Pages\DailyReport::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Staff/Widgets'), for: 'App\\Filament\\Staff\\Widgets')
             ->widgets([

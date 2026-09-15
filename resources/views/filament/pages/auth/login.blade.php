@@ -83,8 +83,8 @@
                 <button type="submit"
                     class="w-full rounded-xl bg-[#8B4513] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-[#6B3410] focus:outline-none focus:ring-2 focus:ring-[#8B4513]/50 focus:ring-offset-2 active:scale-[0.98]"
                     wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-wait">
-                    <span wire:loading.remove>SIGN IN</span>
-                    <span wire:loading wire:target="authenticate">Processing...</span>
+                    <span wire:loading.remove>Sign In</span>
+                    <span wire:loading wire:target="authenticate">Signing <in>y</in>...</span>
                 </button>
             </form>
         </div>

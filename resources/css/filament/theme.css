@@ -4,6 +4,41 @@
 
 :root {
     color-scheme: light;
+    --radius: 0.625rem;
+
+    --background: #fbfaf9;
+    --foreground: #1c1917;
+    --card: #ffffff;
+    --card-foreground: #1c1917;
+    --popover: #ffffff;
+    --popover-foreground: #1c1917;
+    --primary: #8b4513;
+    --primary-foreground: #ffffff;
+    --secondary: #f5f0eb;
+    --secondary-foreground: #2d1810;
+    --muted: #f5f0eb;
+    --muted-foreground: #8b7355;
+    --accent: #f5f0eb;
+    --accent-foreground: #2d1810;
+    --destructive: #dc2626;
+    --border: #e5ddd3;
+    --input: #e5ddd3;
+    --ring: #8b4513;
+    --chart-1: #8b4513;
+    --chart-2: #c0875a;
+    --chart-3: #672d0f;
+    --chart-4: #d4a574;
+    --chart-5: #462012;
+
+    --sidebar: #ffffff;
+    --sidebar-foreground: #1c1917;
+    --sidebar-primary: #8b4513;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #f5f0eb;
+    --sidebar-accent-foreground: #2d1810;
+    --sidebar-border: #e5ddd3;
+    --sidebar-ring: #8b4513;
+
     --primary-50: #fdf8f3;
     --primary-100: #fbeed9;
     --primary-200: #f5d5b3;
@@ -21,17 +56,43 @@ html.dark {
     color-scheme: light;
 }
 
-html.dark .fi-sidebar,
+/* --- Filament component overrides tuned to the shadcn look --- */
+
 .fi-sidebar {
-    background-color: #fdfaf6;
+    background-color: var(--sidebar);
+    border-right: 1px solid var(--sidebar-border);
 }
 
-html.dark .fi-main,
 .fi-main {
-    background-color: #ffffff;
+    background-color: var(--background);
 }
 
-html.dark .fi-body,
 .fi-body {
-    background-color: #ffffff;
+    background-color: var(--background);
+}
+
+.fi-topbar {
+    background-color: var(--background);
+    border-bottom: 1px solid var(--border);
+}
+
+.fi-sidebar-group {
+    background-color: transparent;
+}
+
+.fi-sidebar-item-active {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+}
+
+.fi-section {
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background-color: var(--card);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+}
+
+button:not(:disabled),
+[role='button']:not(:disabled) {
+    cursor: pointer;
 }

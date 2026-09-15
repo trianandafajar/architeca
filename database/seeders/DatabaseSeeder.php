@@ -125,14 +125,24 @@ class DatabaseSeeder extends Seeder
         }
 
         // 7. Expenses
-        if ($project->expenses()->count() === 0) {
+        $project->expenses()->delete();
+        $expenseSeeds = [
+            ['expense_date' => now()->subMonths(4)->startOfMonth()->addDays(3), 'category' => 'material', 'description' => 'Besi beton & semen batch 1', 'amount' => 45000000],
+            ['expense_date' => now()->subMonths(4)->startOfMonth()->addDays(12), 'category' => 'labor', 'description' => 'Upah tukang minggu pertama', 'amount' => 18200000],
+            ['expense_date' => now()->subMonths(3)->startOfMonth()->addDays(2), 'category' => 'material', 'description' => 'Bata merah & pasir', 'amount' => 37500000],
+            ['expense_date' => now()->subMonths(3)->startOfMonth()->addDays(15), 'category' => 'equipment', 'description' => 'Sewa concrete mixer', 'amount' => 12500000],
+            ['expense_date' => now()->subMonths(3)->startOfMonth()->addDays(20), 'category' => 'transport', 'description' => 'Angkut material galian', 'amount' => 6800000],
+            ['expense_date' => now()->subMonths(2)->startOfMonth()->addDays(5), 'category' => 'labor', 'description' => 'Upah tukang minggu kelima', 'amount' => 21400000],
+            ['expense_date' => now()->subMonths(2)->startOfMonth()->addDays(18), 'category' => 'material', 'description' => 'Semen 150 sak tambahan', 'amount' => 22800000],
+            ['expense_date' => now()->subMonths(1)->startOfMonth()->addDays(5), 'category' => 'equipment', 'description' => 'Sewa scaffolding', 'amount' => 15400000],
+            ['expense_date' => now()->startOfMonth()->addDays(5), 'category' => 'material', 'description' => 'Keramik & sanitair', 'amount' => 33500000],
+        ];
+
+        foreach ($expenseSeeds as $data) {
             Expense::create([
                 'project_id' => $project->id,
                 'user_id' => $contractor->id,
-                'expense_date' => now()->subWeeks(3),
-                'category' => 'material',
-                'description' => 'Pembelian semen 100 sak dan besi beton',
-                'amount' => 75000000,
+                ...$data,
             ]);
         }
     }

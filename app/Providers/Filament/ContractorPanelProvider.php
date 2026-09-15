@@ -38,7 +38,7 @@ class ContractorPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Contractor/Resources'), for: 'App\\Filament\\Contractor\\Resources')
             ->discoverPages(in: app_path('Filament/Contractor/Pages'), for: 'App\\Filament\\Contractor\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                \App\Filament\Pages\Dashboard::class,
                 \App\Filament\Contractor\Pages\ProjectDetail::class,
                 \App\Filament\Contractor\Pages\Reports::class,
             ])

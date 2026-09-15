@@ -27,7 +27,7 @@ $livewire ??= null;
             scopes: $livewire?->getRenderHookScopes()) }}
 
             <header
-                class="z-40 flex h-16 shrink-0 items-center gap-4 border-b border-border bg-background px-6 transition-all">
+                class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-4 border-b border-border bg-background px-6 transition-all">
                 <div class="flex items-center gap-3">
                     <button x-data x-on:click="
                                 @if (filament()->isSidebarCollapsibleOnDesktop() || filament()->isSidebarFullyCollapsibleOnDesktop())

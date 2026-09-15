@@ -41,7 +41,10 @@ $livewire ??= null;
                                 @endif
                             "
                         class="inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring h-9 w-9 text-muted-foreground">
-                        <x-heroicon-o-bars-3 class="h-5 w-5" />
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM9 4v16" />
+                        </svg>
                     </button>
                 </div>
 

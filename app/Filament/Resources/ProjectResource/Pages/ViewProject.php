@@ -20,7 +20,7 @@ class ViewProject extends ViewRecord
 
     public function getSubheading(): ?string
     {
-        return 'Ringkasan progres, biaya, dan aktivitas project dalam satu tampilan.';
+        return 'A summary of project progress, costs, and activities in a single view.';
     }
 
     protected function getAllRelationManagers(): array

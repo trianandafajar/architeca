@@ -13,7 +13,7 @@ class ListProjects extends ListRecords
 
     public function getSubheading(): ?string
     {
-        return 'Kelola informasi, progres, biaya, dan anggota seluruh project dari satu tempat.';
+        return 'Manage project information, progress, costs, and members in one place.';
     }
 
     protected function getHeaderActions(): array

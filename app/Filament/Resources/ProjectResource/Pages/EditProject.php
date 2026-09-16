@@ -18,7 +18,7 @@ class EditProject extends EditRecord
 
     public function getSubheading(): ?string
     {
-        return 'Perbarui informasi project dan kelola aktivitasnya dari satu tampilan.';
+        return 'Update project information and manage activities from a single view.';
     }
 
     protected function getAllRelationManagers(): array

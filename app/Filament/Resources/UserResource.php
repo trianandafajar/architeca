@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
 class UserResource extends Resource
@@ -141,6 +142,12 @@ class UserResource extends Resource
             ->pluck('name', 'name')
             ->mapWithKeys(fn (string $name): array => [$name => Str::headline($name)])
             ->all();
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->whereKeyNot(auth()->id());
     }
 
     public static function getPages(): array

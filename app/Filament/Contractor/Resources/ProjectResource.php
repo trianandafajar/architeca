@@ -8,6 +8,11 @@ use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Actions\Action as InfolistAction;
+use Filament\Infolists\Components\Actions\Action as InfolistAction;
+use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
@@ -37,7 +42,7 @@ class ProjectResource extends Resource
             ->where(function (Builder $query): void {
                 $query
                     ->where('owner_id', auth()->id())
-                    ->orWhereHas('members', fn (Builder $memberQuery) => $memberQuery->where('user_id', auth()->id()));
+                    ->orWhereHas('members', fn(Builder $memberQuery) => $memberQuery->where('user_id', auth()->id()));
             });
     }
 
@@ -45,35 +50,41 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Informasi Project')
+                Forms\Components\Section::make('Project Information')
                     ->schema([
                         Forms\Components\TextInput::make('name')
-                            ->label('Nama Project')
+                            ->label('Project Name')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('client_name')
-                            ->label('Nama Klien')
+                            ->label('Client Name')
                             ->maxLength(255),
+                        Forms\Components\Select::make('branch_id')
+                            ->label('Branch')
+                            ->relationship('branch', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->nullable(),
                         Forms\Components\TextInput::make('location')
-                            ->label('Lokasi')
+                            ->label('Location')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('contract_value')
-                            ->label('Nilai Kontrak')
+                            ->label('Contract Value')
                             ->numeric()
                             ->prefix('Rp')
                             ->default(0),
                         Forms\Components\DatePicker::make('start_date')
-                            ->label('Tanggal Mulai'),
+                            ->label('Start Date'),
                         Forms\Components\DatePicker::make('end_date')
-                            ->label('Tanggal Selesai'),
+                            ->label('End Date'),
                         Forms\Components\Select::make('status')
                             ->label('Status')
                             ->options([
                                 'planning' => 'Planning',
-                                'active' => 'Aktif',
-                                'on_hold' => 'Ditahan',
-                                'completed' => 'Selesai',
-                                'cancelled' => 'Dibatalkan',
+                                'active' => 'Active',
+                                'on_hold' => 'On Hold',
+                                'completed' => 'Completed',
+                                'cancelled' => 'Cancelled',
                             ])
                             ->default('planning'),
                     ])
@@ -84,26 +95,28 @@ class ProjectResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->recordUrl(fn (Project $record): string => static::getUrl('view', ['record' => $record]))
+            ->recordUrl(fn(Project $record): string => static::getUrl('view', ['record' => $record]))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nama Project')
+                    ->label('Project Name')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('client_name')
-                    ->label('Klien')
+                    ->label('Client')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('location')
-                    ->label('Lokasi')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('branch.name')
+                    ->label('Branch')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('contract_value')
-                    ->label('Nilai Kontrak')
+                    ->label('Contract Value')
                     ->money('IDR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'active' => 'success',
                         'planning' => 'warning',
                         'on_hold' => 'info',
@@ -111,11 +124,11 @@ class ProjectResource extends Resource
                         'cancelled' => 'danger',
                     }),
                 Tables\Columns\TextColumn::make('start_date')
-                    ->label('Mulai')
+                    ->label('Start')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
-                    ->label('Selesai')
+                    ->label('End')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -125,15 +138,21 @@ class ProjectResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('created_at', 'desc')
+            ->paginated([10, 25, 50])
+            ->defaultPaginationPageOption(10)
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
                         'planning' => 'Planning',
-                        'active' => 'Aktif',
-                        'on_hold' => 'Ditahan',
-                        'completed' => 'Selesai',
-                        'cancelled' => 'Dibatalkan',
+                        'active' => 'Active',
+                        'on_hold' => 'On Hold',
+                        'completed' => 'Completed',
+                        'cancelled' => 'Cancelled',
                     ]),
+                Tables\Filters\SelectFilter::make('branch')
+                    ->relationship('branch', 'name')
+                    ->label('Branch')
+                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -167,7 +186,7 @@ class ProjectResource extends Resource
         return $infolist
             ->schema([
                 Section::make('Project overview')
-                    ->description('Ringkasan informasi dan status project.')
+                    ->description('Summary of project information and status.')
                     ->headerActions([
                         InfolistAction::make('edit')
                             ->label('Edit project')
@@ -175,53 +194,57 @@ class ProjectResource extends Resource
                             ->button()
                             ->color('gray')
                             ->extraAttributes(['class' => 'architeca-edit-project-action'])
-                            ->url(fn (Project $record): string => static::getUrl('edit', ['record' => $record]))
-                            ->visible(fn (Project $record): bool => static::canEdit($record)),
+                            ->url(fn(Project $record): string => static::getUrl('edit', ['record' => $record]))
+                            ->visible(fn(Project $record): bool => static::canEdit($record)),
                     ])
                     ->schema([
                         Grid::make(3)
                             ->schema([
                                 TextEntry::make('name')
-                                    ->label('Nama project')
+                                    ->label('Project name')
                                     ->weight('bold'),
+
                                 TextEntry::make('client_name')
-                                    ->label('Klien')
+                                    ->label('Client')
                                     ->placeholder('-'),
+
                                 TextEntry::make('status')
                                     ->label('Status')
                                     ->badge()
-                                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                                        'active' => 'Aktif',
+                                    ->formatStateUsing(fn(string $state): string => match ($state) {
+                                        'active' => 'Active',
                                         'planning' => 'Planning',
-                                        'on_hold' => 'Ditahan',
-                                        'completed' => 'Selesai',
-                                        'cancelled' => 'Dibatalkan',
+                                        'on_hold' => 'On Hold',
+                                        'completed' => 'Completed',
+                                        'cancelled' => 'Cancelled',
                                         default => ucfirst($state),
                                     })
-                                    ->color(fn (string $state): string => match ($state) {
+                                    ->color(fn(string $state): string => match ($state) {
                                         'active', 'completed' => 'success',
                                         'planning' => 'warning',
                                         'on_hold' => 'info',
                                         'cancelled' => 'danger',
                                         default => 'gray',
                                     }),
+
                                 TextEntry::make('location')
-                                    ->label('Lokasi')
+                                    ->label('Location')
                                     ->placeholder('-'),
+
                                 TextEntry::make('contract_value')
-                                    ->label('Nilai kontrak')
+                                    ->label('Contract value')
                                     ->money('IDR'),
+
                                 TextEntry::make('start_date')
-                                    ->label('Periode')
+                                    ->label('Period')
                                     ->date('d M Y')
-                                    ->formatStateUsing(fn ($state, $record): string => $state
+                                    ->formatStateUsing(fn($state, $record): string => $state
                                         ? $state->format('d M Y') . ' - ' . ($record->end_date?->format('d M Y') ?? '-')
                                         : '-'),
                             ]),
                     ]),
             ]);
     }
-
     public static function getPages(): array
     {
         return [

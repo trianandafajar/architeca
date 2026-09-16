@@ -33,7 +33,7 @@ class ProjectMembersRelationManager extends RelationManager
                     ->searchable()
                     ->preload(),
                 Forms\Components\Select::make('role')
-                    ->label('Peran')
+                    ->label('Role')
                     ->options([
                         'owner' => 'Owner',
                         'manager' => 'Manager',
@@ -50,14 +50,15 @@ class ProjectMembersRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Nama')
+                    ->label('Name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.email')
                     ->label('Email'),
                 Tables\Columns\TextColumn::make('role')
-                    ->label('Peran')
+                    ->label('Role')
                     ->badge()
-                    ->color('primary'),
+                    ->color('primary')
+                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
             ])
             ->filters([
                 //
@@ -65,24 +66,24 @@ class ProjectMembersRelationManager extends RelationManager
             ->headerActions([
                 $this->configureProjectModalAction(
                     Tables\Actions\CreateAction::make()->color('primary'),
-                    'Tambahkan anggota dan tentukan perannya di project ini.',
+                    'Add member and define their role in this project.',
                 ),
             ])
             ->actions([
                 $this->configureProjectModalAction(
                     Tables\Actions\EditAction::make(),
-                    'Perbarui peran anggota pada project ini.',
+                    'Update member role on this project.',
                 ),
                 $this->configureProjectModalAction(
                     Tables\Actions\DeleteAction::make(),
-                    'Anggota yang dihapus tidak lagi memiliki akses melalui project ini.',
+                    'Removed members no longer have access through this project.',
                 ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     $this->configureProjectModalAction(
                         Tables\Actions\DeleteBulkAction::make(),
-                        'Anggota yang dipilih akan dihapus dari project ini.',
+                        'Selected members will be removed from this project.',
                     ),
                 ]),
             ]);

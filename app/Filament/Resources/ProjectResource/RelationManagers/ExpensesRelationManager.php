@@ -27,26 +27,26 @@ class ExpensesRelationManager extends RelationManager
             ->schema([
                 Forms\Components\Hidden::make('user_id')->default(fn () => auth()->id()),
                 Forms\Components\DatePicker::make('expense_date')
-                    ->label('Tanggal')
+                    ->label('Date')
                     ->default(now())
                     ->required(),
                 Forms\Components\Select::make('category')
-                    ->label('Kategori')
+                    ->label('Category')
                     ->options([
                         'material' => 'Material',
-                        'labor' => 'Tenaga Kerja',
-                        'equipment' => 'Peralatan',
-                        'transport' => 'Transportasi',
-                        'other' => 'Lainnya',
+                        'labor' => 'Labor',
+                        'equipment' => 'Equipment',
+                        'transport' => 'Transport',
+                        'other' => 'Other',
                     ])
                     ->required(),
                 Forms\Components\TextInput::make('amount')
-                    ->label('Jumlah')
+                    ->label('Amount')
                     ->numeric()
                     ->prefix('Rp')
                     ->required(),
                 Forms\Components\Textarea::make('description')
-                    ->label('Deskripsi')
+                    ->label('Description')
                     ->columnSpanFull(),
             ])
             ->columns(2);
@@ -57,22 +57,23 @@ class ExpensesRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('expense_date')
-                    ->label('Tanggal')
+                    ->label('Date')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category')
-                    ->label('Kategori')
+                    ->label('Category')
                     ->badge()
-                    ->color('info'),
+                    ->color('info')
+                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
                 Tables\Columns\TextColumn::make('description')
-                    ->label('Deskripsi')
+                    ->label('Description')
                     ->limit(50),
                 Tables\Columns\TextColumn::make('amount')
-                    ->label('Jumlah')
+                    ->label('Amount')
                     ->money('IDR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Oleh'),
+                    ->label('By'),
             ])
             ->defaultSort('expense_date', 'desc')
             ->filters([
@@ -81,24 +82,24 @@ class ExpensesRelationManager extends RelationManager
             ->headerActions([
                 $this->configureProjectModalAction(
                     Tables\Actions\CreateAction::make()->color('primary'),
-                    'Tambahkan pengeluaran baru dan simpan rincian biayanya.',
+                    'Add new expense and save cost details.',
                 ),
             ])
             ->actions([
                 $this->configureProjectModalAction(
                     Tables\Actions\EditAction::make(),
-                    'Perbarui rincian pengeluaran project ini.',
+                    'Update expense details for this project.',
                 ),
                 $this->configureProjectModalAction(
                     Tables\Actions\DeleteAction::make(),
-                    'Data pengeluaran yang dihapus tidak dapat dipulihkan.',
+                    'Expense data that has been deleted cannot be recovered.',
                 ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     $this->configureProjectModalAction(
                         Tables\Actions\DeleteBulkAction::make(),
-                        'Pengeluaran yang dipilih akan dihapus dan tidak dapat dipulihkan.',
+                        'Selected expenses will be deleted and cannot be recovered.',
                     ),
                 ]),
             ]);

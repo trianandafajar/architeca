@@ -31,11 +31,11 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Informasi user')
-                    ->description('Kelola identitas, password, dan akses pengguna.')
+                Forms\Components\Section::make('User Information')
+                    ->description('Manage user identity, password, and access.')
                     ->schema([
                         Forms\Components\TextInput::make('name')
-                            ->label('Nama')
+                            ->label('Name')
                             ->required()
                             ->maxLength(255)
                             ->autofocus(),
@@ -55,17 +55,23 @@ class UserResource extends Resource
                             ->required(fn (string $operation): bool => $operation === 'create')
                             ->maxLength(255)
                             ->helperText(fn (string $operation): ?string => $operation === 'edit'
-                                ? 'Kosongkan jika tidak ingin mengubah password.'
+                                ? 'Leave empty to keep current password.'
                                 : null),
                         Forms\Components\TextInput::make('password_confirmation')
-                            ->label('Konfirmasi password')
+                            ->label('Confirm Password')
                             ->password()
                             ->same('password')
                             ->dehydrated(false)
                             ->required(fn (string $operation): bool => $operation === 'create')
                             ->helperText(fn (string $operation): ?string => $operation === 'edit'
-                                ? 'Isi hanya jika password ingin diubah.'
+                                ? 'Fill only if you want to change password.'
                                 : null),
+                        Forms\Components\Select::make('branch_id')
+                            ->label('Branch')
+                            ->relationship('branch', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->nullable(),
                         Forms\Components\Select::make('role')
                             ->label('Role')
                             ->options(fn (): array => static::getRoleOptions())
@@ -82,12 +88,17 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nama')
+                    ->label('Name')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('branch.name')
+                    ->label('Branch')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('role')
                     ->label('Role')
                     ->badge()
@@ -102,22 +113,28 @@ class UserResource extends Resource
                         default => 'gray',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat')
+                    ->label('Created')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('created_at', 'desc')
+            ->paginated([10, 25, 50])
+            ->defaultPaginationPageOption(10)
             ->filters([
                 Tables\Filters\SelectFilter::make('role')
                     ->label('Role')
                     ->relationship('roles', 'name')
                     ->options(fn (): array => static::getRoleOptions()),
+                Tables\Filters\SelectFilter::make('branch')
+                    ->relationship('branch', 'name')
+                    ->label('Branch')
+                    ->preload(),
             ])
             ->actions([
                 Impersonate::make()
                     ->color('primary')
-                    ->tooltip('Login sebagai user')
+                    ->tooltip('Login as user')
                     ->redirectTo(fn (User $record): string => $record->hasRole('contractor')
                         ? url('/contractor')
                         : url('/staff')),

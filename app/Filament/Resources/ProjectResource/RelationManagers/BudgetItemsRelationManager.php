@@ -17,7 +17,7 @@ class BudgetItemsRelationManager extends RelationManager
 
     protected static string $relationship = 'budgetItems';
 
-    protected static ?string $title = 'RAB / Budget';
+    protected static ?string $title = 'Budget / RAB';
 
     protected static ?string $recordTitleAttribute = 'item_name';
 
@@ -26,11 +26,11 @@ class BudgetItemsRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('item_name')
-                    ->label('Nama Item')
+                    ->label('Item Name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('quantity')
-                    ->label('Jumlah')
+                    ->label('Quantity')
                     ->numeric()
                     ->default(0)
                     ->live(onBlur: true)
@@ -39,10 +39,10 @@ class BudgetItemsRelationManager extends RelationManager
                         (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
                     )),
                 Forms\Components\TextInput::make('unit')
-                    ->label('Satuan')
+                    ->label('Unit')
                     ->maxLength(50),
                 Forms\Components\TextInput::make('unit_price')
-                    ->label('Harga Satuan')
+                    ->label('Unit Price')
                     ->numeric()
                     ->prefix('Rp')
                     ->default(0)
@@ -52,14 +52,14 @@ class BudgetItemsRelationManager extends RelationManager
                         (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
                     )),
                 Forms\Components\TextInput::make('total_price')
-                    ->label('Total Harga')
+                    ->label('Total Price')
                     ->numeric()
                     ->prefix('Rp')
                     ->default(0)
                     ->readOnly()
                     ->dehydrated(),
                 Forms\Components\Textarea::make('notes')
-                    ->label('Catatan')
+                    ->label('Notes')
                     ->columnSpanFull(),
             ])
             ->columns(2);
@@ -72,11 +72,11 @@ class BudgetItemsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('item_name')
                     ->label('Item'),
                 Tables\Columns\TextColumn::make('quantity')
-                    ->label('Jumlah'),
+                    ->label('Qty'),
                 Tables\Columns\TextColumn::make('unit')
-                    ->label('Satuan'),
+                    ->label('Unit'),
                 Tables\Columns\TextColumn::make('unit_price')
-                    ->label('Harga Satuan')
+                    ->label('Unit Price')
                     ->money('IDR'),
                 Tables\Columns\TextColumn::make('total_price')
                     ->label('Total')
@@ -88,24 +88,24 @@ class BudgetItemsRelationManager extends RelationManager
             ->headerActions([
                 $this->configureProjectModalAction(
                     Tables\Actions\CreateAction::make()->color('primary'),
-                    'Tambahkan item anggaran ke project ini.',
+                    'Add budget item to this project.',
                 ),
             ])
             ->actions([
                 $this->configureProjectModalAction(
                     Tables\Actions\EditAction::make(),
-                    'Perbarui rincian item anggaran ini.',
+                    'Update budget item details.',
                 ),
                 $this->configureProjectModalAction(
                     Tables\Actions\DeleteAction::make(),
-                    'Item anggaran yang dihapus tidak dapat dipulihkan.',
+                    'Deleted budget items cannot be recovered.',
                 ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     $this->configureProjectModalAction(
                         Tables\Actions\DeleteBulkAction::make(),
-                        'Item anggaran yang dipilih akan dihapus dan tidak dapat dipulihkan.',
+                        'Selected budget items will be deleted and cannot be recovered.',
                     ),
                 ]),
             ]);

@@ -15,7 +15,7 @@ class DailyReportsRelationManager extends RelationManager
 
     protected static string $relationship = 'dailyReports';
 
-    protected static ?string $title = 'Daily Report';
+    protected static ?string $title = 'Daily Reports';
 
     protected static ?string $icon = 'heroicon-o-document-text';
 
@@ -27,11 +27,11 @@ class DailyReportsRelationManager extends RelationManager
             ->schema([
                 Forms\Components\Hidden::make('user_id')->default(fn () => auth()->id()),
                 Forms\Components\DatePicker::make('report_date')
-                    ->label('Tanggal Laporan')
+                    ->label('Report Date')
                     ->default(now())
                     ->required(),
                 Forms\Components\TextInput::make('workers_count')
-                    ->label('Jumlah Pekerja')
+                    ->label('Number of Workers')
                     ->numeric()
                     ->default(0),
                 Forms\Components\TextInput::make('progress_percentage')
@@ -41,10 +41,10 @@ class DailyReportsRelationManager extends RelationManager
                     ->maxValue(100)
                     ->default(0),
                 Forms\Components\Textarea::make('work_description')
-                    ->label('Deskripsi Pekerjaan')
+                    ->label('Work Description')
                     ->columnSpanFull(),
                 Forms\Components\Textarea::make('issues')
-                    ->label('Kendala / Issues')
+                    ->label('Issues / Obstacles')
                     ->columnSpanFull(),
             ])
             ->columns(2);
@@ -55,20 +55,20 @@ class DailyReportsRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('report_date')
-                    ->label('Tanggal')
+                    ->label('Date')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('workers_count')
-                    ->label('Pekerja'),
+                    ->label('Workers'),
                 Tables\Columns\TextColumn::make('progress_percentage')
                     ->label('Progress')
                     ->suffix('%')
                     ->badge(),
                 Tables\Columns\TextColumn::make('work_description')
-                    ->label('Deskripsi')
+                    ->label('Description')
                     ->limit(50),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Oleh'),
+                    ->label('By'),
             ])
             ->defaultSort('report_date', 'desc')
             ->filters([
@@ -77,24 +77,24 @@ class DailyReportsRelationManager extends RelationManager
             ->headerActions([
                 $this->configureProjectModalAction(
                     Tables\Actions\CreateAction::make()->color('primary'),
-                    'Tambahkan laporan harian untuk merekam aktivitas project.',
+                    'Add a daily report to record project activity.',
                 ),
             ])
             ->actions([
                 $this->configureProjectModalAction(
                     Tables\Actions\ViewAction::make(),
-                    'Lihat detail aktivitas dan kondisi project pada tanggal ini.',
+                    'View project activity and status on this date.',
                 ),
                 $this->configureProjectModalAction(
                     Tables\Actions\EditAction::make(),
-                    'Perbarui laporan harian dan kendala yang tercatat.',
+                    'Update daily report and recorded issues.',
                 ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     $this->configureProjectModalAction(
                         Tables\Actions\DeleteBulkAction::make(),
-                        'Laporan harian yang dipilih akan dihapus dan tidak dapat dipulihkan.',
+                        'Selected daily reports will be deleted and cannot be recovered.',
                     ),
                 ]),
             ]);

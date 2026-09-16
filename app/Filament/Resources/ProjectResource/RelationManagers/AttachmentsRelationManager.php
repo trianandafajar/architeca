@@ -32,10 +32,10 @@ class AttachmentsRelationManager extends RelationManager
                     ->directory('attachments')
                     ->required(),
                 Forms\Components\TextInput::make('file_type')
-                    ->label('Tipe File')
+                    ->label('File Type')
                     ->maxLength(100),
                 Forms\Components\TextInput::make('caption')
-                    ->label('Keterangan')
+                    ->label('Caption')
                     ->maxLength(255),
             ]);
     }
@@ -48,12 +48,12 @@ class AttachmentsRelationManager extends RelationManager
                     ->label('File')
                     ->limit(50),
                 Tables\Columns\TextColumn::make('file_type')
-                    ->label('Tipe'),
+                    ->label('Type'),
                 Tables\Columns\TextColumn::make('caption')
-                    ->label('Keterangan')
+                    ->label('Caption')
                     ->limit(30),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Tanggal')
+                    ->label('Date')
                     ->date(),
             ])
             ->filters([
@@ -62,24 +62,24 @@ class AttachmentsRelationManager extends RelationManager
             ->headerActions([
                 $this->configureProjectModalAction(
                     Tables\Actions\CreateAction::make()->color('primary'),
-                    'Unggah file dan tambahkan keterangan untuk project ini.',
+                    'Upload file and add caption for this project.',
                 ),
             ])
             ->actions([
                 $this->configureProjectModalAction(
                     Tables\Actions\EditAction::make(),
-                    'Perbarui file atau keterangan lampiran ini.',
+                    'Update file or attachment caption.',
                 ),
                 $this->configureProjectModalAction(
                     Tables\Actions\DeleteAction::make(),
-                    'Lampiran yang dihapus tidak dapat dipulihkan.',
+                    'Deleted attachments cannot be recovered.',
                 ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     $this->configureProjectModalAction(
                         Tables\Actions\DeleteBulkAction::make(),
-                        'Lampiran yang dipilih akan dihapus dan tidak dapat dipulihkan.',
+                        'Selected attachments will be deleted and cannot be recovered.',
                     ),
                 ]),
             ]);

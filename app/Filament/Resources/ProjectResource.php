@@ -42,38 +42,44 @@ class ProjectResource extends Resource
     public static function getProjectFormSchema(): array
     {
         return [
-                Forms\Components\Section::make('Informasi Project')
+                Forms\Components\Section::make('Project Information')
                     ->schema([
                         Forms\Components\TextInput::make('name')
-                            ->label('Nama Project')
+                            ->label('Project Name')
                             ->required()
                             ->maxLength(255)
-                            ->placeholder('contoh: Pembangunan Gedung A'),
+                            ->placeholder('e.g.: Building A Construction'),
                         Forms\Components\TextInput::make('client_name')
-                            ->label('Nama Klien')
+                            ->label('Client Name')
                             ->maxLength(255)
-                            ->placeholder('nama klien'),
+                            ->placeholder('client name'),
+                        Forms\Components\Select::make('branch_id')
+                            ->label('Branch')
+                            ->relationship('branch', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->nullable(),
                         Forms\Components\TextInput::make('location')
-                            ->label('Lokasi')
+                            ->label('Location')
                             ->maxLength(255)
-                            ->placeholder('alamat project'),
+                            ->placeholder('project location'),
                         Forms\Components\TextInput::make('contract_value')
-                            ->label('Nilai Kontrak')
+                            ->label('Contract Value')
                             ->numeric()
                             ->prefix('Rp')
                             ->default(0),
                         Forms\Components\DatePicker::make('start_date')
-                            ->label('Tanggal Mulai'),
+                            ->label('Start Date'),
                         Forms\Components\DatePicker::make('end_date')
-                            ->label('Tanggal Selesai'),
+                            ->label('End Date'),
                         Forms\Components\Select::make('status')
                             ->label('Status')
                             ->options([
                                 'planning' => 'Planning',
-                                'active' => 'Aktif',
-                                'on_hold' => 'Ditahan',
-                                'completed' => 'Selesai',
-                                'cancelled' => 'Dibatalkan',
+                                'active' => 'Active',
+                                'on_hold' => 'On Hold',
+                                'completed' => 'Completed',
+                                'cancelled' => 'Cancelled',
                             ])
                             ->default('planning'),
                     ])
@@ -87,18 +93,23 @@ class ProjectResource extends Resource
             ->recordUrl(fn (Project $record): string => static::getUrl('view', ['record' => $record]))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nama Project')
+                    ->label('Project Name')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('client_name')
-                    ->label('Klien')
+                    ->label('Client')
                     ->searchable()
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('branch.name')
+                    ->label('Branch')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('location')
-                    ->label('Lokasi')
+                    ->label('Location')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('contract_value')
-                    ->label('Nilai Kontrak')
+                    ->label('Contract Value')
                     ->money('IDR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
@@ -111,30 +122,36 @@ class ProjectResource extends Resource
                         'cancelled' => 'danger',
                     }),
                 Tables\Columns\TextColumn::make('start_date')
-                    ->label('Mulai')
+                    ->label('Start')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
-                    ->label('Selesai')
+                    ->label('End')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat')
+                    ->label('Created')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('created_at', 'desc')
+            ->paginated([10, 25, 50, 100])
+            ->defaultPaginationPageOption(10)
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->label('Status')
                     ->options([
                         'planning' => 'Planning',
-                        'active' => 'Aktif',
-                        'on_hold' => 'Ditahan',
-                        'completed' => 'Selesai',
-                        'cancelled' => 'Dibatalkan',
+                        'active' => 'Active',
+                        'on_hold' => 'On Hold',
+                        'completed' => 'Completed',
+                        'cancelled' => 'Cancelled',
                     ]),
+                Tables\Filters\SelectFilter::make('branch')
+                    ->relationship('branch', 'name')
+                    ->label('Branch')
+                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -167,11 +184,11 @@ class ProjectResource extends Resource
     {
         return $infolist
             ->schema([
-                Section::make('Project overview')
-                    ->description('Ringkasan informasi dan status project.')
+                Section::make('Project Overview')
+                    ->description('Project information summary and status.')
                     ->headerActions([
                         InfolistAction::make('edit')
-                            ->label('Edit project')
+                            ->label('Edit Project')
                             ->icon('heroicon-m-pencil-square')
                             ->button()
                             ->color('gray')
@@ -183,20 +200,20 @@ class ProjectResource extends Resource
                         Grid::make(3)
                             ->schema([
                                 TextEntry::make('name')
-                                    ->label('Nama project')
+                                    ->label('Project Name')
                                     ->weight('bold'),
                                 TextEntry::make('client_name')
-                                    ->label('Klien')
+                                    ->label('Client')
                                     ->placeholder('-'),
                                 TextEntry::make('status')
                                     ->label('Status')
                                     ->badge()
                                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                                        'active' => 'Aktif',
+                                        'active' => 'Active',
                                         'planning' => 'Planning',
-                                        'on_hold' => 'Ditahan',
-                                        'completed' => 'Selesai',
-                                        'cancelled' => 'Dibatalkan',
+                                        'on_hold' => 'On Hold',
+                                        'completed' => 'Completed',
+                                        'cancelled' => 'Cancelled',
                                         default => ucfirst($state),
                                     })
                                     ->color(fn (string $state): string => match ($state) {
@@ -207,13 +224,13 @@ class ProjectResource extends Resource
                                         default => 'gray',
                                     }),
                                 TextEntry::make('location')
-                                    ->label('Lokasi')
+                                    ->label('Location')
                                     ->placeholder('-'),
                                 TextEntry::make('contract_value')
-                                    ->label('Nilai kontrak')
+                                    ->label('Contract Value')
                                     ->money('IDR'),
                                 TextEntry::make('start_date')
-                                    ->label('Periode')
+                                    ->label('Period')
                                     ->date('d M Y')
                                     ->formatStateUsing(fn ($state, $record): string => $state
                                         ? $state->format('d M Y') . ' - ' . ($record->end_date?->format('d M Y') ?? '-')

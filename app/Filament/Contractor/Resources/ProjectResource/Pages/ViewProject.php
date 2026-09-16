@@ -3,22 +3,19 @@
 namespace App\Filament\Contractor\Resources\ProjectResource\Pages;
 
 use App\Filament\Contractor\Resources\ProjectResource;
-use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
-use Filament\Actions\Action;
-use Filament\Support\Enums\Alignment;
+use Filament\Resources\Pages\ViewRecord;
 
-class EditProject extends EditRecord
+class ViewProject extends ViewRecord
 {
     protected static string $resource = ProjectResource::class;
 
-    protected static string $view = 'filament.admin.resources.project-resource.pages.edit-project';
+    protected static string $view = 'filament.admin.resources.project-resource.pages.view-project';
 
-    protected static ?string $title = 'Edit project';
+    protected static ?string $title = 'Project details';
 
     public function getSubheading(): ?string
     {
-        return 'Perbarui informasi project dan kelola aktivitasnya dari satu tampilan.';
+        return 'Ringkasan progres, biaya, dan aktivitas project dalam satu tampilan.';
     }
 
     protected function getAllRelationManagers(): array
@@ -45,22 +42,5 @@ class EditProject extends EditRecord
     public function getContentTabIcon(): ?string
     {
         return 'heroicon-o-information-circle';
-    }
-
-    public function getFormActionsAlignment(): string | Alignment
-    {
-        return Alignment::End;
-    }
-
-    protected function getSaveFormAction(): Action
-    {
-        return parent::getSaveFormAction()->color('primary');
-    }
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
     }
 }

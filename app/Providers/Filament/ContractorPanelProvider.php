@@ -38,11 +38,10 @@ class ContractorPanelProvider extends PanelProvider
             ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Contractor/Resources'), for: 'App\\Filament\\Contractor\\Resources')
             ->discoverPages(in: app_path('Filament/Contractor/Pages'), for: 'App\\Filament\\Contractor\\Pages')
-            ->pages([
-                \App\Filament\Pages\Dashboard::class,
-                \App\Filament\Contractor\Pages\ProjectDetail::class,
-                \App\Filament\Contractor\Pages\Reports::class,
-            ])
+        ->pages([
+            \App\Filament\Pages\Dashboard::class,
+            \App\Filament\Contractor\Pages\Reports::class,
+        ])
             ->discoverWidgets(in: app_path('Filament/Contractor/Widgets'), for: 'App\\Filament\\Contractor\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,

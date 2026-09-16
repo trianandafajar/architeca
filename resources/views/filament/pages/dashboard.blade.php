@@ -122,9 +122,9 @@ return '$' . number_format($value, 0);
         <div class="xl:col-span-2 rounded-lg border border-border bg-card shadow-sm">
             <div class="flex items-center justify-between border-b border-border px-6 py-4">
                 <h3 class="text-sm font-semibold text-foreground">Recent Projects</h3>
-                <a href="{{ filament()->getPanel('admin')->getPages()['index'] ?? '#' }}"
+                <a href="admin/projects"
                     class="text-xs font-medium text-primary hover:underline">
-                    View all →
+                    View all
                 </a>
             </div>
             <div class="overflow-x-auto">

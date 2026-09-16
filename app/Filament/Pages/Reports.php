@@ -15,7 +15,7 @@ class Reports extends Page
 
     protected static string $view = 'filament.admin.pages.reports';
 
-    protected static ?string $title = 'Laporan';
+    protected static ?string $title = 'Project Reports';
 
     public function getViewData(): array
     {

@@ -21,7 +21,7 @@ class CreateProject extends CreateRecord
 
     public function getSubheading(): ?string
     {
-        return 'Buat project baru dan lengkapi informasi dasarnya sebelum mulai dikelola.';
+        return 'Create a new project and fill in the basic information before managing it.';
     }
 
     public function getFormActionsAlignment(): string|Alignment
@@ -50,25 +50,25 @@ class CreateProject extends CreateRecord
     {
         return [
             Forms\Components\Wizard\Step::make('Project details')
-                ->description('Informasi dasar project.')
+                ->description('Basic project information.')
                 ->icon('heroicon-o-building-office-2')
                 ->schema(ProjectResource::getProjectFormSchema()),
             Forms\Components\Wizard\Step::make('Budget items')
-                ->description('Rincian anggaran project.')
+                ->description('Project budget breakdown.')
                 ->icon('heroicon-o-calculator')
                 ->schema([
                     Forms\Components\Repeater::make('budgetItems')
-                        ->label('Rincian anggaran')
+                        ->label('Budget Items')
                         ->relationship('budgetItems')
                         ->defaultItems(0)
-                        ->addActionLabel('Tambah item anggaran')
+                        ->addActionLabel('Add Budget Item')
                         ->schema([
                             Forms\Components\TextInput::make('item_name')
-                                ->label('Nama item')
+                                ->label('Item Name')
                                 ->required()
                                 ->maxLength(255),
                             Forms\Components\TextInput::make('quantity')
-                                ->label('Jumlah')
+                                ->label('Quantity')
                                 ->numeric()
                                 ->default(0)
                                 ->live(onBlur: true)
@@ -77,10 +77,10 @@ class CreateProject extends CreateRecord
                                     (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
                                 )),
                             Forms\Components\TextInput::make('unit')
-                                ->label('Satuan')
+                                ->label('Unit')
                                 ->maxLength(50),
                             Forms\Components\TextInput::make('unit_price')
-                                ->label('Harga satuan')
+                                ->label('Unit Price')
                                 ->numeric()
                                 ->prefix('Rp')
                                 ->default(0)
@@ -90,35 +90,35 @@ class CreateProject extends CreateRecord
                                     (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
                                 )),
                             Forms\Components\TextInput::make('total_price')
-                                ->label('Total harga')
+                                ->label('Total Price')
                                 ->numeric()
                                 ->prefix('Rp')
                                 ->default(0)
                                 ->readOnly()
                                 ->dehydrated(),
                             Forms\Components\Textarea::make('notes')
-                                ->label('Catatan')
+                                ->label('Notes')
                                 ->columnSpanFull(),
                         ])
                         ->columns(2),
                     $this->skipWizardStepAction('skip_budget_items', 1),
                 ]),
             Forms\Components\Wizard\Step::make('Project members')
-                ->description('Anggota yang terlibat dalam project.')
+                ->description('Members involved in the project.')
                 ->icon('heroicon-o-user-group')
                 ->schema([
                     Forms\Components\Repeater::make('members')
-                        ->label('Anggota project')
+                        ->label('Project Members')
                         ->relationship('members')
                         ->defaultItems(0)
                         ->minItems(1)
                         ->validationMessages([
-                            'min' => 'Tambahkan minimal satu anggota sebelum melanjutkan.',
+                            'min' => 'At least one project member is required.',
                         ])
-                        ->addActionLabel('Tambah anggota')
+                        ->addActionLabel('Add project member')
                         ->itemLabel(fn (array $state): ?string => filled($state['user_id'] ?? null)
                             ? User::find($state['user_id'])?->name
-                            : 'Anggota baru')
+                            : 'New member')
                         ->schema([
                             Forms\Components\Select::make('user_id')
                                 ->label('User')
@@ -160,7 +160,7 @@ class CreateProject extends CreateRecord
                                     ]))
                                 ->createOptionUsing(fn (array $data): int => User::create($data)->getKey()),
                             Forms\Components\Select::make('role')
-                                ->label('Peran di project')
+                                ->label('Role in Project')
                                 ->options([
                                     'owner' => 'Owner',
                                     'manager' => 'Manager',
@@ -174,22 +174,22 @@ class CreateProject extends CreateRecord
                         ->columns(2),
                 ]),
             Forms\Components\Wizard\Step::make('Confirm project')
-                ->description('Periksa kembali data.')
+                ->description('Review the data again.')
                 ->icon('heroicon-o-check-circle')
                 ->schema([
                     Forms\Components\Placeholder::make('project_summary')
                         ->label('Project')
                         ->content(fn (Get $get): string => $get('name') ?: '-'),
                     Forms\Components\Placeholder::make('related_summary')
-                        ->label('Data tambahan')
+                        ->label('Additional Data')
                         ->content(fn (Get $get): string => sprintf(
                             '%d budget item, %d member',
                             count($get('budgetItems') ?? []),
                             count($get('members') ?? []),
                         )),
                     Forms\Components\Placeholder::make('confirmation_note')
-                        ->label('Konfirmasi')
-                        ->content('Klik Create project untuk menyimpan project beserta data relasinya.'),
+                        ->label('Confirmation')
+                        ->content('Click Create project to save the project and its related data.'),
                 ]),
         ];
     }

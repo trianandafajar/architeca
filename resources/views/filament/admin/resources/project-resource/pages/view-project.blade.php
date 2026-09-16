@@ -28,7 +28,7 @@
                     <x-filament::icon icon="heroicon-o-banknotes" class="h-5 w-5" />
                     <span>Total expenses</span>
                 </div>
-                <strong>IDR {{ number_format((float) $totalExpenses, 0, ',', '.') }}</strong>
+                <strong>Rp {{ number_format((float) $totalExpenses, 0, ',', '.') }}</strong>
             </div>
             <div class="architeca-kpi-card architeca-kpi-members">
                 <div class="architeca-kpi-label">

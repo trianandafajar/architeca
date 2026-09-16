@@ -10,6 +10,14 @@ class BudgetItem extends Model
 {
     use HasFactory;
 
+    protected static function booted(): void
+    {
+        static::saving(function (BudgetItem $budgetItem): void {
+            $budgetItem->total_price = (float) ($budgetItem->quantity ?? 0)
+                * (float) ($budgetItem->unit_price ?? 0);
+        });
+    }
+
     protected $fillable = [
         'project_id',
         'item_name',

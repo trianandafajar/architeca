@@ -8,6 +8,7 @@ use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
 use Filament\Support\Enums\Alignment;
@@ -49,22 +50,70 @@ class CreateProject extends CreateRecord
     {
         return [
             Forms\Components\Wizard\Step::make('Project details')
-                ->description('Informasi dasar project dan nilai kontrak.')
+                ->description('Informasi dasar project.')
                 ->icon('heroicon-o-building-office-2')
                 ->schema(ProjectResource::getProjectFormSchema()),
+            Forms\Components\Wizard\Step::make('Budget items')
+                ->description('Rincian anggaran project.')
+                ->icon('heroicon-o-calculator')
+                ->schema([
+                    Forms\Components\Repeater::make('budgetItems')
+                        ->label('Rincian anggaran')
+                        ->relationship('budgetItems')
+                        ->defaultItems(0)
+                        ->addActionLabel('Tambah item anggaran')
+                        ->schema([
+                            Forms\Components\TextInput::make('item_name')
+                                ->label('Nama item')
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('quantity')
+                                ->label('Jumlah')
+                                ->numeric()
+                                ->default(0)
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
+                                    'total_price',
+                                    (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
+                                )),
+                            Forms\Components\TextInput::make('unit')
+                                ->label('Satuan')
+                                ->maxLength(50),
+                            Forms\Components\TextInput::make('unit_price')
+                                ->label('Harga satuan')
+                                ->numeric()
+                                ->prefix('Rp')
+                                ->default(0)
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
+                                    'total_price',
+                                    (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
+                                )),
+                            Forms\Components\TextInput::make('total_price')
+                                ->label('Total harga')
+                                ->numeric()
+                                ->prefix('Rp')
+                                ->default(0)
+                                ->readOnly()
+                                ->dehydrated(),
+                            Forms\Components\Textarea::make('notes')
+                                ->label('Catatan')
+                                ->columnSpanFull(),
+                        ])
+                        ->columns(2),
+                    $this->skipWizardStepAction('skip_budget_items', 1),
+                ]),
             Forms\Components\Wizard\Step::make('Project members')
-                ->description('Tambahkan anggota yang terlibat dalam project.')
+                ->description('Anggota yang terlibat dalam project.')
                 ->icon('heroicon-o-user-group')
                 ->schema([
-                    Forms\Components\Hidden::make('members_skipped')
-                        ->default(false),
                     Forms\Components\Repeater::make('members')
                         ->label('Anggota project')
                         ->relationship('members')
                         ->defaultItems(0)
-                        ->minItems(fn (Get $get): int => $get('members_skipped') ? 0 : 1)
+                        ->minItems(1)
                         ->validationMessages([
-                            'min' => 'Tambahkan minimal satu anggota atau pilih Skip members.',
+                            'min' => 'Tambahkan minimal satu anggota sebelum melanjutkan.',
                         ])
                         ->addActionLabel('Tambah anggota')
                         ->itemLabel(fn (array $state): ?string => filled($state['user_id'] ?? null)
@@ -123,18 +172,41 @@ class CreateProject extends CreateRecord
                                 ->required(),
                         ])
                         ->columns(2),
-                    Forms\Components\Actions::make([
-                        Forms\Components\Actions\Action::make('skip_members')
-                            ->label('Skip members')
-                            ->icon('heroicon-o-forward')
-                            ->color('gray')
-                            ->action(function ($livewire): void {
-                                $livewire->data['members_skipped'] = true;
-                                $livewire->dispatchFormEvent('wizard::nextStep', 'data', 1);
-                            }),
-                    ])
-                        ->alignEnd(),
+                ]),
+            Forms\Components\Wizard\Step::make('Confirm project')
+                ->description('Periksa kembali data.')
+                ->icon('heroicon-o-check-circle')
+                ->schema([
+                    Forms\Components\Placeholder::make('project_summary')
+                        ->label('Project')
+                        ->content(fn (Get $get): string => $get('name') ?: '-'),
+                    Forms\Components\Placeholder::make('related_summary')
+                        ->label('Data tambahan')
+                        ->content(fn (Get $get): string => sprintf(
+                            '%d budget item, %d member',
+                            count($get('budgetItems') ?? []),
+                            count($get('members') ?? []),
+                        )),
+                    Forms\Components\Placeholder::make('confirmation_note')
+                        ->label('Konfirmasi')
+                        ->content('Klik Create project untuk menyimpan project beserta data relasinya.'),
                 ]),
         ];
+    }
+
+    protected function skipWizardStepAction(string $name, int $stepIndex): Forms\Components\Actions
+    {
+        return Forms\Components\Actions::make([
+            Forms\Components\Actions\Action::make($name)
+                ->label('Skip')
+                ->icon('heroicon-o-forward')
+                ->color('gray')
+                ->action(fn ($livewire): mixed => $livewire->dispatchFormEvent(
+                    'wizard::nextStep',
+                    'data',
+                    $stepIndex,
+                )),
+        ])
+            ->alignEnd();
     }
 }

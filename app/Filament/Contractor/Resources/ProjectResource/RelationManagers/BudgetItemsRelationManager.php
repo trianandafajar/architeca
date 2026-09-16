@@ -4,6 +4,8 @@ namespace App\Filament\Contractor\Resources\ProjectResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -27,7 +29,12 @@ class BudgetItemsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('quantity')
                     ->label('Jumlah')
                     ->numeric()
-                    ->default(0),
+                    ->default(0)
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
+                        'total_price',
+                        (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
+                    )),
                 Forms\Components\TextInput::make('unit')
                     ->label('Satuan')
                     ->maxLength(50),
@@ -35,13 +42,18 @@ class BudgetItemsRelationManager extends RelationManager
                     ->label('Harga Satuan')
                     ->numeric()
                     ->prefix('Rp')
-                    ->default(0),
+                    ->default(0)
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
+                        'total_price',
+                        (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
+                    )),
                 Forms\Components\TextInput::make('total_price')
                     ->label('Total Harga')
                     ->numeric()
                     ->prefix('Rp')
                     ->default(0)
-                    ->disabled()
+                    ->readOnly()
                     ->dehydrated(),
                 Forms\Components\Textarea::make('notes')
                     ->label('Catatan')

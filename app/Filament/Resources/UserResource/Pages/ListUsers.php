@@ -12,7 +12,7 @@ class ListUsers extends ListRecords
 
     public function getSubheading(): ?string
     {
-        return 'Kelola akun, role, dan akses pengguna aplikasi.';
+        return 'Manage application user accounts, roles, and access.';
     }
 
     protected function getHeaderActions(): array
@@ -21,7 +21,7 @@ class ListUsers extends ListRecords
             Actions\CreateAction::make()
                 ->label('Create user')
                 ->color('primary')
-                ->modalDescription('Tambahkan pengguna baru.'),
+                ->modalDescription('Add a new user.'),
         ];
     }
 }

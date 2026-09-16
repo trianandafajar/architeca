@@ -1,0 +1,131 @@
+<?php
+
+namespace App\Filament\Staff\Resources;
+
+use App\Filament\Staff\Resources\ProjectResource\Pages;
+use App\Filament\Staff\Resources\ProjectResource\RelationManagers;
+use App\Models\Project;
+use Filament\Forms\Form;
+use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+
+class ProjectResource extends Resource
+{
+    protected static ?string $model = Project::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-folder';
+    protected static ?string $navigationGroup = 'Project';
+    protected static ?string $navigationLabel = 'Projects';
+    protected static ?string $modelLabel = 'Project';
+    protected static ?string $pluralModelLabel = 'Projects';
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->whereHas('members', fn (Builder $members): Builder => $members->where('user_id', auth()->id()));
+    }
+
+    public static function form(Form $form): Form
+    {
+        return $form;
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->recordUrl(fn (Project $record): string => static::getUrl('view', ['record' => $record]))
+            ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Project Name')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('client_name')
+                    ->label('Client')
+                    ->searchable()
+                    ->placeholder('—'),
+                Tables\Columns\TextColumn::make('location')
+                    ->label('Location')
+                    ->searchable()
+                    ->placeholder('—'),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'active', 'completed' => 'success',
+                        'planning' => 'warning',
+                        'on_hold' => 'info',
+                        'cancelled' => 'danger',
+                        default => 'gray',
+                    }),
+                Tables\Columns\TextColumn::make('start_date')->label('Start')->date()->sortable(),
+                Tables\Columns\TextColumn::make('end_date')->label('End')->date()->sortable(),
+            ])
+            ->defaultSort('created_at', 'desc')
+            ->paginated([10, 25, 50])
+            ->defaultPaginationPageOption(10)
+            ->filters([
+                Tables\Filters\SelectFilter::make('status')->options([
+                    'planning' => 'Planning',
+                    'active' => 'Active',
+                    'on_hold' => 'On Hold',
+                    'completed' => 'Completed',
+                    'cancelled' => 'Cancelled',
+                ]),
+            ])
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+            ])
+            ->bulkActions([]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\ProgressUpdatesRelationManager::class,
+            RelationManagers\DailyReportsRelationManager::class,
+            RelationManagers\ProjectMembersRelationManager::class,
+            RelationManagers\AttachmentsRelationManager::class,
+        ];
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist->schema([
+            Section::make('Project overview')
+                ->description('Informasi project dan status pekerjaan.')
+                ->schema([
+                    Grid::make(3)->schema([
+                        TextEntry::make('name')->label('Project name')->weight('bold'),
+                        TextEntry::make('client_name')->label('Client')->placeholder('—'),
+                        TextEntry::make('status')->label('Status')->badge()
+                            ->formatStateUsing(fn (string $state): string => ucfirst(str_replace('_', ' ', $state)))
+                            ->color(fn (string $state): string => match ($state) {
+                                'active', 'completed' => 'success',
+                                'planning' => 'warning',
+                                'on_hold' => 'info',
+                                'cancelled' => 'danger',
+                                default => 'gray',
+                            }),
+                        TextEntry::make('location')->label('Location')->placeholder('—'),
+                        TextEntry::make('start_date')->label('Period')->date('d M Y')
+                            ->formatStateUsing(fn ($state, $record): string => $state
+                                ? $state->format('d M Y') . ' - ' . ($record->end_date?->format('d M Y') ?? '—')
+                                : '—'),
+                    ]),
+                ]),
+        ]);
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListProjects::route('/'),
+            'view' => Pages\ViewProject::route('/{record}'),
+        ];
+    }
+}

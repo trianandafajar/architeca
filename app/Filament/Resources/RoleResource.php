@@ -18,6 +18,9 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
+use BezhanSalleh\FilamentShield\Facades\FilamentShield;
+use Filament\Widgets\WidgetConfiguration;
+use Illuminate\Database\Eloquent\Model;
 
 class RoleResource extends Resource implements HasShieldPermissions
 {
@@ -50,10 +53,8 @@ class RoleResource extends Resource implements HasShieldPermissions
                             ->schema([
                                 Forms\Components\TextInput::make('name')
                                     ->label(__('filament-shield::filament-shield.field.name'))
-                                    ->unique(
-                                        ignoreRecord: true, /** @phpstan-ignore-next-line */
-                                        modifyRuleUsing: fn (Unique $rule) => Utils::isTenancyEnabled() ? $rule->where(Utils::getTenantModelForeignKey(), Filament::getTenant()?->id) : $rule
-                                    )
+                                    ->disabled()
+                                    ->dehydrated(false)
                                     ->required()
                                     ->maxLength(255),
 
@@ -61,6 +62,8 @@ class RoleResource extends Resource implements HasShieldPermissions
                                     ->label(__('filament-shield::filament-shield.field.guard_name'))
                                     ->default(Utils::getFilamentAuthGuard())
                                     ->nullable()
+                                    ->disabled()
+                                    ->dehydrated(false)
                                     ->maxLength(255),
 
                                 Forms\Components\Select::make(config('permission.column_names.team_foreign_key'))
@@ -122,7 +125,7 @@ class RoleResource extends Resource implements HasShieldPermissions
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -140,7 +143,6 @@ class RoleResource extends Resource implements HasShieldPermissions
     {
         return [
             'index' => Pages\ListRoles::route('/'),
-            'create' => Pages\CreateRole::route('/create'),
             'view' => Pages\ViewRole::route('/{record}'),
             'edit' => Pages\EditRole::route('/{record}/edit'),
         ];
@@ -198,6 +200,217 @@ class RoleResource extends Resource implements HasShieldPermissions
             : null;
     }
 
+    protected static function getEditingRoleName(): ?string
+    {
+        $record = request()->route('record');
+
+        // Livewire update requests use /livewire/update as their route, so
+        // the role parameter is not available there. Recover it from the
+        // edit page URL that initiated the request.
+        if (blank($record)) {
+            $refererPath = parse_url((string) request()->header('referer'), PHP_URL_PATH);
+
+            if (is_string($refererPath) && preg_match('#/shield/roles/([^/]+)/edit/?$#', $refererPath, $matches)) {
+                $record = urldecode($matches[1]);
+            }
+        }
+
+        // Keep the context across Livewire requests when the browser does
+        // not send a referer header.
+        if (blank($record)) {
+            $record = session('role_resource.editing_role');
+        }
+
+        if ($record instanceof Model) {
+            return $record->getAttribute('name');
+        }
+
+        if (blank($record)) {
+            return null;
+        }
+
+        $modelClass = static::getModel();
+
+        /** @var Model $model */
+        $model = new $modelClass();
+
+        $roleName = ($model
+            ->resolveRouteBinding($record)
+            ?? $model->newQuery()->where('name', $record)->first())
+            ?->getAttribute('name');
+
+        if (filled($roleName)) {
+            session()->put('role_resource.editing_role', $roleName);
+        }
+
+        return $roleName;
+    }
+
+    protected static function getPanelIdsForEditingRole(): array
+    {
+        return match (static::getEditingRoleName()) {
+            'admin' => ['admin'],
+            'contractor' => ['contractor'],
+            'staff' => ['staff'],
+            'super_admin' => array_keys(Filament::getPanels()),
+            'panel_user' => [],
+
+            default => [],
+        };
+    }
+
+    protected static function getPanelEntityClasses(string $type): array
+    {
+        return collect(static::getPanelIdsForEditingRole())
+            ->flatMap(function (string $panelId) use ($type): array {
+                $panel = Filament::getPanel($panelId);
+
+                return match ($type) {
+                    'resources' => $panel->getResources(),
+
+                    'pages' => $panel->getPages(),
+
+                    'widgets' => collect($panel->getWidgets())
+                        ->map(
+                            fn ($widget) => $widget instanceof WidgetConfiguration
+                                ? $widget->widget
+                                : $widget
+                        )
+                        ->all(),
+
+                    default => [],
+                };
+            })
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    protected static function getPanelShieldResources(): array
+    {
+        $resources = collect(static::getPanelEntityClasses('resources'))
+            ->filter(fn (mixed $resource): bool => is_string($resource) && class_exists($resource));
+
+        if (Utils::isGeneralExcludeEnabled()) {
+            $resources = $resources->reject(
+                fn (string $resource): bool => in_array(
+                    Str::of($resource)->afterLast('\\')->toString(),
+                    Utils::getExcludedResouces(),
+                    true,
+                )
+            );
+        }
+
+        return $resources
+            ->map(fn (string $resource): array => [
+                'resource' => FilamentShield::getPermissionIdentifier($resource),
+                'model' => str($resource::getModel())->afterLast('\\')->toString(),
+                'fqcn' => $resource,
+            ])
+            ->unique('resource')
+            ->sortBy('resource')
+            ->values()
+            ->all();
+    }
+
+    protected static function getPanelShieldPages(): array
+    {
+        $excluded = Utils::getExcludedPages();
+
+        return collect(static::getPanelEntityClasses('pages'))
+            ->filter(fn (mixed $page): bool => is_string($page) && class_exists($page))
+            ->reject(fn (string $page): bool => Utils::isGeneralExcludeEnabled() && in_array(
+                Str::afterLast($page, '\\'),
+                $excluded,
+                true,
+            ))
+            ->map(fn (string $page): array => [
+                'class' => $page,
+                'permission' => Str::of($page)
+                    ->afterLast('\\')
+                    ->prepend(Utils::getPagePermissionPrefix() . '_')
+                    ->toString(),
+            ])
+            ->unique('permission')
+            ->sortBy('permission')
+            ->values()
+            ->all();
+    }
+
+    protected static function getPanelShieldWidgets(): array
+    {
+        $excluded = Utils::getExcludedWidgets();
+
+        return collect(static::getPanelEntityClasses('widgets'))
+            ->filter(fn (mixed $widget): bool => is_string($widget) && class_exists($widget))
+            ->reject(fn (string $widget): bool => Utils::isGeneralExcludeEnabled() && in_array(
+                Str::afterLast($widget, '\\'),
+                $excluded,
+                true,
+            ))
+            ->map(fn (string $widget): array => [
+                'class' => $widget,
+                'permission' => Str::of($widget)
+                    ->afterLast('\\')
+                    ->prepend(Utils::getWidgetPermissionPrefix() . '_')
+                    ->toString(),
+            ])
+            ->unique('permission')
+            ->sortBy('permission')
+            ->values()
+            ->all();
+    }
+
+    public static function getResourceEntitiesSchema(): ?array
+    {
+        return collect(static::getPanelShieldResources())
+            ->map(function (array $entity): Forms\Components\Section {
+                return Forms\Components\Section::make(
+                    $entity['model']
+                        ?? class_basename($entity['fqcn'])
+                )
+                    ->description(fn (): HtmlString => new HtmlString(
+                        '<span style="word-break: break-word;">' . Utils::showModelPath($entity['fqcn']) . '</span>'
+                    ))
+                    ->compact()
+                    ->schema([
+                        static::getCheckBoxListComponentForResource($entity),
+                    ])
+                    ->columnSpan(static::shield()->getSectionColumnSpan())
+                    ->collapsible();
+            })
+            ->values()
+            ->all();
+    }
+
+    public static function getResourceTabBadgeCount(): ?int
+    {
+        return collect(static::getPanelShieldResources())
+            ->sum(fn (array $resource): int => count(static::getResourcePermissionOptions($resource)));
+    }
+
+    public static function getPageOptions(): array
+    {
+        return collect(static::getPanelShieldPages())
+            ->flatMap(fn (array $page): array => [
+                $page['permission'] => static::shield()->hasLocalizedPermissionLabels()
+                    ? FilamentShield::getLocalizedPageLabel($page['class'])
+                    : $page['permission'],
+            ])
+            ->toArray();
+    }
+
+    public static function getWidgetOptions(): array
+    {
+        return collect(static::getPanelShieldWidgets())
+            ->flatMap(fn (array $widget): array => [
+                $widget['permission'] => static::shield()->hasLocalizedPermissionLabels()
+                    ? FilamentShield::getLocalizedWidgetLabel($widget['class'])
+                    : $widget['permission'],
+            ])
+            ->toArray();
+    }
+
     public static function isScopedToTenant(): bool
     {
         return Utils::isScopedToTenant();
@@ -206,5 +419,20 @@ class RoleResource extends Resource implements HasShieldPermissions
     public static function canGloballySearch(): bool
     {
         return Utils::isResourceGloballySearchable() && count(static::getGloballySearchableAttributes()) && static::canViewAny();
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return false;
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return false;
     }
 }

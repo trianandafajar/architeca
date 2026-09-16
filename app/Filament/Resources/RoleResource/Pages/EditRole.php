@@ -15,6 +15,8 @@ class EditRole extends EditRecord
 
     public Collection $permissions;
 
+    protected string $permissionGuardName;
+
     protected function getActions(): array
     {
         return [
@@ -24,13 +26,27 @@ class EditRole extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $this->permissions = collect($data)
-            ->filter(function ($permission, $key) {
-                return ! in_array($key, ['name', 'guard_name', 'select_all', Utils::getTenantModelForeignKey()]);
-            })
+        $permissionData = collect($data)
+            ->except(['name', 'guard_name', 'select_all', Utils::getTenantModelForeignKey()]);
+
+        // Keep the current assignments if a form submission does not contain
+        // any permission fields (for example while a permission tab is not
+        // mounted). This prevents an unrelated role edit from clearing all
+        // permissions through syncPermissions().
+        $submittedPermissions = $permissionData
             ->values()
             ->flatten()
-            ->unique();
+            ->filter(fn (mixed $permission): bool => filled($permission))
+            ->unique()
+            ->values();
+
+        $this->permissions = $submittedPermissions->isEmpty()
+            ? $this->record->permissions()->pluck('name')
+            : $submittedPermissions;
+
+        $this->permissionGuardName = $data['guard_name']
+            ?? $this->record->getAttribute('guard_name')
+            ?? Utils::getFilamentAuthGuard();
 
         if (Arr::has($data, Utils::getTenantModelForeignKey())) {
             return Arr::only($data, ['name', 'guard_name', Utils::getTenantModelForeignKey()]);
@@ -45,7 +61,7 @@ class EditRole extends EditRecord
         $this->permissions->each(function ($permission) use ($permissionModels) {
             $permissionModels->push(Utils::getPermissionModel()::firstOrCreate([
                 'name' => $permission,
-                'guard_name' => $this->data['guard_name'],
+                'guard_name' => $this->permissionGuardName,
             ]));
         });
 

@@ -2,17 +2,19 @@
 
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
-use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\ConfiguresProjectModalActions;
+use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\FiltersProjectMemberUserOptions;
 
 class ProjectMembersRelationManager extends RelationManager
 {
     use ConfiguresProjectModalActions;
+    use FiltersProjectMemberUserOptions;
 
     protected static string $relationship = 'members';
 
@@ -28,10 +30,11 @@ class ProjectMembersRelationManager extends RelationManager
             ->schema([
                 Forms\Components\Select::make('user_id')
                     ->label('User')
-                    ->options(User::pluck('name', 'id'))
+                    ->options(fn (Get $get): array => $this->getAvailableProjectMemberUserOptions($get))
                     ->required()
                     ->searchable()
-                    ->preload(),
+                    ->preload()
+                    ->helperText('Only users who are not yet members of this project are shown.'),
                 Forms\Components\Select::make('role')
                     ->label('Role')
                     ->options([

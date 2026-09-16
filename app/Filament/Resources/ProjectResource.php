@@ -42,55 +42,55 @@ class ProjectResource extends Resource
     public static function getProjectFormSchema(): array
     {
         return [
-                Forms\Components\Section::make('Project Information')
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->label('Project Name')
-                            ->required()
-                            ->maxLength(255)
-                            ->placeholder('e.g.: Building A Construction'),
-                        Forms\Components\TextInput::make('client_name')
-                            ->label('Client Name')
-                            ->maxLength(255)
-                            ->placeholder('client name'),
-                        Forms\Components\Select::make('branch_id')
-                            ->label('Branch')
-                            ->relationship('branch', 'name')
-                            ->searchable()
-                            ->preload()
-                            ->nullable(),
-                        Forms\Components\TextInput::make('location')
-                            ->label('Location')
-                            ->maxLength(255)
-                            ->placeholder('project location'),
-                        Forms\Components\TextInput::make('contract_value')
-                            ->label('Contract Value')
-                            ->numeric()
-                            ->prefix('Rp')
-                            ->default(0),
-                        Forms\Components\DatePicker::make('start_date')
-                            ->label('Start Date'),
-                        Forms\Components\DatePicker::make('end_date')
-                            ->label('End Date'),
-                        Forms\Components\Select::make('status')
-                            ->label('Status')
-                            ->options([
-                                'planning' => 'Planning',
-                                'active' => 'Active',
-                                'on_hold' => 'On Hold',
-                                'completed' => 'Completed',
-                                'cancelled' => 'Cancelled',
-                            ])
-                            ->default('planning'),
-                    ])
-                    ->columns(2),
+            Forms\Components\Section::make('Project Information')
+                ->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->label('Project Name')
+                        ->required()
+                        ->maxLength(255)
+                        ->placeholder('e.g.: Building A Construction'),
+                    Forms\Components\TextInput::make('client_name')
+                        ->label('Client Name')
+                        ->maxLength(255)
+                        ->placeholder('client name'),
+                    Forms\Components\Select::make('branch_id')
+                        ->label('Branch')
+                        ->relationship('branch', 'name')
+                        ->searchable()
+                        ->preload()
+                        ->nullable(),
+                    Forms\Components\TextInput::make('location')
+                        ->label('Location')
+                        ->maxLength(255)
+                        ->placeholder('project location'),
+                    Forms\Components\TextInput::make('contract_value')
+                        ->label('Contract Value')
+                        ->numeric()
+                        ->prefix('Rp')
+                        ->default(0),
+                    Forms\Components\DatePicker::make('start_date')
+                        ->label('Start Date'),
+                    Forms\Components\DatePicker::make('end_date')
+                        ->label('End Date'),
+                    Forms\Components\Select::make('status')
+                        ->label('Status')
+                        ->options([
+                            'planning' => 'Planning',
+                            'active' => 'Active',
+                            'on_hold' => 'On Hold',
+                            'completed' => 'Completed',
+                            'cancelled' => 'Cancelled',
+                        ])
+                        ->default('planning'),
+                ])
+                ->columns(2),
         ];
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->recordUrl(fn (Project $record): string => static::getUrl('view', ['record' => $record]))
+            ->recordUrl(fn(Project $record): string => static::getUrl('view', ['record' => $record]))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Project Name')
@@ -114,7 +114,7 @@ class ProjectResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'active' => 'success',
                         'planning' => 'warning',
                         'on_hold' => 'info',
@@ -193,8 +193,8 @@ class ProjectResource extends Resource
                             ->button()
                             ->color('gray')
                             ->extraAttributes(['class' => 'architeca-edit-project-action'])
-                            ->url(fn (Project $record): string => static::getUrl('edit', ['record' => $record]))
-                            ->visible(fn (Project $record): bool => static::canEdit($record)),
+                            ->url(fn(Project $record): string => static::getUrl('edit', ['record' => $record]))
+                            ->visible(fn(Project $record): bool => static::canEdit($record)),
                     ])
                     ->schema([
                         Grid::make(3)
@@ -208,7 +208,7 @@ class ProjectResource extends Resource
                                 TextEntry::make('status')
                                     ->label('Status')
                                     ->badge()
-                                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                                    ->formatStateUsing(fn(string $state): string => match ($state) {
                                         'active' => 'Active',
                                         'planning' => 'Planning',
                                         'on_hold' => 'On Hold',
@@ -216,7 +216,7 @@ class ProjectResource extends Resource
                                         'cancelled' => 'Cancelled',
                                         default => ucfirst($state),
                                     })
-                                    ->color(fn (string $state): string => match ($state) {
+                                    ->color(fn(string $state): string => match ($state) {
                                         'active', 'completed' => 'success',
                                         'planning' => 'warning',
                                         'on_hold' => 'info',
@@ -232,7 +232,7 @@ class ProjectResource extends Resource
                                 TextEntry::make('start_date')
                                     ->label('Period')
                                     ->date('d M Y')
-                                    ->formatStateUsing(fn ($state, $record): string => $state
+                                    ->formatStateUsing(fn($state, $record): string => $state
                                         ? $state->format('d M Y') . ' - ' . ($record->end_date?->format('d M Y') ?? '-')
                                         : '-'),
                             ]),

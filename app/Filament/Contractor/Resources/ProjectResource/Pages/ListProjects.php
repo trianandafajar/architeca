@@ -13,7 +13,7 @@ class ListProjects extends ListRecords
 
     public function getSubheading(): ?string
     {
-        return 'Kelola project yang Anda miliki atau yang menugaskan Anda sebagai anggota.';
+        return 'Manage projects you own or are assigned to as a member.';
     }
 
     protected function getHeaderActions(): array
@@ -23,7 +23,7 @@ class ListProjects extends ListRecords
                 ->label('Create project')
                 ->icon('heroicon-m-plus')
                 ->color('primary')
-                ->modalDescription('Tambahkan project baru untuk dikelola bersama tim.')
+                ->modalDescription('Add a new project to be managed with the team.')
                 ->modalFooterActionsAlignment(Alignment::End)
                 ->extraModalWindowAttributes(['class' => 'architeca-project-modal'])
                 ->extraAttributes(['class' => 'architeca-create-project-action']),

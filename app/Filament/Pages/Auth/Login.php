@@ -15,22 +15,22 @@ class Login extends BaseLogin
         return $form
             ->schema([
                 Forms\Components\TextInput::make('email')
-                    ->label('alamat Email')
+                    ->label('Email')
                     ->email()
                     ->required()
                     ->autocomplete()
                     ->autofocus()
-                    ->placeholder('nama@email.com')
+                    ->placeholder('name@email.com')
                     ->extraInputAttributes(['tabindex' => 1]),
                 Forms\Components\TextInput::make('password')
-                    ->label('Kata Sandi')
+                    ->label('Password')
                     ->password()
                     ->revealable()
                     ->autocomplete('current-password')
                     ->required()
                     ->extraInputAttributes(['tabindex' => 2]),
                 Forms\Components\Checkbox::make('remember')
-                    ->label('Catat Saya'),
+                    ->label('Remember me'),
             ])
             ->statePath('data');
     }

@@ -27,10 +27,10 @@ class AttachmentsRelationManager extends RelationManager
                     ->directory('attachments')
                     ->required(),
                 Forms\Components\TextInput::make('file_type')
-                    ->label('Tipe File')
+                    ->label('File Type')
                     ->maxLength(100),
                 Forms\Components\TextInput::make('caption')
-                    ->label('Keterangan')
+                    ->label('Caption')
                     ->maxLength(255),
             ]);
     }
@@ -43,12 +43,12 @@ class AttachmentsRelationManager extends RelationManager
                     ->label('File')
                     ->limit(50),
                 Tables\Columns\TextColumn::make('file_type')
-                    ->label('Tipe'),
+                    ->label('Type'),
                 Tables\Columns\TextColumn::make('caption')
-                    ->label('Keterangan')
+                    ->label('Caption')
                     ->limit(30),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Tanggal')
+                    ->label('Date')
                     ->date(),
             ])
             ->filters([

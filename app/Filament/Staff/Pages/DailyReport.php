@@ -19,7 +19,7 @@ class DailyReport extends Page implements HasForms
 
     protected static string $view = 'filament.staff.pages.daily-report';
 
-    protected static ?string $title = 'Input Laporan Harian';
+    protected static ?string $title = 'Daily Report';
 
     public ?array $data = [];
 
@@ -32,37 +32,37 @@ class DailyReport extends Page implements HasForms
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Form Laporan Harian')
-                    ->description('Isi laporan aktivitas harian pekerjaan di lapangan')
+                Forms\Components\Section::make('Daily Activity Report')
+                    ->description('Report on daily field activities')
                     ->schema([
                         Forms\Components\Select::make('project_id')
-                            ->label('Pilih Project')
+                            ->label('Select Project')
                             ->options(fn () => Project::whereHas('members', fn ($q) => $q->where('user_id', auth()->id()))
                                 ->pluck('name', 'id'))
                             ->required()
                             ->searchable(),
                         Forms\Components\DatePicker::make('report_date')
-                            ->label('Tanggal Laporan')
+                            ->label('Report Date')
                             ->default(now())
                             ->required(),
                         Forms\Components\TextInput::make('workers_count')
-                            ->label('Jumlah Pekerja')
+                            ->label('Number of Workers')
                             ->numeric()
                             ->default(1)
                             ->required(),
                         Forms\Components\TextInput::make('progress_percentage')
-                            ->label('Tambahan Progress (%)')
+                            ->label('Progress Added (%)')
                             ->numeric()
                             ->minValue(0)
                             ->maxValue(100)
                             ->default(0),
                         Forms\Components\Textarea::make('work_description')
-                            ->label('Deskripsi Pekerjaan Hari Ini')
+                            ->label('Today\'s Work Description')
                             ->required()
                             ->rows(3)
                             ->columnSpanFull(),
                         Forms\Components\Textarea::make('issues')
-                            ->label('Kendala / Issues (Opsional)')
+                            ->label('Issues (Optional)')
                             ->rows(2)
                             ->columnSpanFull(),
                     ])
@@ -79,7 +79,7 @@ class DailyReport extends Page implements HasForms
         DailyReportModel::create($data);
 
         Notification::make()
-            ->title('Laporan Harian Berhasil Dikirim')
+            ->title('Daily Report Submitted Successfully')
             ->success()
             ->send();
 

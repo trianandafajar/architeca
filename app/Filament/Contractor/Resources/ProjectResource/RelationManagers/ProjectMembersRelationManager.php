@@ -30,9 +30,9 @@ class ProjectMembersRelationManager extends RelationManager
                     ->required()
                     ->searchable()
                     ->preload()
-                    ->helperText('Hanya user yang belum menjadi anggota project yang ditampilkan.'),
+                    ->helperText('Only users who are not yet project members are shown.'),
                 Forms\Components\Select::make('role')
-                    ->label('Peran')
+                    ->label('Role')
                     ->options([
                         'owner' => 'Owner',
                         'manager' => 'Manager',
@@ -49,12 +49,12 @@ class ProjectMembersRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Nama')
+                    ->label('Name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.email')
                     ->label('Email'),
                 Tables\Columns\TextColumn::make('role')
-                    ->label('Peran')
+                    ->label('Role')
                     ->badge()
                     ->color('primary'),
             ])

@@ -14,7 +14,7 @@ class BudgetItemsRelationManager extends RelationManager
 {
     protected static string $relationship = 'budgetItems';
 
-    protected static ?string $title = 'RAB / Budget';
+    protected static ?string $title = 'Budget';
 
     protected static ?string $recordTitleAttribute = 'item_name';
 
@@ -23,11 +23,11 @@ class BudgetItemsRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('item_name')
-                    ->label('Nama Item')
+                    ->label('Item Name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('quantity')
-                    ->label('Jumlah')
+                    ->label('Quantity')
                     ->numeric()
                     ->default(0)
                     ->live(onBlur: true)
@@ -36,12 +36,12 @@ class BudgetItemsRelationManager extends RelationManager
                         (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
                     )),
                 Forms\Components\TextInput::make('unit')
-                    ->label('Satuan')
+                    ->label('Unit')
                     ->maxLength(50),
                 Forms\Components\TextInput::make('unit_price')
-                    ->label('Harga Satuan')
+                    ->label('Unit Price')
                     ->numeric()
-                    ->prefix('Rp')
+                    ->prefix('$')
                     ->default(0)
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
@@ -49,14 +49,14 @@ class BudgetItemsRelationManager extends RelationManager
                         (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
                     )),
                 Forms\Components\TextInput::make('total_price')
-                    ->label('Total Harga')
+                    ->label('Total Price')
                     ->numeric()
-                    ->prefix('Rp')
+                    ->prefix('$')
                     ->default(0)
                     ->readOnly()
                     ->dehydrated(),
                 Forms\Components\Textarea::make('notes')
-                    ->label('Catatan')
+                    ->label('Notes')
                     ->columnSpanFull(),
             ])
             ->columns(2);
@@ -69,15 +69,15 @@ class BudgetItemsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('item_name')
                     ->label('Item'),
                 Tables\Columns\TextColumn::make('quantity')
-                    ->label('Jumlah'),
+                    ->label('Quantity'),
                 Tables\Columns\TextColumn::make('unit')
-                    ->label('Satuan'),
+                    ->label('Unit'),
                 Tables\Columns\TextColumn::make('unit_price')
-                    ->label('Harga Satuan')
-                    ->money('IDR'),
+                    ->label('Unit Price')
+                    ->money('USD'),
                 Tables\Columns\TextColumn::make('total_price')
                     ->label('Total')
-                    ->money('IDR'),
+                    ->money('USD'),
             ])
             ->filters([
                 //

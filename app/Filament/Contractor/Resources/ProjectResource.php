@@ -66,7 +66,7 @@ class ProjectResource extends Resource
                         Forms\Components\TextInput::make('contract_value')
                             ->label('Contract Value')
                             ->numeric()
-                            ->prefix('Rp')
+                            ->prefix('$')
                             ->default(0),
                         Forms\Components\DatePicker::make('start_date')
                             ->label('Start Date'),
@@ -107,7 +107,7 @@ class ProjectResource extends Resource
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('contract_value')
                     ->label('Contract Value')
-                    ->money('IDR')
+                    ->money('USD')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
@@ -127,7 +127,7 @@ class ProjectResource extends Resource
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat')
+                    ->label('Created')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -228,7 +228,7 @@ class ProjectResource extends Resource
 
                                 TextEntry::make('contract_value')
                                     ->label('Contract value')
-                                    ->money('IDR'),
+                                    ->money('USD'),
 
                                 TextEntry::make('start_date')
                                     ->label('Period')

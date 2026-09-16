@@ -14,7 +14,7 @@ class Reports extends Page
 
     protected static string $view = 'filament.contractor.pages.reports';
 
-    protected static ?string $title = 'Laporan';
+    protected static ?string $title = 'Reports';
 
     protected static ?string $navigationGroup = 'Project';
 
@@ -22,7 +22,7 @@ class Reports extends Page
 
     public function getSubheading(): ?string
     {
-        return 'Pantau anggaran, progress, dan aktivitas project yang Anda miliki atau ikuti.';
+        return 'Monitor the budget, progress, and activity of projects you own or follow.';
     }
 
     protected function getHeaderWidgets(): array

@@ -97,7 +97,7 @@ class ProjectResource extends Resource
     {
         return $infolist->schema([
             Section::make('Project overview')
-                ->description('Informasi project dan status pekerjaan.')
+                ->description('Project information and status.')
                 ->schema([
                     Grid::make(3)->schema([
                         TextEntry::make('name')->label('Project name')->weight('bold'),

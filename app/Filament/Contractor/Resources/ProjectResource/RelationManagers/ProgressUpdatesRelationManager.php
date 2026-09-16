@@ -23,17 +23,17 @@ class ProgressUpdatesRelationManager extends RelationManager
             ->schema([
                 Forms\Components\Hidden::make('user_id')->default(fn () => auth()->id()),
                 Forms\Components\DatePicker::make('progress_date')
-                    ->label('Tanggal')
+                    ->label('Date')
                     ->default(now())
                     ->required(),
                 Forms\Components\TextInput::make('percentage')
-                    ->label('Persentase (%)')
+                    ->label('Percentage (%)')
                     ->numeric()
                     ->minValue(0)
                     ->maxValue(100)
                     ->required(),
                 Forms\Components\Textarea::make('notes')
-                    ->label('Catatan')
+                    ->label('Notes')
                     ->columnSpanFull(),
             ])
             ->columns(2);
@@ -44,7 +44,7 @@ class ProgressUpdatesRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('progress_date')
-                    ->label('Tanggal')
+                    ->label('Date')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('percentage')
@@ -57,9 +57,9 @@ class ProgressUpdatesRelationManager extends RelationManager
                         default => 'gray',
                     }),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Oleh'),
+                    ->label('By'),
                 Tables\Columns\TextColumn::make('notes')
-                    ->label('Catatan')
+                    ->label('Notes')
                     ->limit(50),
             ])
             ->defaultSort('progress_date', 'desc')

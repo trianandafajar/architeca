@@ -1,8 +1,8 @@
 <x-filament-panels::page>
 
     <div class="mb-8">
-        <h1 class="text-2xl font-bold text-gray-800">Input Laporan Harian</h1>
-        <p class="mt-1 text-gray-500">Isi laporan aktivitas pekerjaan harian di lapangan</p>
+        <h1 class="text-2xl font-bold text-gray-800">Daily Report Input</h1>
+        <p class="mt-1 text-gray-500">Fill in the daily work activity report from the field</p>
     </div>
 
     {{-- Form --}}
@@ -11,32 +11,32 @@
 
         <div class="mt-4 flex justify-end">
             <x-filament::button wire:click="submit" color="primary">
-                Kirim Laporan
+                Submit Report
             </x-filament::button>
         </div>
     </div>
 
-    {{-- Riwayat Laporan --}}
+    {{-- Report History --}}
     <div class="mt-8 rounded-xl bg-white p-6 shadow-sm">
-        <h2 class="mb-4 text-lg font-semibold text-gray-800">Riwayat Laporan Saya</h2>
+        <h2 class="mb-4 text-lg font-semibold text-gray-800">My Report History</h2>
 
         @php
             $history = $this->getReportsHistory();
         @endphp
 
         @if ($history->isEmpty())
-            <p class="text-sm text-gray-500">Belum ada laporan yang dikirim.</p>
+            <p class="text-sm text-gray-500">No reports submitted yet.</p>
         @else
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Tanggal</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Project</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Pekerja</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Deskripsi</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Workers</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Description</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Progress</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Kendala</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Issues</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">

@@ -20,7 +20,7 @@ class DailyActivityReport extends TableWidget
     {
         return $table
             ->heading('Daily activity')
-            ->description('Laporan harian terbaru dari project yang Anda akses.')
+            ->description('Latest daily reports from projects you can access.')
             ->query(DailyReport::query()->with(['project', 'user'])->whereIn('project_id', $this->accessibleProjectIds()))
             ->columns([
                 Tables\Columns\TextColumn::make('report_date')->label('Date')->date()->sortable(),

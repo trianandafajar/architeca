@@ -1,6 +1,6 @@
 @php
     $formatCurrency = static function ($value): string {
-        return 'IDR ' . number_format((float) $value, 0, ',', '.');
+        return '$' . number_format((float) $value, 0, ',', '.');
     };
 
     $statusClasses = [
@@ -16,7 +16,7 @@
     <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-foreground">Contractor dashboard</h1>
-            <p class="mt-1 text-sm text-muted-foreground">Pantau project yang Anda miliki atau yang menugaskan Anda sebagai anggota.</p>
+            <p class="mt-1 text-sm text-muted-foreground">Monitor the projects you own or are assigned to.</p>
         </div>
         <p class="text-sm text-muted-foreground">{{ now()->translatedFormat('l, d F Y') }}</p>
     </div>
@@ -46,7 +46,7 @@
             <div class="flex items-center justify-between border-b border-border px-6 py-4">
                 <div>
                     <h2 class="text-base font-semibold text-foreground">My projects</h2>
-                    <p class="mt-1 text-xs text-muted-foreground">Project yang dapat Anda akses.</p>
+                    <p class="mt-1 text-xs text-muted-foreground">Projects you can access.</p>
                 </div>
                 <a href="{{ route('filament.contractor.resources.projects.index') }}" class="text-sm font-medium text-primary hover:underline">View all</a>
             </div>
@@ -83,7 +83,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="4" class="px-6 py-12 text-center text-sm text-muted-foreground">Belum ada project yang dapat diakses.</td></tr>
+                            <tr><td colspan="4" class="px-6 py-12 text-center text-sm text-muted-foreground">No projects accessible.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -93,7 +93,7 @@
         <div class="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
             <div class="border-b border-border px-6 py-4">
                 <h2 class="text-base font-semibold text-foreground">Recent activity</h2>
-                <p class="mt-1 text-xs text-muted-foreground">Laporan terbaru dari project Anda.</p>
+                <p class="mt-1 text-xs text-muted-foreground">Latest reports from your projects.</p>
             </div>
             <div class="divide-y divide-border">
                 @forelse ($recentActivity as $activity)
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                 @empty
-                    <div class="px-6 py-12 text-center text-sm text-muted-foreground">Belum ada aktivitas terbaru.</div>
+                    <div class="px-6 py-12 text-center text-sm text-muted-foreground">No recent activity.</div>
                 @endforelse
             </div>
         </div>
@@ -115,7 +115,7 @@
     @if ($latestProgress->isNotEmpty())
         <div class="rounded-xl border border-border bg-card p-6 shadow-sm">
             <h2 class="text-base font-semibold text-foreground">Progress by project</h2>
-            <p class="mt-1 text-xs text-muted-foreground">Progress terakhir untuk setiap project yang Anda akses.</p>
+            <p class="mt-1 text-xs text-muted-foreground">Last completion status for each project you access.</p>
             <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($latestProgress as $item)
                     <div class="rounded-lg border border-border p-4">

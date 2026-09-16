@@ -17,7 +17,7 @@ class StaffOverview extends StatsOverviewWidget
     protected static bool $isLazy = false;
     protected int | string | array $columnSpan = 'full';
     protected ?string $heading = 'Work overview';
-    protected ?string $description = 'Informasi operasional untuk project yang sedang Anda kerjakan.';
+    protected ?string $description = 'Operational information for projects you are working on.';
 
     protected function getStats(): array
     {
@@ -38,11 +38,11 @@ class StaffOverview extends StatsOverviewWidget
 
         return [
             Stat::make('Assigned projects', count($projectIds))
-                ->description('Project yang ditugaskan kepada Anda')
+                ->description('Projects assigned to you')
                 ->descriptionIcon('heroicon-m-briefcase')
                 ->color('primary'),
             Stat::make('Active projects', $this->assignedProjectsQuery()->where('status', 'active')->count())
-                ->description('Sedang berjalan')
+                ->description('In progress')
                 ->descriptionIcon('heroicon-m-play-circle')
                 ->color('success'),
             Stat::make('My daily reports', $reportsThisMonth)

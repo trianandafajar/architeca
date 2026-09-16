@@ -13,7 +13,7 @@ class ProgressChart extends ChartWidget
     protected static bool $isLazy = false;
     protected static string $color = 'success';
     protected static ?string $heading = 'Progress by project';
-    protected static ?string $description = 'Progress terakhir dari setiap project yang Anda akses.';
+    protected static ?string $description = 'Latest progress of each project you access.';
     protected static ?string $maxHeight = '320px';
     protected int | string | array $columnSpan = ['md' => 1, 'xl' => 1];
 

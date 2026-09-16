@@ -118,6 +118,127 @@ html.dark {
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.03);
 }
 
+/* Project details: one quiet canvas for the KPI row, tabs, and active content. */
+.fi-resource-view-record-page.fi-resource-projects .architeca-project-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    background: transparent;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-kpi-card {
+    min-height: 6rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: transparent;
+    padding: 1rem 1.125rem;
+    transition: border-color 150ms ease, transform 150ms ease, background-color 150ms ease;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-kpi-card:hover {
+    background: rgb(255 250 245 / 0.55);
+    border-color: #c0875a;
+    transform: translateY(-1px);
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-kpi-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted-foreground);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-kpi-card strong {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--foreground);
+    font-size: 1.25rem;
+    line-height: 1.25;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-kpi-progress .architeca-kpi-label svg {
+    color: var(--primary);
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-kpi-expenses .architeca-kpi-label svg {
+    color: #c0875a;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-kpi-members .architeca-kpi-label svg {
+    color: #2f855a;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-kpi-attachments .architeca-kpi-label svg {
+    color: #3b82f6;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 0.125rem);
+    background: var(--card);
+    box-shadow: 0 8px 24px rgb(70 32 18 / 0.05);
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers {
+    gap: 0;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers > .fi-tabs {
+    align-self: flex-start;
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-tabs-item.fi-active {
+    background: var(--primary);
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-tabs-item.fi-active .fi-tabs-item-label,
+.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-tabs-item.fi-active .fi-tabs-item-icon {
+    color: var(--primary-foreground);
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers > div[role='tabpanel'] {
+    padding: 1.5rem;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-section {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .fi-resource-view-record-page.fi-resource-projects .architeca-kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .fi-resource-view-record-page.fi-resource-projects .architeca-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers > div[role='tabpanel'] {
+        padding: 1rem;
+    }
+}
+
 button:not(:disabled),
 [role='button']:not(:disabled) {
     cursor: pointer;

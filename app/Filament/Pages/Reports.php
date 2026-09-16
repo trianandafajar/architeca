@@ -17,8 +17,6 @@ class Reports extends Page
 
     protected static ?string $title = 'Laporan';
 
-    protected static ?string $navigationGroup = 'Project';
-
     public function getViewData(): array
     {
         $projects = Project::with(['budgetItems', 'expenses', 'progressUpdates', 'dailyReports.user'])->get();

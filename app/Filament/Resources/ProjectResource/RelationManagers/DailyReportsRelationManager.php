@@ -14,6 +14,8 @@ class DailyReportsRelationManager extends RelationManager
 
     protected static ?string $title = 'Daily Report';
 
+    protected static ?string $icon = 'heroicon-o-document-text';
+
     protected static ?string $recordTitleAttribute = 'report_date';
 
     public function form(Form $form): Form

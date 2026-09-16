@@ -15,6 +15,8 @@ class ProgressUpdatesRelationManager extends RelationManager
 
     protected static ?string $title = 'Progress';
 
+    protected static ?string $icon = 'heroicon-o-chart-bar';
+
     protected static ?string $recordTitleAttribute = 'notes';
 
     public function form(Form $form): Form

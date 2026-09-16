@@ -16,6 +16,15 @@ class User extends Authenticatable implements FilamentUser
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasRoles, HasPanelShield;
 
+    protected static function booted(): void
+    {
+        static::saved(function (self $user): void {
+            if ($user->wasRecentlyCreated || $user->wasChanged('role')) {
+                $user->syncRoles([$user->role]);
+            }
+        });
+    }
+
     protected $fillable = [
         'name',
         'email',
@@ -48,7 +57,16 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        if ($this->hasRole('super_admin')) {
+            return true;
+        }
+
+        return match ($panel->getId()) {
+            'admin' => $this->hasRole('admin'),
+            'contractor' => $this->hasRole('contractor'),
+            'staff' => $this->hasRole('staff'),
+            default => false,
+        };
     }
 
     public function projects()

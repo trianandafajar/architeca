@@ -15,6 +15,8 @@ class ProjectMembersRelationManager extends RelationManager
 
     protected static ?string $title = 'Project Members';
 
+    protected static ?string $icon = 'heroicon-o-user-group';
+
     protected static ?string $recordTitleAttribute = 'user_id';
 
     public function form(Form $form): Form

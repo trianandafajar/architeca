@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // Shield roles must exist before they are assigned to the demo users.
+        $this->call(ShieldSeeder::class);
+
         // 1. Create Demo Users
         $admin = User::firstOrCreate(
             ['email' => 'admin@architeca.test'],
@@ -25,6 +28,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'admin',
             ]
         );
+        $admin->syncRoles(['admin']);
 
         $contractor = User::firstOrCreate(
             ['email' => 'contractor@architeca.test'],
@@ -34,6 +38,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'contractor',
             ]
         );
+        $contractor->syncRoles(['contractor']);
 
         $staff = User::firstOrCreate(
             ['email' => 'staff@architeca.test'],
@@ -43,6 +48,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'staff',
             ]
         );
+        $staff->syncRoles(['staff']);
 
         // 2. Create Sample Project
         $project = Project::firstOrCreate(

@@ -14,6 +14,8 @@ class ExpensesRelationManager extends RelationManager
 
     protected static ?string $title = 'Expenses';
 
+    protected static ?string $icon = 'heroicon-o-banknotes';
+
     protected static ?string $recordTitleAttribute = 'description';
 
     public function form(Form $form): Form

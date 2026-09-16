@@ -14,6 +14,8 @@ class AttachmentsRelationManager extends RelationManager
 
     protected static ?string $title = 'Attachments';
 
+    protected static ?string $icon = 'heroicon-o-paper-clip';
+
     protected static ?string $recordTitleAttribute = 'file_path';
 
     public function form(Form $form): Form

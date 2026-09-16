@@ -19,14 +19,14 @@
             <div class="architeca-kpi-card architeca-kpi-progress">
                 <div class="architeca-kpi-label">
                     <x-filament::icon icon="heroicon-o-chart-bar" class="h-5 w-5" />
-                    <span>Progress terkini</span>
+                    <span>Latest progress</span>
                 </div>
                 <strong>{{ number_format((float) $latestProgress, 0) }}%</strong>
             </div>
             <div class="architeca-kpi-card architeca-kpi-reports">
                 <div class="architeca-kpi-label">
                     <x-filament::icon icon="heroicon-o-document-text" class="h-5 w-5" />
-                    <span>Laporan saya</span>
+                    <span>My reports</span>
                 </div>
                 <strong>{{ number_format($myReportsCount) }}</strong>
             </div>
@@ -40,7 +40,7 @@
             <div class="architeca-kpi-card architeca-kpi-attachments">
                 <div class="architeca-kpi-label">
                     <x-filament::icon icon="heroicon-o-paper-clip" class="h-5 w-5" />
-                    <span>Lampiran saya</span>
+                    <span>My attachments</span>
                 </div>
                 <strong>{{ number_format($myAttachmentsCount) }}</strong>
             </div>

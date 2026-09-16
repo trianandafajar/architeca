@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
         $contractor = User::firstOrCreate(
             ['email' => 'contractor@architeca.test'],
             [
-                'name' => 'Kontraktor Utama',
+                'name' => 'Main Contractor',
                 'password' => Hash::make('password'),
                 'role' => 'contractor',
             ]
@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
         $staff = User::firstOrCreate(
             ['email' => 'staff@architeca.test'],
             [
-                'name' => 'Staff Lapangan',
+                'name' => 'Field Staff',
                 'password' => Hash::make('password'),
                 'role' => 'staff',
             ]
@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
 
         // 2. Create Sample Project
         $project = Project::firstOrCreate(
-            ['name' => 'Pembangunan Gedung Perkantoran 3 Lantai'],
+            ['name' => '3-Story Office Building Construction'],
             [
                 'owner_id' => $contractor->id,
                 'client_name' => 'PT Maju Bersama',
@@ -79,22 +79,22 @@ class DatabaseSeeder extends Seeder
         if ($project->budgetItems()->count() === 0) {
             BudgetItem::create([
                 'project_id' => $project->id,
-                'item_name' => 'Pekerjaan Pondasi & Struktur',
+                'item_name' => 'Foundation & Structure Work',
                 'quantity' => 1,
-                'unit' => 'Ls',
+                'unit' => 'Lot',
                 'unit_price' => 800000000,
                 'total_price' => 800000000,
-                'notes' => 'Pondasi cakar ayam dan beton bertulang',
+                'notes' => 'Reinforced concrete foundations',
             ]);
 
             BudgetItem::create([
                 'project_id' => $project->id,
-                'item_name' => 'Pekerjaan Dinding & Plesteran',
+                'item_name' => 'Wall & Plastering Work',
                 'quantity' => 500,
                 'unit' => 'm2',
                 'unit_price' => 350000,
                 'total_price' => 175000000,
-                'notes' => 'Bata merah dan acian',
+                'notes' => 'Brick masonry and plaster',
             ]);
         }
 
@@ -105,7 +105,7 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $contractor->id,
                 'progress_date' => now()->subMonth(),
                 'percentage' => 25.00,
-                'notes' => 'Penyelesaian galian dan pengecoran pondasi',
+                'notes' => 'Excavation and foundation concrete completed',
             ]);
 
             ProgressUpdate::create([
@@ -113,7 +113,7 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $contractor->id,
                 'progress_date' => now()->subDays(10),
                 'percentage' => 45.00,
-                'notes' => 'Pemasangan kolom lantai 1 selesai',
+                'notes' => 'First floor column installation completed',
             ]);
         }
 
@@ -124,8 +124,8 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $staff->id,
                 'report_date' => now()->subDays(2),
                 'workers_count' => 15,
-                'work_description' => 'Pengecoran dak lantai 2 berjalan lancar.',
-                'issues' => 'Cuaca mendung di sore hari sempat menunda pengecoran selama 1 jam.',
+                'work_description' => 'Second floor slab concrete pouring went smoothly.',
+                'issues' => 'Cloudy weather delayed the concrete pouring by 1 hour.',
                 'progress_percentage' => 5.00,
             ]);
         }
@@ -133,15 +133,15 @@ class DatabaseSeeder extends Seeder
         // 7. Expenses
         $project->expenses()->delete();
         $expenseSeeds = [
-            ['expense_date' => now()->subMonths(4)->startOfMonth()->addDays(3), 'category' => 'material', 'description' => 'Besi beton & semen batch 1', 'amount' => 45000000],
-            ['expense_date' => now()->subMonths(4)->startOfMonth()->addDays(12), 'category' => 'labor', 'description' => 'Upah tukang minggu pertama', 'amount' => 18200000],
-            ['expense_date' => now()->subMonths(3)->startOfMonth()->addDays(2), 'category' => 'material', 'description' => 'Bata merah & pasir', 'amount' => 37500000],
-            ['expense_date' => now()->subMonths(3)->startOfMonth()->addDays(15), 'category' => 'equipment', 'description' => 'Sewa concrete mixer', 'amount' => 12500000],
-            ['expense_date' => now()->subMonths(3)->startOfMonth()->addDays(20), 'category' => 'transport', 'description' => 'Angkut material galian', 'amount' => 6800000],
-            ['expense_date' => now()->subMonths(2)->startOfMonth()->addDays(5), 'category' => 'labor', 'description' => 'Upah tukang minggu kelima', 'amount' => 21400000],
-            ['expense_date' => now()->subMonths(2)->startOfMonth()->addDays(18), 'category' => 'material', 'description' => 'Semen 150 sak tambahan', 'amount' => 22800000],
-            ['expense_date' => now()->subMonths(1)->startOfMonth()->addDays(5), 'category' => 'equipment', 'description' => 'Sewa scaffolding', 'amount' => 15400000],
-            ['expense_date' => now()->startOfMonth()->addDays(5), 'category' => 'material', 'description' => 'Keramik & sanitair', 'amount' => 33500000],
+            ['expense_date' => now()->subMonths(4)->startOfMonth()->addDays(3), 'category' => 'material', 'description' => 'Rebar & cement batch 1', 'amount' => 45000000],
+            ['expense_date' => now()->subMonths(4)->startOfMonth()->addDays(12), 'category' => 'labor', 'description' => 'Mason wages week 1', 'amount' => 18200000],
+            ['expense_date' => now()->subMonths(3)->startOfMonth()->addDays(2), 'category' => 'material', 'description' => 'Red bricks & sand', 'amount' => 37500000],
+            ['expense_date' => now()->subMonths(3)->startOfMonth()->addDays(15), 'category' => 'equipment', 'description' => 'Concrete mixer rental', 'amount' => 12500000],
+            ['expense_date' => now()->subMonths(3)->startOfMonth()->addDays(20), 'category' => 'transport', 'description' => 'Excavated material haulage', 'amount' => 6800000],
+            ['expense_date' => now()->subMonths(2)->startOfMonth()->addDays(5), 'category' => 'labor', 'description' => 'Mason wages week 5', 'amount' => 21400000],
+            ['expense_date' => now()->subMonths(2)->startOfMonth()->addDays(18), 'category' => 'material', 'description' => 'Additional 150 bags of cement', 'amount' => 22800000],
+            ['expense_date' => now()->subMonths(1)->startOfMonth()->addDays(5), 'category' => 'equipment', 'description' => 'Scaffolding rental', 'amount' => 15400000],
+            ['expense_date' => now()->startOfMonth()->addDays(5), 'category' => 'material', 'description' => 'Tiles & sanitary ware', 'amount' => 33500000],
         ];
 
         foreach ($expenseSeeds as $data) {

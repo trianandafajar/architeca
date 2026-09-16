@@ -17,7 +17,7 @@ class BudgetItemsRelationManager extends RelationManager
 
     protected static string $relationship = 'budgetItems';
 
-    protected static ?string $title = 'Budget / RAB';
+    protected static ?string $title = 'Budget';
 
     protected static ?string $recordTitleAttribute = 'item_name';
 
@@ -44,7 +44,7 @@ class BudgetItemsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('unit_price')
                     ->label('Unit Price')
                     ->numeric()
-                    ->prefix('Rp')
+                    ->prefix('$')
                     ->default(0)
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
@@ -54,7 +54,7 @@ class BudgetItemsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('total_price')
                     ->label('Total Price')
                     ->numeric()
-                    ->prefix('Rp')
+                    ->prefix('$')
                     ->default(0)
                     ->readOnly()
                     ->dehydrated(),
@@ -77,10 +77,10 @@ class BudgetItemsRelationManager extends RelationManager
                     ->label('Unit'),
                 Tables\Columns\TextColumn::make('unit_price')
                     ->label('Unit Price')
-                    ->money('IDR'),
+                    ->money('USD'),
                 Tables\Columns\TextColumn::make('total_price')
                     ->label('Total')
-                    ->money('IDR'),
+                    ->money('USD'),
             ])
             ->filters([
                 //

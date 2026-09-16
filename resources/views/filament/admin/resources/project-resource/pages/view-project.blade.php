@@ -19,7 +19,7 @@
             <div class="architeca-kpi-card architeca-kpi-progress">
                 <div class="architeca-kpi-label">
                     <x-filament::icon icon="heroicon-o-chart-bar" class="h-5 w-5" />
-                    <span>Progress terkini</span>
+                    <span>Latest progress</span>
                 </div>
                 <strong>{{ number_format((float) $latestProgress, 0) }}%</strong>
             </div>
@@ -28,7 +28,7 @@
                     <x-filament::icon icon="heroicon-o-banknotes" class="h-5 w-5" />
                     <span>Total expenses</span>
                 </div>
-                <strong>Rp {{ number_format((float) $totalExpenses, 0, ',', '.') }}</strong>
+                <strong>${{ number_format((float) $totalExpenses, 0, '.', ',') }}</strong>
             </div>
             <div class="architeca-kpi-card architeca-kpi-members">
                 <div class="architeca-kpi-label">

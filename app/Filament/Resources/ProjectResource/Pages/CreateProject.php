@@ -82,7 +82,7 @@ class CreateProject extends CreateRecord
                             Forms\Components\TextInput::make('unit_price')
                                 ->label('Unit Price')
                                 ->numeric()
-                                ->prefix('Rp')
+                                ->prefix('$')
                                 ->default(0)
                                 ->live(onBlur: true)
                                 ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
@@ -92,7 +92,7 @@ class CreateProject extends CreateRecord
                             Forms\Components\TextInput::make('total_price')
                                 ->label('Total Price')
                                 ->numeric()
-                                ->prefix('Rp')
+                                ->prefix('$')
                                 ->default(0)
                                 ->readOnly()
                                 ->dehydrated(),
@@ -129,7 +129,7 @@ class CreateProject extends CreateRecord
                                 ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                 ->createOptionForm([
                                     Forms\Components\TextInput::make('name')
-                                        ->label('Nama')
+                                        ->label('Name')
                                         ->required()
                                         ->maxLength(255),
                                     Forms\Components\TextInput::make('email')
@@ -153,7 +153,7 @@ class CreateProject extends CreateRecord
                                         ->required(),
                                 ])
                                 ->createOptionAction(fn (Forms\Components\Actions\Action $action): Forms\Components\Actions\Action => $action
-                                    ->modalDescription('Buat user baru untuk langsung ditambahkan sebagai anggota project.')
+                                    ->modalDescription('Create a new user to be added directly as a project member.')
                                     ->modalFooterActionsAlignment(Alignment::End)
                                     ->extraModalWindowAttributes([
                                         'class' => 'architeca-project-modal',

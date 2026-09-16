@@ -61,13 +61,13 @@ class ReportsOverview extends StatsOverviewWidget
                 ->descriptionColor($projectChange >= 0 ? 'success' : 'danger')
                 ->color('primary')
                 ->icon('heroicon-m-briefcase'),
-            Stat::make('Contract value', number_format($totalBudget, 0, ',', '.'))
+            Stat::make('Contract value', '$' . number_format($totalBudget, 0, '.', ','))
                 ->description($trend($contractChange))
                 ->descriptionIcon($trendIcon($contractChange))
                 ->descriptionColor($contractChange >= 0 ? 'success' : 'danger')
                 ->color('info')
                 ->icon('heroicon-m-banknotes'),
-            Stat::make('Total expenses', number_format($totalExpenses, 0, ',', '.'))
+            Stat::make('Total expenses', '$' . number_format($totalExpenses, 0, '.', ','))
                 ->description($trend($expenseChange))
                 ->descriptionIcon($trendIcon($expenseChange))
                 ->descriptionColor($expenseChange > 0 ? 'danger' : 'success')

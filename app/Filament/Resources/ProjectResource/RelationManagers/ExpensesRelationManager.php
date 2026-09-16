@@ -43,7 +43,7 @@ class ExpensesRelationManager extends RelationManager
                 Forms\Components\TextInput::make('amount')
                     ->label('Amount')
                     ->numeric()
-                    ->prefix('Rp')
+                    ->prefix('$')
                     ->required(),
                 Forms\Components\Textarea::make('description')
                     ->label('Description')
@@ -70,7 +70,7 @@ class ExpensesRelationManager extends RelationManager
                     ->limit(50),
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Amount')
-                    ->money('IDR')
+                    ->money('USD')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('By'),

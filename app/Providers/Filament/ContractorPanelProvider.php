@@ -31,6 +31,7 @@ class ContractorPanelProvider extends PanelProvider
                 'primary' => Color::hex('#8B4513'),
                 'gray' => Color::Slate,
             ])
+            ->spa()
             ->sidebarWidth('20rem')
             ->sidebarCollapsibleOnDesktop()
             ->collapsedSidebarWidth('4.5rem')
@@ -39,7 +40,7 @@ class ContractorPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Contractor/Resources'), for: 'App\\Filament\\Contractor\\Resources')
             ->discoverPages(in: app_path('Filament/Contractor/Pages'), for: 'App\\Filament\\Contractor\\Pages')
         ->pages([
-            \App\Filament\Pages\Dashboard::class,
+            \App\Filament\Contractor\Pages\Dashboard::class,
             \App\Filament\Contractor\Pages\Reports::class,
         ])
             ->discoverWidgets(in: app_path('Filament/Contractor/Widgets'), for: 'App\\Filament\\Contractor\\Widgets')

@@ -7,7 +7,7 @@ return '$' . number_format($value, 0);
 }
 @endphp
 
-<div class="space-y-8">
+<div class="architeca-dashboard space-y-8">
 
     {{-- header --}}
     <div class="flex items-center justify-between">

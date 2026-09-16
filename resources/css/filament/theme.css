@@ -118,6 +118,32 @@ html.dark {
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.03);
 }
 
+/* Shared dashboard canvas. Both admin and contractor dashboards use the same
+   component tokens, so text and spacing stay consistent across panels. */
+.architeca-dashboard {
+    color: var(--foreground);
+}
+
+.architeca-dashboard .text-muted-foreground {
+    color: #64748b;
+}
+
+.architeca-dashboard .bg-muted {
+    background-color: #f5f5f4;
+}
+
+.architeca-dashboard .bg-card {
+    background-color: var(--card);
+}
+
+.architeca-dashboard .border-border {
+    border-color: var(--border);
+}
+
+.architeca-dashboard table thead {
+    color: #64748b;
+}
+
 /* Keep every Filament primary button readable, including actions rendered outside page scopes. */
 .fi-btn.fi-btn-color-primary,
 .fi-btn.fi-color-primary {

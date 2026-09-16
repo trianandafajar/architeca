@@ -19,9 +19,13 @@ class User extends Authenticatable implements FilamentUser
     protected static function booted(): void
     {
         static::saved(function (self $user): void {
-            if ($user->wasRecentlyCreated || $user->wasChanged('role')) {
-                $user->syncRoles([$user->role]);
+            if (! ($user->wasRecentlyCreated || $user->wasChanged('role')) || blank($user->role)) {
+                return;
             }
+
+            $roleModel = config('permission.models.role');
+            $roleModel::findOrCreate($user->role, $user->getDefaultGuardName());
+            $user->syncRoles([$user->role]);
         });
     }
 

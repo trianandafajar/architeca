@@ -9,6 +9,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
 class UserResource extends Resource
 {
@@ -28,7 +30,8 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Informasi User')
+                Forms\Components\Section::make('Informasi user')
+                    ->description('Kelola identitas, password, dan akses pengguna.')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Nama')
@@ -44,18 +47,28 @@ class UserResource extends Resource
                         Forms\Components\TextInput::make('password')
                             ->label('Password')
                             ->password()
-                            ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                            ->afterStateHydrated(function (Forms\Components\TextInput $component): void {
+                                $component->state(null);
+                            })
                             ->dehydrated(fn (?string $state): bool => filled($state))
                             ->required(fn (string $operation): bool => $operation === 'create')
                             ->maxLength(255)
-                            ->placeholder('kosongkan jika tidak ingin mengubah'),
+                            ->helperText(fn (string $operation): ?string => $operation === 'edit'
+                                ? 'Kosongkan jika tidak ingin mengubah password.'
+                                : null),
+                        Forms\Components\TextInput::make('password_confirmation')
+                            ->label('Konfirmasi password')
+                            ->password()
+                            ->same('password')
+                            ->dehydrated(false)
+                            ->required(fn (string $operation): bool => $operation === 'create')
+                            ->helperText(fn (string $operation): ?string => $operation === 'edit'
+                                ? 'Isi hanya jika password ingin diubah.'
+                                : null),
                         Forms\Components\Select::make('role')
                             ->label('Role')
-                            ->options([
-                                'admin' => 'Admin',
-                                'contractor' => 'Contractor',
-                                'staff' => 'Staff',
-                            ])
+                            ->options(fn (): array => static::getRoleOptions())
+                            ->visible(fn (?User $record): bool => ! $record?->hasAnyRole(['admin', 'super_admin']))
                             ->required()
                             ->default('staff'),
                     ])
@@ -77,10 +90,15 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('role')
                     ->label('Role')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'admin' => 'danger',
+                    ->state(fn (User $record): string => $record->getRoleNames()
+                        ->map(fn (string $role): string => Str::headline($role))
+                        ->implode(', '))
+                    ->color(fn (User $record): string => match ($record->getRoleNames()->first()) {
+                        'super_admin' => 'danger',
+                        'admin' => 'warning',
                         'contractor' => 'success',
                         'staff' => 'info',
+                        default => 'gray',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
@@ -92,13 +110,16 @@ class UserResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('role')
                     ->label('Role')
-                    ->options([
-                        'admin' => 'Admin',
-                        'contractor' => 'Contractor',
-                        'staff' => 'Staff',
-                    ]),
+                    ->relationship('roles', 'name')
+                    ->options(fn (): array => static::getRoleOptions()),
             ])
             ->actions([
+                Impersonate::make()
+                    ->color('primary')
+                    ->tooltip('Login sebagai user')
+                    ->redirectTo(fn (User $record): string => $record->hasRole('contractor')
+                        ? url('/contractor')
+                        : url('/staff')),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -107,6 +128,19 @@ class UserResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    /** @return array<string, string> */
+    public static function getRoleOptions(): array
+    {
+        $roleModel = config('permission.models.role');
+
+        return $roleModel::query()
+            ->whereNotIn('name', ['panel_user', 'admin', 'super_admin'])
+            ->orderBy('name')
+            ->pluck('name', 'name')
+            ->mapWithKeys(fn (string $name): array => [$name => Str::headline($name)])
+            ->all();
     }
 
     public static function getPages(): array

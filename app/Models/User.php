@@ -73,6 +73,16 @@ class User extends Authenticatable implements FilamentUser
         };
     }
 
+    public function canImpersonate(): bool
+    {
+        return $this->hasAnyRole(['super_admin', 'admin']);
+    }
+
+    public function canBeImpersonated(): bool
+    {
+        return $this->hasAnyRole(['contractor', 'staff']);
+    }
+
     public function projects()
     {
         return $this->belongsToMany(Project::class, 'project_members')->withPivot('role')->withTimestamps();

@@ -7,6 +7,7 @@ use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Actions\Action as InfolistAction;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
@@ -32,7 +33,15 @@ class ProjectResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
+            ->schema(static::getProjectFormSchema());
+    }
+
+    /**
+     * @return array<int, Forms\Components\Component>
+     */
+    public static function getProjectFormSchema(): array
+    {
+        return [
                 Forms\Components\Section::make('Informasi Project')
                     ->schema([
                         Forms\Components\TextInput::make('name')
@@ -69,7 +78,7 @@ class ProjectResource extends Resource
                             ->default('planning'),
                     ])
                     ->columns(2),
-            ]);
+        ];
     }
 
     public static function table(Table $table): Table
@@ -160,6 +169,16 @@ class ProjectResource extends Resource
             ->schema([
                 Section::make('Project overview')
                     ->description('Ringkasan informasi dan status project.')
+                    ->headerActions([
+                        InfolistAction::make('edit')
+                            ->label('Edit project')
+                            ->icon('heroicon-m-pencil-square')
+                            ->button()
+                            ->color('gray')
+                            ->extraAttributes(['class' => 'architeca-edit-project-action'])
+                            ->url(fn (Project $record): string => static::getUrl('edit', ['record' => $record]))
+                            ->visible(fn (Project $record): bool => static::canEdit($record)),
+                    ])
                     ->schema([
                         Grid::make(3)
                             ->schema([

@@ -8,9 +8,12 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\ConfiguresProjectModalActions;
 
 class ProjectMembersRelationManager extends RelationManager
 {
+    use ConfiguresProjectModalActions;
+
     protected static string $relationship = 'members';
 
     protected static ?string $title = 'Project Members';
@@ -60,16 +63,33 @@ class ProjectMembersRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\CreateAction::make()->color('primary'),
+                    'Tambahkan anggota dan tentukan perannya di project ini.',
+                ),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\EditAction::make(),
+                    'Perbarui peran anggota pada project ini.',
+                ),
+                $this->configureProjectModalAction(
+                    Tables\Actions\DeleteAction::make(),
+                    'Anggota yang dihapus tidak lagi memiliki akses melalui project ini.',
+                ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    $this->configureProjectModalAction(
+                        Tables\Actions\DeleteBulkAction::make(),
+                        'Anggota yang dipilih akan dihapus dari project ini.',
+                    ),
                 ]),
             ]);
+    }
+
+    public function isReadOnly(): bool
+    {
+        return false;
     }
 }

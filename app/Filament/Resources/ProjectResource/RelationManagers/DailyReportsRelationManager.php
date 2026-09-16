@@ -7,9 +7,12 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\ConfiguresProjectModalActions;
 
 class DailyReportsRelationManager extends RelationManager
 {
+    use ConfiguresProjectModalActions;
+
     protected static string $relationship = 'dailyReports';
 
     protected static ?string $title = 'Daily Report';
@@ -72,16 +75,34 @@ class DailyReportsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\CreateAction::make()->color('primary'),
+                    'Tambahkan laporan harian untuk merekam aktivitas project.',
+                ),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\ViewAction::make(),
+                    'Lihat detail aktivitas dan kondisi project pada tanggal ini.',
+                ),
+                $this->configureProjectModalAction(
+                    Tables\Actions\EditAction::make(),
+                    'Perbarui laporan harian dan kendala yang tercatat.',
+                ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    $this->configureProjectModalAction(
+                        Tables\Actions\DeleteBulkAction::make(),
+                        'Laporan harian yang dipilih akan dihapus dan tidak dapat dipulihkan.',
+                    ),
                 ]),
             ]);
+
+    }
+
+    public function isReadOnly(): bool
+    {
+        return false;
     }
 }

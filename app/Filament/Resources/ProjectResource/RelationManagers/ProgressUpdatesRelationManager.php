@@ -8,9 +8,12 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\ConfiguresProjectModalActions;
 
 class ProgressUpdatesRelationManager extends RelationManager
 {
+    use ConfiguresProjectModalActions;
+
     protected static string $relationship = 'progressUpdates';
 
     protected static ?string $title = 'Progress';
@@ -69,15 +72,27 @@ class ProgressUpdatesRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\CreateAction::make()->color('primary'),
+                    'Catat pembaruan progress terbaru untuk project ini.',
+                ),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\EditAction::make(),
+                    'Perbarui catatan progress project ini.',
+                ),
+                $this->configureProjectModalAction(
+                    Tables\Actions\DeleteAction::make(),
+                    'Data progress yang dihapus tidak dapat dipulihkan.',
+                ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    $this->configureProjectModalAction(
+                        Tables\Actions\DeleteBulkAction::make(),
+                        'Data progress yang dipilih akan dihapus dan tidak dapat dipulihkan.',
+                    ),
                 ]),
             ]);
     }
@@ -85,5 +100,10 @@ class ProgressUpdatesRelationManager extends RelationManager
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery();
+    }
+
+    public function isReadOnly(): bool
+    {
+        return false;
     }
 }

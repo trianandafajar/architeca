@@ -118,6 +118,32 @@ html.dark {
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.03);
 }
 
+/* Keep every Filament primary button readable, including actions rendered outside page scopes. */
+.fi-btn.fi-btn-color-primary,
+.fi-btn.fi-color-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+}
+
+.fi-btn.fi-btn-color-primary:hover,
+.fi-btn.fi-color-primary:hover {
+    background-color: var(--primary-600, #7c3a11) !important;
+    border-color: var(--primary-600, #7c3a11) !important;
+}
+
+.fi-btn.fi-btn-color-primary .fi-btn-label,
+.fi-btn.fi-btn-color-primary .fi-btn-icon,
+.fi-btn.fi-color-primary .fi-btn-label,
+.fi-btn.fi-color-primary .fi-btn-icon {
+    color: var(--primary-foreground) !important;
+}
+
+.fi-icon-btn.fi-color-primary,
+.fi-icon-btn.fi-color-primary .fi-icon-btn-icon {
+    color: var(--primary) !important;
+}
+
 /* Project details: one quiet canvas for the KPI row, tabs, and active content. */
 .fi-resource-view-record-page.fi-resource-projects .architeca-project-detail {
     display: flex;
@@ -223,6 +249,146 @@ html.dark {
     box-shadow: none;
 }
 
+.fi-resource-view-record-page.fi-resource-projects .architeca-edit-project-action {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-edit-project-action:hover {
+    background-color: var(--primary-600, #7c3a11) !important;
+    border-color: var(--primary-600, #7c3a11) !important;
+}
+
+.fi-resource-view-record-page.fi-resource-projects .architeca-edit-project-action .fi-btn-label,
+.fi-resource-view-record-page.fi-resource-projects .architeca-edit-project-action .fi-btn-icon {
+    color: var(--primary-foreground) !important;
+}
+
+.fi-resource-edit-record-page.fi-resource-projects .fi-form-actions .fi-btn-color-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+}
+
+.fi-resource-edit-record-page.fi-resource-projects .fi-form-actions .fi-btn-color-primary:hover {
+    background-color: var(--primary-600, #7c3a11) !important;
+    border-color: var(--primary-600, #7c3a11) !important;
+}
+
+.fi-resource-edit-record-page.fi-resource-projects .fi-form-actions .fi-btn-color-primary .fi-btn-label,
+.fi-resource-edit-record-page.fi-resource-projects .fi-form-actions .fi-btn-color-primary .fi-btn-icon {
+    color: var(--primary-foreground) !important;
+}
+
+.fi-resource-list-records-page.fi-resource-projects .fi-header .fi-btn-color-primary,
+.fi-resource-list-records-page.fi-resource-projects .architeca-create-project-action,
+.fi-resource-create-record-page.fi-resource-projects .fi-form-actions .fi-btn-color-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+}
+
+.fi-resource-list-records-page.fi-resource-projects .fi-header .fi-btn-color-primary:hover,
+.fi-resource-list-records-page.fi-resource-projects .architeca-create-project-action:hover,
+.fi-resource-create-record-page.fi-resource-projects .fi-form-actions .fi-btn-color-primary:hover {
+    background-color: var(--primary-600, #7c3a11) !important;
+    border-color: var(--primary-600, #7c3a11) !important;
+}
+
+.fi-resource-list-records-page.fi-resource-projects .fi-header .fi-btn-color-primary .fi-btn-label,
+.fi-resource-list-records-page.fi-resource-projects .fi-header .fi-btn-color-primary .fi-btn-icon,
+.fi-resource-list-records-page.fi-resource-projects .architeca-create-project-action .fi-btn-label,
+.fi-resource-list-records-page.fi-resource-projects .architeca-create-project-action .fi-btn-icon,
+.fi-resource-create-record-page.fi-resource-projects .fi-form-actions .fi-btn-color-primary .fi-btn-label,
+.fi-resource-create-record-page.fi-resource-projects .fi-form-actions .fi-btn-color-primary .fi-btn-icon {
+    color: var(--primary-foreground) !important;
+}
+
+.architeca-create-project-action {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+}
+
+.architeca-create-project-action:hover {
+    background-color: var(--primary-600, #7c3a11) !important;
+    border-color: var(--primary-600, #7c3a11) !important;
+}
+
+.architeca-create-project-action .fi-btn-label,
+.architeca-create-project-action .fi-btn-icon {
+    color: var(--primary-foreground) !important;
+}
+
+.fi-resource-create-record-page.fi-resource-projects .fi-form-actions {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+}
+
+.fi-resource-create-record-page.fi-resource-projects .fi-fo-wizard {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 0.125rem);
+    box-shadow: 0 8px 24px rgb(70 32 18 / 0.05);
+}
+
+.fi-resource-create-record-page.fi-resource-projects .fi-fo-wizard-header {
+    border-color: var(--border);
+    background: #fffaf5;
+}
+
+.fi-resource-create-record-page.fi-resource-projects .fi-fo-wizard > .flex.items-center.justify-between {
+    margin-top: 0;
+    padding: 1rem 1.5rem 1.25rem;
+    border-top: 1px solid var(--border);
+    background: #fffaf5;
+}
+
+/* Relation manager dialogs: comfortable spacing, clear footer, and reliable action colors. */
+.architeca-project-modal {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 0.125rem);
+}
+
+.architeca-project-modal .fi-modal-header {
+    padding: 1.5rem 1.5rem 1.125rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.architeca-project-modal .fi-modal-content {
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.architeca-project-modal .fi-modal-footer {
+    margin-top: 0;
+    padding: 1rem 1.5rem 1.25rem;
+    border-top: 1px solid var(--border);
+    background: #fffaf5;
+}
+
+.architeca-project-modal .fi-modal-footer-actions {
+    justify-content: flex-end;
+}
+
+.architeca-project-modal .fi-modal-footer-actions .fi-btn-color-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+}
+
+.architeca-project-modal .fi-modal-footer-actions .fi-btn-color-primary:hover {
+    background-color: var(--primary-600, #7c3a11) !important;
+    border-color: var(--primary-600, #7c3a11) !important;
+}
+
+.architeca-project-modal .fi-modal-footer-actions .fi-btn-color-primary .fi-btn-label,
+.architeca-project-modal .fi-modal-footer-actions .fi-btn-color-primary .fi-btn-icon {
+    color: var(--primary-foreground) !important;
+}
+
 @media (max-width: 768px) {
     .fi-resource-view-record-page.fi-resource-projects .architeca-kpi-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -236,6 +402,12 @@ html.dark {
 
     .fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers > div[role='tabpanel'] {
         padding: 1rem;
+    }
+
+    .architeca-project-modal .fi-modal-header,
+    .architeca-project-modal .fi-modal-content,
+    .architeca-project-modal .fi-modal-footer {
+        padding-inline: 1rem;
     }
 }
 

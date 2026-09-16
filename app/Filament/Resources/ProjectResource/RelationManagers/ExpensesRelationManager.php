@@ -7,9 +7,12 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\ConfiguresProjectModalActions;
 
 class ExpensesRelationManager extends RelationManager
 {
+    use ConfiguresProjectModalActions;
+
     protected static string $relationship = 'expenses';
 
     protected static ?string $title = 'Expenses';
@@ -76,16 +79,32 @@ class ExpensesRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\CreateAction::make()->color('primary'),
+                    'Tambahkan pengeluaran baru dan simpan rincian biayanya.',
+                ),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\EditAction::make(),
+                    'Perbarui rincian pengeluaran project ini.',
+                ),
+                $this->configureProjectModalAction(
+                    Tables\Actions\DeleteAction::make(),
+                    'Data pengeluaran yang dihapus tidak dapat dipulihkan.',
+                ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    $this->configureProjectModalAction(
+                        Tables\Actions\DeleteBulkAction::make(),
+                        'Pengeluaran yang dipilih akan dihapus dan tidak dapat dipulihkan.',
+                    ),
                 ]),
             ]);
+    }
+    public function isReadOnly(): bool
+    {
+        return false;
     }
 }

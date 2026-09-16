@@ -7,9 +7,12 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\ConfiguresProjectModalActions;
 
 class BudgetItemsRelationManager extends RelationManager
 {
+    use ConfiguresProjectModalActions;
+
     protected static string $relationship = 'budgetItems';
 
     protected static ?string $title = 'RAB / Budget';
@@ -71,16 +74,33 @@ class BudgetItemsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\CreateAction::make()->color('primary'),
+                    'Tambahkan item anggaran ke project ini.',
+                ),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\EditAction::make(),
+                    'Perbarui rincian item anggaran ini.',
+                ),
+                $this->configureProjectModalAction(
+                    Tables\Actions\DeleteAction::make(),
+                    'Item anggaran yang dihapus tidak dapat dipulihkan.',
+                ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    $this->configureProjectModalAction(
+                        Tables\Actions\DeleteBulkAction::make(),
+                        'Item anggaran yang dipilih akan dihapus dan tidak dapat dipulihkan.',
+                    ),
                 ]),
             ]);
+    }
+
+    public function isReadOnly(): bool
+    {
+        return false;
     }
 }

@@ -7,9 +7,12 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\ConfiguresProjectModalActions;
 
 class AttachmentsRelationManager extends RelationManager
 {
+    use ConfiguresProjectModalActions;
+
     protected static string $relationship = 'attachments';
 
     protected static ?string $title = 'Attachments';
@@ -57,14 +60,27 @@ class AttachmentsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\CreateAction::make()->color('primary'),
+                    'Unggah file dan tambahkan keterangan untuk project ini.',
+                ),
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
+                $this->configureProjectModalAction(
+                    Tables\Actions\EditAction::make(),
+                    'Perbarui file atau keterangan lampiran ini.',
+                ),
+                $this->configureProjectModalAction(
+                    Tables\Actions\DeleteAction::make(),
+                    'Lampiran yang dihapus tidak dapat dipulihkan.',
+                ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    $this->configureProjectModalAction(
+                        Tables\Actions\DeleteBulkAction::make(),
+                        'Lampiran yang dipilih akan dihapus dan tidak dapat dipulihkan.',
+                    ),
                 ]),
             ]);
     }

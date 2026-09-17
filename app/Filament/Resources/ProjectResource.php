@@ -162,14 +162,6 @@ class ProjectResource extends Resource
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\Action::make('duplicate')
-                        ->label('Duplicate')
-                        ->icon('heroicon-m-document-duplicate')
-                        ->action(function (Project $record): void {
-                            $newProject = $record->replicate();
-                            $newProject->name = $record->name . ' (Copy)';
-                            $newProject->save();
-                        }),
                     Tables\Actions\Action::make('changeStatus')
                         ->label('Change Status')
                         ->icon('heroicon-m-pencil-square')

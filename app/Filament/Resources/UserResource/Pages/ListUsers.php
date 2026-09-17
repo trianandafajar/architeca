@@ -20,6 +20,7 @@ class ListUsers extends ListRecords
         return [
             Actions\CreateAction::make()
                 ->label('Create user')
+                ->icon('heroicon-m-plus')
                 ->color('primary')
                 ->modalDescription('Add a new user.'),
         ];

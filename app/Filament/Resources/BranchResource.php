@@ -56,6 +56,8 @@ class BranchResource extends Resource
                             ->placeholder('branch description'),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Active')
+                            ->onColor('success')
+                            ->offColor('danger')
                             ->default(true),
                     ])
                     ->columns(2),

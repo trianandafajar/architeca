@@ -62,38 +62,44 @@ $hasTopNav = filament()->hasTopNavigation();
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::SIDEBAR_NAV_START) }}
 
         @foreach ($navigation as $group)
-        <div class="mb-4">
+        <div class="mb-6">
             @if ($group->getLabel())
-            <h4 class="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-[#c9b99a] whitespace-nowrap" 
-            @if($collapsibleOnDesktop || $fullyCollapsible) x-show="$store.sidebar.isOpen" x-transition.opacity @endif>
+            <h4 class="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-[#c9b99a] whitespace-nowrap"
+                @if($collapsibleOnDesktop || $fullyCollapsible) x-show="$store.sidebar.isOpen" x-transition.opacity
+                @endif>
                 {{ $group->getLabel() }}
             </h4>
             @endif
-            <ul class="space-y-1">
+            <ul class="space-y-2 px-2">
                 @foreach ($group->getItems() as $item)
                 <li>
                     <a href="{{ $item->getUrl() }}"
-                        @class([ 'flex items-center rounded-lg py-2 text-sm font-medium transition-colors'
-                        , 'shadow-sm'=> $item->isActive(),
-                        'text-[#f5e6d3] hover:text-white' => ! $item->isActive(),
+                        @if ($collapsibleOnDesktop || $fullyCollapsible)
+                        x-data="{ tooltip: false }" x-effect="
+                            tooltip = $store.sidebar.isOpen
+                                ? false
+                                : { content: @js($item->getLabel()), placement: 'right', theme: $store.theme }
+                        " x-tooltip.html="tooltip"
+                        @endif
+                        @class([ 'flex items-center gap-3 rounded-lg py-2.5 px-4 text-sm font-medium transition-colors'
+                        , 'bg-[#8b4513] text-white shadow-sm'=> $item->isActive(),
+                        'text-[#f5e6d3] hover:bg-[#8b4513]/20 hover:text-white' => ! $item->isActive(),
                         ])
                         @if ($item->isActive()) aria-current="page" @endif
                         @if ($collapsibleOnDesktop || $fullyCollapsible)
                         x-bind:class="
                         $store.sidebar.isOpen
-                        ? (@js($item->isActive()) ? 'gap-3 px-3 justify-start bg-[#8b4513] text-white' : 'gap-3 px-3
-                        justify-start hover:bg-[#8b4513]/20')
-                        : (@js($item->isActive()) ? 'justify-center px-0 bg-[#8b4513] text-white' : 'justify-center px-0
-                        hover:bg-[#8b4513]/20')
+                        ? (@js($item->isActive()) ? 'bg-[#8b4513] text-white' : 'hover:bg-[#8b4513]/20 hover:text-white')
+                        : (@js($item->isActive()) ? 'justify-center px-0 bg-[#8b4513] text-white' : 'justify-center px-0 hover:bg-[#8b4513]/20 hover:text-white')
                         "
                         x-bind:title="$store.sidebar.isOpen ? '' : @js($item->getLabel())"
                         @endif
                         >
                         @if ($icon = $item->isActive() ? ($item->getActiveIcon() ?? $item->getIcon()) :
                         $item->getIcon())
-                        <x-dynamic-component :component="$icon" @class([ 'h-5 w-5 shrink-0' , ]) />
+                        <x-dynamic-component :component="$icon" class="h-5 w-5 shrink-0" />
                         @endif
-                        <span class="truncate whitespace-nowrap" @if ($collapsibleOnDesktop || $fullyCollapsible)
+                        <span class="truncate whitespace-nowrap text-base" @if ($collapsibleOnDesktop || $fullyCollapsible)
                             x-show="$store.sidebar.isOpen" x-transition.opacity @endif>
                             {{ $item->getLabel() }}
                         </span>

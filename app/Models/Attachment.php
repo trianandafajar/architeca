@@ -21,6 +21,15 @@ class Attachment extends Model
         'caption',
     ];
 
+    protected static function booted(): void
+    {
+        static::creating(function (Attachment $attachment) {
+            if (empty($attachment->user_id) && auth()->check()) {
+                $attachment->user_id = auth()->id();
+            }
+        });
+    }
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
@@ -29,6 +38,11 @@ class Attachment extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function dailyReport()
+    {
+        return $this->morphTo(DailyReport::class, 'attachable');
     }
 
     public function attachable(): MorphTo

@@ -2,17 +2,19 @@
 
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
+use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\ConfiguresProjectModalActions;
+use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\HasProjectAttachments;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\ConfiguresProjectModalActions;
 
 class ProgressUpdatesRelationManager extends RelationManager
 {
     use ConfiguresProjectModalActions;
+    use HasProjectAttachments;
 
     protected static string $relationship = 'progressUpdates';
 
@@ -31,15 +33,16 @@ class ProgressUpdatesRelationManager extends RelationManager
                     ->label('Date')
                     ->default(now())
                     ->required(),
-                Forms\Components\TextInput::make('percentage')
+                Forms\Components\ViewField::make('percentage')
                     ->label('Percentage (%)')
-                    ->numeric()
-                    ->minValue(0)
-                    ->maxValue(100)
-                    ->required(),
+                    ->view('filament.forms.components.range-slider')
+                    ->default(0)
+                    ->rules(['required', 'numeric', 'min:0', 'max:100'])
+                    ->columnSpanFull(),
                 Forms\Components\Textarea::make('notes')
                     ->label('Notes')
                     ->columnSpanFull(),
+                $this->attachmentsUpload('progress-updates'),
             ])
             ->columns(2);
     }
@@ -47,6 +50,7 @@ class ProgressUpdatesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with('attachments'))
             ->columns([
                 Tables\Columns\TextColumn::make('progress_date')
                     ->label('Date')
@@ -59,6 +63,7 @@ class ProgressUpdatesRelationManager extends RelationManager
                     ->color(fn (string $state): string => match (true) {
                         (float) $state >= 100 => 'success',
                         (float) $state >= 50 => 'warning',
+                        (float) $state > 0 => 'info',
                         default => 'gray',
                     }),
                 Tables\Columns\TextColumn::make('user.name')
@@ -66,6 +71,7 @@ class ProgressUpdatesRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('notes')
                     ->label('Notes')
                     ->limit(50),
+                $this->attachmentsColumn(),
             ])
             ->defaultSort('progress_date', 'desc')
             ->filters([

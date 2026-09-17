@@ -2,16 +2,19 @@
 
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
+use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\ConfiguresProjectModalActions;
+use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\HasProjectAttachments;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use App\Filament\Resources\ProjectResource\RelationManagers\Concerns\ConfiguresProjectModalActions;
+use Illuminate\Database\Eloquent\Builder;
 
 class ExpensesRelationManager extends RelationManager
 {
     use ConfiguresProjectModalActions;
+    use HasProjectAttachments;
 
     protected static string $relationship = 'expenses';
 
@@ -48,6 +51,7 @@ class ExpensesRelationManager extends RelationManager
                 Forms\Components\Textarea::make('description')
                     ->label('Description')
                     ->columnSpanFull(),
+                $this->attachmentsUpload('expenses'),
             ])
             ->columns(2);
     }
@@ -55,6 +59,7 @@ class ExpensesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with('attachments'))
             ->columns([
                 Tables\Columns\TextColumn::make('expense_date')
                     ->label('Date')
@@ -74,6 +79,7 @@ class ExpensesRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('By'),
+                $this->attachmentsColumn(),
             ])
             ->defaultSort('expense_date', 'desc')
             ->filters([
@@ -104,6 +110,7 @@ class ExpensesRelationManager extends RelationManager
                 ]),
             ]);
     }
+
     public function isReadOnly(): bool
     {
         return false;

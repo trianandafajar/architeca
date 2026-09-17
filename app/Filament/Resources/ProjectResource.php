@@ -15,6 +15,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
 
 class ProjectResource extends Resource
 {
@@ -141,6 +142,7 @@ class ProjectResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->label('Status')
+                    ->multiple()
                     ->options([
                         'planning' => 'Planning',
                         'active' => 'Active',
@@ -157,13 +159,63 @@ class ProjectResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\Action::make('duplicate')
+                        ->label('Duplicate')
+                        ->icon('heroicon-m-document-duplicate')
+                        ->action(function (Project $record): void {
+                            $newProject = $record->replicate();
+                            $newProject->name = $record->name . ' (Copy)';
+                            $newProject->save();
+                        }),
+                    Tables\Actions\Action::make('changeStatus')
+                        ->label('Change Status')
+                        ->icon('heroicon-m-pencil-square')
+                        ->action(function (Project $record, array $data): void {
+                            $record->update(['status' => $data['status']]);
+                        })
+                        ->form([
+                            Forms\Components\Select::make('status')
+                                ->label('Status')
+                                ->native(false)
+                                ->options([
+                                    'planning' => 'Planning',
+                                    'active' => 'Active',
+                                    'on_hold' => 'On Hold',
+                                    'completed' => 'Completed',
+                                    'cancelled' => 'Cancelled',
+                                ])
+                                ->required(),
+                        ]),
                 ])
-                    ->icon('heroicon-m-ellipsis-vertical')
-                    ->tooltip('Actions'),
+                ->icon('heroicon-m-ellipsis-vertical')
+                ->tooltip('Actions'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\BulkAction::make('changeStatus')
+                        ->label('Change Status')
+                        ->icon('heroicon-m-pencil-square')
+                        ->action(function (Collection $records, array $data): void {
+                            foreach ($records as $record) {
+                                $record->update(['status' => $data['status']]);
+                            }
+                        })
+                        ->form([
+                            Forms\Components\Select::make('status')
+                                ->label('Status')
+                                ->native(false)
+                                ->options([
+                                    'planning' => 'Planning',
+                                    'active' => 'Active',
+                                    'on_hold' => 'On Hold',
+                                    'completed' => 'Completed',
+                                    'cancelled' => 'Cancelled',
+                                ])
+                                ->required(),
+                        ])
+                        ->deselectRecordsAfterCompletion(),
                 ]),
             ]);
     }

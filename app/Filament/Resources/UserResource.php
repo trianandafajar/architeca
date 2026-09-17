@@ -135,6 +135,10 @@ class UserResource extends Resource
                 Impersonate::make()
                     ->color('primary')
                     ->tooltip('Login as user')
+                    ->requiresConfirmation()
+                    ->modalHeading('Confirm Login')
+                    ->modalDescription('Are you sure you want to log in as this user?')
+                    ->modalSubmitActionLabel('Yes, Login')
                     ->redirectTo(fn (User $record): string => $record->hasRole('contractor')
                         ? url('/contractor')
                         : url('/staff')),

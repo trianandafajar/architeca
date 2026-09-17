@@ -17,7 +17,11 @@ class EditUser extends EditRecord
             Impersonate::make()
                 ->record($this->getRecord())
                 ->color('primary')
-                ->label('Login sebagai')
+                ->label('Login as')
+                ->requiresConfirmation()
+                ->modalHeading('Confirm Login')
+                ->modalDescription('Are you sure you want to log in as this user?')
+                ->modalSubmitActionLabel('Yes, Login')
                 ->redirectTo(fn (): string => $this->getRecord()->hasRole('contractor')
                     ? url('/contractor')
                     : url('/staff')),

@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateBranch extends CreateRecord
 {
     protected static string $resource = BranchResource::class;
+
+    public function getSubheading(): ?string
+    {
+        return 'Create a new branch for your organization.';
+    }
 }

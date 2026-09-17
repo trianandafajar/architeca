@@ -137,6 +137,8 @@ class ProjectResource extends Resource
             ->defaultPaginationPageOption(10)
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
+                    ->label('Status')
+                    ->multiple()
                     ->options([
                         'planning' => 'Planning',
                         'active' => 'Active',
@@ -180,6 +182,28 @@ class ProjectResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\BulkAction::make('changeStatus')
+                        ->label('Change Status')
+                        ->icon('heroicon-m-pencil-square')
+                        ->action(function (Collection $records, array $data): void {
+                            foreach ($records as $record) {
+                                $record->update(['status' => $data['status']]);
+                            }
+                        })
+                        ->form([
+                            Forms\Components\Select::make('status')
+                                ->label('Status')
+                                ->native(false)
+                                ->options([
+                                    'planning' => 'Planning',
+                                    'active' => 'Active',
+                                    'on_hold' => 'On Hold',
+                                    'completed' => 'Completed',
+                                    'cancelled' => 'Cancelled',
+                                ])
+                                ->required(),
+                        ])
+                        ->deselectRecordsAfterCompletion(),
                 ]),
             ]);
     }

@@ -13,6 +13,11 @@ class EditRole extends EditRecord
 {
     protected static string $resource = RoleResource::class;
 
+    public function getSubheading(): ?string
+    {
+        return 'Edit the role and manage its associated permissions.';
+    }
+
     public Collection $permissions;
 
     protected string $permissionGuardName;
@@ -36,7 +41,7 @@ class EditRole extends EditRecord
         $submittedPermissions = $permissionData
             ->values()
             ->flatten()
-            ->filter(fn (mixed $permission): bool => filled($permission))
+            ->filter(fn(mixed $permission): bool => filled($permission))
             ->unique()
             ->values();
 

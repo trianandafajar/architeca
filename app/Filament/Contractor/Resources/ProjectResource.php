@@ -153,6 +153,26 @@ class ProjectResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\Action::make('changeStatus')
+                        ->label('Change Status')
+                        ->icon('heroicon-m-pencil-square')
+                        ->action(function (Project $record, array $data): void {
+                            $record->update(['status' => $data['status']]);
+                        })
+                        ->form([
+                            Forms\Components\Select::make('status')
+                                ->label('Status')
+                                ->native(false)
+                                ->options([
+                                    'planning' => 'Planning',
+                                    'active' => 'Active',
+                                    'on_hold' => 'On Hold',
+                                    'completed' => 'Completed',
+                                    'cancelled' => 'Cancelled',
+                                ])
+                                ->required(),
+                        ]),
                 ])
                     ->icon('heroicon-m-ellipsis-vertical')
                     ->tooltip('Actions'),

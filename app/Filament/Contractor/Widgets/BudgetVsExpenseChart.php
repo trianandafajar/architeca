@@ -13,7 +13,7 @@ class BudgetVsExpenseChart extends ChartWidget
     protected static bool $isLazy = false;
     protected static string $color = 'primary';
     protected static ?string $heading = 'Budget vs expenses';
-    protected static ?string $description = 'Perbandingan nilai kontrak dan pengeluaran tiap project.';
+    protected static ?string $description = 'This chart shows the budget vs expenses for all your projects.';
     protected static ?string $maxHeight = '320px';
     protected int | string | array $columnSpan = 'full';
 

@@ -21,6 +21,11 @@ class Reports extends Page
 
     protected static ?string $title = 'Project Reports';
 
+    public function getSubheading(): ?string
+    {
+        return 'View and analyze project reports, including budgets, expenses, and progress.';
+    }
+
     public function getViewData(): array
     {
         $projects = Project::with(['budgetItems', 'expenses', 'progressUpdates', 'dailyReports.user'])->get();

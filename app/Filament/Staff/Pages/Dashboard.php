@@ -17,7 +17,7 @@ class Dashboard extends BaseDashboard
 
     public function getSubheading(): ?string
     {
-        return 'Fokus pada project, progress, dan laporan kerja Anda.';
+        return 'Overview of your assigned projects and daily reports.';
     }
 
     protected function getHeaderWidgets(): array

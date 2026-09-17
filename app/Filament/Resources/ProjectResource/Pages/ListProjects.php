@@ -23,7 +23,7 @@ class ListProjects extends ListRecords
                 ->label('Create project')
                 ->icon('heroicon-m-plus')
                 ->color('primary')
-                ->modalDescription('Tambahkan project baru dengan informasi dasar, nilai kontrak, dan periode pelaksanaannya.')
+                ->modalDescription('Add a new project with basic information, the contract value, and the implementation period.')
                 ->modalFooterActionsAlignment(Alignment::End)
                 ->extraModalWindowAttributes([
                     'class' => 'architeca-project-modal',

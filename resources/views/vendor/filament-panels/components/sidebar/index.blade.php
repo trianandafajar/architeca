@@ -58,11 +58,11 @@ $hasTopNav = filament()->hasTopNavigation();
     </div>
 
     {{-- navigasi --}}
-    <nav class="flex flex-1 flex-col overflow-y-auto overflow-x-hidden px-2 py-2 space-y-1">
+    <nav class="flex flex-1 flex-col overflow-y-auto overflow-x-hidden px-2 py-2 space-y-6">
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::SIDEBAR_NAV_START) }}
 
         @foreach ($navigation as $group)
-        <div class="mb-6">
+        <div>
             @if ($group->getLabel())
             <h4 class="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-[#c9b99a] whitespace-nowrap"
                 @if($collapsibleOnDesktop || $fullyCollapsible) x-show="$store.sidebar.isOpen" x-transition.opacity

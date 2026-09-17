@@ -64,6 +64,11 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentShieldPlugin::make(),
             ])
+            ->navigationGroups([
+                \Filament\Navigation\NavigationGroup::make()->label('Dashboard'),
+                \Filament\Navigation\NavigationGroup::make()->label('Project'),
+                \Filament\Navigation\NavigationGroup::make()->label('Settings'),
+            ])
             ->authMiddleware([
                 Authenticate::class,
             ]);

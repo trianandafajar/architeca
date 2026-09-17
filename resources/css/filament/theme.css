@@ -39,17 +39,17 @@
     --sidebar-border: #462012;
     --sidebar-ring: #8b4513;
 
-    --primary-50: #fdf8f3;
-    --primary-100: #fbeed9;
-    --primary-200: #f5d5b3;
-    --primary-300: #eebe8c;
-    --primary-400: #e49e61;
-    --primary-500: #8b4513;
-    --primary-600: #7c3a11;
-    --primary-700: #672d0f;
-    --primary-800: #542511;
-    --primary-900: #462012;
-    --primary-950: #260e08;
+    --primary-50: 253 248 243;
+    --primary-100: 251 238 217;
+    --primary-200: 245 213 179;
+    --primary-300: 238 190 140;
+    --primary-400: 228 158 97;
+    --primary-500: 139 69 19;
+    --primary-600: 124 58 17;
+    --primary-700: 103 45 15;
+    --primary-800: 84 37 17;
+    --primary-900: 70 32 18;
+    --primary-950: 38 14 8;
 }
 
 html.dark {

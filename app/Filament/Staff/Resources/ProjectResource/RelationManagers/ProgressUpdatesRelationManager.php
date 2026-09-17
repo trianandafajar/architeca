@@ -2,7 +2,9 @@
 
 namespace App\Filament\Staff\Resources\ProjectResource\RelationManagers;
 
-class ProgressUpdatesRelationManager extends \App\Filament\Contractor\Resources\ProjectResource\RelationManagers\ProgressUpdatesRelationManager
+use App\Filament\Contractor\Resources\ProjectResource\RelationManagers\ProgressUpdatesRelationManager as ContractorProgressUpdatesRelationManager;
+
+class ProgressUpdatesRelationManager extends ContractorProgressUpdatesRelationManager
 {
     protected static ?string $title = 'Progress';
 

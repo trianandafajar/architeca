@@ -31,6 +31,7 @@ class StaffPanelProvider extends PanelProvider
                 'primary' => Color::hex('#8B4513'),
                 'gray' => Color::Slate,
             ])
+            ->spa()
             ->sidebarWidth('20rem')
             ->sidebarCollapsibleOnDesktop()
             ->collapsedSidebarWidth('4.5rem')

@@ -2,22 +2,28 @@
 
 namespace App\Filament\Staff\Resources\ProjectResource\RelationManagers;
 
-use App\Models\DailyReport;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use App\Filament\Contractor\Resources\ProjectResource\RelationManagers\DailyReportsRelationManager as ContractorDailyReportsRelationManager;
+use Illuminate\Support\Facades\Auth;
 
-class DailyReportsRelationManager extends \App\Filament\Contractor\Resources\ProjectResource\RelationManagers\DailyReportsRelationManager
+class DailyReportsRelationManager extends ContractorDailyReportsRelationManager
 {
     protected static ?string $title = 'Daily Reports';
 
     protected static ?string $icon = 'heroicon-o-document-text';
 
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
     public function table(Table $table): Table
     {
         return parent::table($table)
-            ->modifyQueryUsing(fn (Builder $query): Builder => $query->where('user_id', auth()->id()))
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->where('user_id', Auth::id()))
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
@@ -33,11 +39,11 @@ class DailyReportsRelationManager extends \App\Filament\Contractor\Resources\Pro
 
     protected function canEdit(Model $record): bool
     {
-        return (int) $record->user_id === (int) auth()->id();
+        return (int) $record->user_id === (int) Auth::id();
     }
 
     protected function canDelete(Model $record): bool
     {
-        return (int) $record->user_id === (int) auth()->id();
+        return (int) $record->user_id === (int) Auth::id();
     }
 }

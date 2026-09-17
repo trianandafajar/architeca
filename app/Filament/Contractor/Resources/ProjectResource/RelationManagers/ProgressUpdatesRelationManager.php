@@ -2,86 +2,8 @@
 
 namespace App\Filament\Contractor\Resources\ProjectResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\ProjectResource\RelationManagers\ProgressUpdatesRelationManager as BaseProgressUpdatesRelationManager;
 
-class ProgressUpdatesRelationManager extends RelationManager
+class ProgressUpdatesRelationManager extends BaseProgressUpdatesRelationManager
 {
-    protected static string $relationship = 'progressUpdates';
-
-    protected static ?string $title = 'Progress';
-
-    protected static ?string $recordTitleAttribute = 'notes';
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\Hidden::make('user_id')->default(fn () => auth()->id()),
-                Forms\Components\DatePicker::make('progress_date')
-                    ->label('Date')
-                    ->default(now())
-                    ->required(),
-                Forms\Components\TextInput::make('percentage')
-                    ->label('Percentage (%)')
-                    ->numeric()
-                    ->minValue(0)
-                    ->maxValue(100)
-                    ->required(),
-                Forms\Components\Textarea::make('notes')
-                    ->label('Notes')
-                    ->columnSpanFull(),
-            ])
-            ->columns(2);
-    }
-
-    public function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('progress_date')
-                    ->label('Date')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('percentage')
-                    ->label('Progress')
-                    ->suffix('%')
-                    ->badge()
-                    ->color(fn (string $state): string => match (true) {
-                        (float) $state >= 100 => 'success',
-                        (float) $state >= 50 => 'warning',
-                        default => 'gray',
-                    }),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('By'),
-                Tables\Columns\TextColumn::make('notes')
-                    ->label('Notes')
-                    ->limit(50),
-            ])
-            ->defaultSort('progress_date', 'desc')
-            ->filters([
-                //
-            ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery();
-    }
 }

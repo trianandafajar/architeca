@@ -14,6 +14,8 @@ class Dashboard extends BaseDashboard
 {
     protected static string $view = 'filament.pages.dashboard';
 
+    protected static ?string $navigationGroup = 'Dashboard';
+
     protected static ?string $title = 'Dashboard';
 
     public function getViewData(): array
@@ -45,7 +47,7 @@ class Dashboard extends BaseDashboard
             ->groupBy('category')
             ->orderBy('total', 'desc')
             ->get()
-            ->map(fn ($row) => [
+            ->map(fn($row) => [
                 'label' => $categoryLabels[$row->category] ?? ucfirst($row->category),
                 'value' => (float) $row->total,
             ])
@@ -58,7 +60,7 @@ class Dashboard extends BaseDashboard
             ->groupBy('month')
             ->orderBy('month')
             ->get()
-            ->map(fn ($row) => [
+            ->map(fn($row) => [
                 'label' => Carbon::createFromFormat('Y-m', $row->month)->format('M'),
                 'value' => (float) $row->total,
             ])

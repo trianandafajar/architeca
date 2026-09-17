@@ -10,6 +10,8 @@ class Dashboard extends BaseDashboard
 {
     protected static string $view = 'filament.contractor.pages.dashboard';
 
+    protected static ?string $navigationGroup = 'Dashboard';
+
     protected static ?string $title = 'Dashboard';
 
     public function getViewData(): array
@@ -20,7 +22,7 @@ class Dashboard extends BaseDashboard
             ->where(function ($query) use ($user): void {
                 $query
                     ->where('owner_id', $user->id)
-                    ->orWhereHas('members', fn ($members) => $members->where('user_id', $user->id));
+                    ->orWhereHas('members', fn($members) => $members->where('user_id', $user->id));
             })
             ->with([
                 'expenses',
@@ -33,7 +35,7 @@ class Dashboard extends BaseDashboard
 
         $projectIds = $projects->modelKeys();
         $totalBudget = (float) $projects->sum('contract_value');
-        $totalExpenses = (float) $projects->sum(fn (Project $project) => $project->expenses->sum('amount'));
+        $totalExpenses = (float) $projects->sum(fn(Project $project) => $project->expenses->sum('amount'));
 
         $latestProgress = $projects->map(function (Project $project): array {
             $progress = $project->progressUpdates->sortByDesc('progress_date')->first();
@@ -56,7 +58,7 @@ class Dashboard extends BaseDashboard
             'latestProgress' => $latestProgress,
             'recentActivity' => DailyReport::query()
                 ->with(['project', 'user'])
-                ->when($projectIds, fn ($query) => $query->whereIn('project_id', $projectIds), fn ($query) => $query->whereRaw('1 = 0'))
+                ->when($projectIds, fn($query) => $query->whereIn('project_id', $projectIds), fn($query) => $query->whereRaw('1 = 0'))
                 ->latest('report_date')
                 ->take(6)
                 ->get(),

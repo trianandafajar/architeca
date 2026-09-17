@@ -25,6 +25,8 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationGroup = 'Project';
 
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $navigationLabel = 'Projects';
 
     protected static ?string $modelLabel = 'Project';

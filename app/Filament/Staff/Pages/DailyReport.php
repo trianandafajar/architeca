@@ -24,6 +24,7 @@ class DailyReport extends Page implements HasForms, HasTable
     use InteractsWithForms, InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationGroup = 'Project';
     protected static string $view = 'filament.staff.pages.daily-report';
     protected static ?string $title = 'Daily Report';
 
@@ -236,7 +237,7 @@ class DailyReport extends Page implements HasForms, HasTable
             ->bulkActions([]);
     }
 
-    
+
 
     public function getSubheading(): ?string
     {

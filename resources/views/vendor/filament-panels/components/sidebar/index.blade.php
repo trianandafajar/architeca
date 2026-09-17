@@ -11,12 +11,12 @@ $hasTopNav = filament()->hasTopNavigation();
 
 <aside x-data="{}" @if ($collapsibleOnDesktop || $fullyCollapsible) x-cloak x-bind:class="
             $store.sidebar.isOpen
-                ? 'lg:sticky'
-                : '-translate-x-full rtl:translate-x-full lg:translate-x-0 rtl:lg:-translate-x-0'
+                ? 'translate-x-0 shadow-xl rtl:-translate-x-0 lg:sticky'
+                : '-translate-x-full rtl:translate-x-full lg:sticky lg:translate-x-0 rtl:lg:-translate-x-0'
         " @else @if ($hasTopNav) x-cloak
-    x-bind:class="$store.sidebar.isOpen ? '' : '-translate-x-full rtl:translate-x-full'" @else x-cloak="-lg"
+    x-bind:class="$store.sidebar.isOpen ? 'translate-x-0 shadow-xl rtl:-translate-x-0' : '-translate-x-full rtl:translate-x-full'" @else x-cloak="-lg"
     x-bind:class="
-                $store.sidebar.isOpen ? 'lg:sticky' : '-translate-x-full rtl:translate-x-full lg:translate-x-0'
+                $store.sidebar.isOpen ? 'translate-x-0 shadow-xl rtl:-translate-x-0 lg:sticky' : 'w-[--sidebar-width] -translate-x-full rtl:translate-x-full lg:sticky'
             " @endif @endif x-bind:style="
         @if ($collapsibleOnDesktop || $fullyCollapsible)
             $store.sidebar.isOpen ? 'width: 16rem' : 'width: 4rem'
@@ -24,7 +24,7 @@ $hasTopNav = filament()->hasTopNavigation();
             'width: 16rem'
         @endif
     " {{ $attributes->class([
-    'fi-sidebar sticky top-0 z-30 flex h-screen shrink-0 flex-col overflow-hidden transition-[width] duration-300
+    'fi-sidebar fixed inset-y-0 start-0 z-[70] flex h-screen shrink-0 flex-col overflow-hidden transition-all duration-300
     lg:z-0',
     ])
     }}

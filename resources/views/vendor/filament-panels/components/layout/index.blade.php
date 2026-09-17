@@ -10,7 +10,7 @@ $livewire ??= null;
     {{-- overlay --}}
     @if (filament()->hasNavigation())
     <div x-cloak x-data="{}" x-on:click="$store.sidebar.close()" x-show="$store.sidebar.isOpen"
-        x-transition.opacity.300ms class="fixed inset-0 z-30 bg-black/50 transition duration-300 lg:hidden"></div>
+        x-transition.opacity.300ms class="fixed inset-0 z-[60] bg-black/50 transition duration-300 lg:hidden"></div>
     @endif
 
     <div class="flex min-h-screen w-full">

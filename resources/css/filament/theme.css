@@ -267,6 +267,11 @@ html.dark {
 
 .fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers > div[role='tabpanel'] {
     padding: 1.5rem;
+    padding-bottom: 3rem;
+}
+
+.fi-resource-edit-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers > .fi-form {
+    padding: 1rem;
 }
 
 .fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-section {
@@ -347,9 +352,10 @@ html.dark {
     color: var(--primary-foreground) !important;
 }
 
-.fi-resource-create-record-page.fi-resource-projects .fi-form-actions {
-    margin-top: 1.5rem;
-    padding-top: 1.25rem;
+.fi-resource-create-record-page.fi-resource-projects .fi-form-actions,
+.fi-resource-edit-record-page.fi-resource-projects .fi-form-actions {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
     border-top: 1px solid var(--border);
 }
 

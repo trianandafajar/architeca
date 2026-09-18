@@ -35,7 +35,7 @@ class StaffPanelProvider extends PanelProvider
             ->sidebarWidth('20rem')
             ->sidebarCollapsibleOnDesktop()
             ->collapsedSidebarWidth('4.5rem')
-            ->theme(asset('css/filament/theme.css'))
+            ->viteTheme('resources/css/filament/theme.css')
             ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')

@@ -35,7 +35,7 @@ class ContractorPanelProvider extends PanelProvider
             ->sidebarWidth('20rem')
             ->sidebarCollapsibleOnDesktop()
             ->collapsedSidebarWidth('4.5rem')
-            ->theme(asset('css/filament/theme.css'))
+            ->viteTheme('resources/css/filament/theme.css')
             ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Contractor/Resources'), for: 'App\\Filament\\Contractor\\Resources')
             ->discoverPages(in: app_path('Filament/Contractor/Pages'), for: 'App\\Filament\\Contractor\\Pages')

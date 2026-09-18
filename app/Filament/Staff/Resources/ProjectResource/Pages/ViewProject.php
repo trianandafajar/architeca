@@ -13,7 +13,7 @@ class ViewProject extends ViewRecord
 
     public function getSubheading(): ?string
     {
-        return 'Ringkasan project, progres, laporan kerja, anggota, dan lampiran yang tersedia untuk Anda.';
+        return 'Project summary, progress, work reports, members, and attachments available to you.';
     }
 
     protected function getAllRelationManagers(): array

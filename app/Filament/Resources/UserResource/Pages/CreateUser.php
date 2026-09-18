@@ -12,6 +12,6 @@ class CreateUser extends CreateRecord
 
     public function getSubheading(): ?string
     {
-        return 'Buat akun baru dengan role dan akses yang sesuai.';
+        return 'Create a new user account with the appropriate role and access.';
     }
 }

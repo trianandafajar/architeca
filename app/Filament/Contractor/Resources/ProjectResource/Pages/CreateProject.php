@@ -19,6 +19,6 @@ class CreateProject extends CreateRecord
 
     public function getSubheading(): ?string
     {
-        return 'Buat project baru dan mulai kelola pekerjaan bersama tim.';
+        return 'Create a new project and start managing work with your team.';
     }
 }

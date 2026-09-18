@@ -13,7 +13,7 @@ class AssignedProgressChart extends ChartWidget
     protected static bool $isLazy = false;
     protected static string $color = 'primary';
     protected static ?string $heading = 'Project progress';
-    protected static ?string $description = 'Progress terakhir dari project yang ditugaskan kepada Anda.';
+    protected static ?string $description = 'Recent progress of projects assigned to you.';
     protected static ?string $maxHeight = '320px';
     protected int | string | array $columnSpan = ['md' => 1, 'xl' => 1];
 

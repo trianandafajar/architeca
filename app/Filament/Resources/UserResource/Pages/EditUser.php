@@ -31,6 +31,6 @@ class EditUser extends EditRecord
 
     public function getSubheading(): ?string
     {
-        return 'Perbarui profil, password, atau data pengguna.';
+        return 'Update profile, password, or user data.';
     }
 }

@@ -13,7 +13,7 @@ class ListProjects extends ListRecords
 
     public function getSubheading(): ?string
     {
-        return 'Lihat project yang menugaskan Anda sebagai member dan pantau progres pekerjaannya.';
+        return 'View projects that assign you as a member and monitor their progress.';
     }
 
     protected function getHeaderActions(): array

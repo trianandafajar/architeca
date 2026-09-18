@@ -17,6 +17,11 @@ class CreateProject extends CreateRecord
         return $data;
     }
 
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
+
     public function getSubheading(): ?string
     {
         return 'Create a new project and start managing work with your team.';

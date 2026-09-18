@@ -14,6 +14,11 @@ class CreateRole extends CreateRecord
 
     public Collection $permissions;
 
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $this->permissions = collect($data)

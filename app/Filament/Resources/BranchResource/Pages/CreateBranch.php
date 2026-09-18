@@ -14,4 +14,9 @@ class CreateBranch extends CreateRecord
     {
         return 'Create a new branch for your organization.';
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }

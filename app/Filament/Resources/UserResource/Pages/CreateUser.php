@@ -14,4 +14,9 @@ class CreateUser extends CreateRecord
     {
         return 'Create a new user account with the appropriate role and access.';
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }

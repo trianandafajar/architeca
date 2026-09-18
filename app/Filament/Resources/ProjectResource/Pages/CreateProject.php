@@ -46,6 +46,11 @@ class CreateProject extends CreateRecord
         return false;
     }
 
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
+
     public function getSteps(): array
     {
         return [
@@ -72,7 +77,7 @@ class CreateProject extends CreateRecord
                                 ->numeric()
                                 ->default(0)
                                 ->live(onBlur: true)
-                                ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
+                                ->afterStateUpdated(fn(Get $get, Set $set): mixed => $set(
                                     'total_price',
                                     (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
                                 )),
@@ -85,7 +90,7 @@ class CreateProject extends CreateRecord
                                 ->prefix('$')
                                 ->default(0)
                                 ->live(onBlur: true)
-                                ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
+                                ->afterStateUpdated(fn(Get $get, Set $set): mixed => $set(
                                     'total_price',
                                     (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
                                 )),
@@ -116,7 +121,7 @@ class CreateProject extends CreateRecord
                             'min' => 'At least one project member is required.',
                         ])
                         ->addActionLabel('Add project member')
-                        ->itemLabel(fn (array $state): ?string => filled($state['user_id'] ?? null)
+                        ->itemLabel(fn(array $state): ?string => filled($state['user_id'] ?? null)
                             ? User::find($state['user_id'])?->name
                             : 'New member')
                         ->schema([
@@ -152,13 +157,13 @@ class CreateProject extends CreateRecord
                                         ->default('staff')
                                         ->required(),
                                 ])
-                                ->createOptionAction(fn (Forms\Components\Actions\Action $action): Forms\Components\Actions\Action => $action
+                                ->createOptionAction(fn(Forms\Components\Actions\Action $action): Forms\Components\Actions\Action => $action
                                     ->modalDescription('Create a new user to be added directly as a project member.')
                                     ->modalFooterActionsAlignment(Alignment::End)
                                     ->extraModalWindowAttributes([
                                         'class' => 'architeca-project-modal',
                                     ]))
-                                ->createOptionUsing(fn (array $data): int => User::create($data)->getKey()),
+                                ->createOptionUsing(fn(array $data): int => User::create($data)->getKey()),
                             Forms\Components\Select::make('role')
                                 ->label('Role in Project')
                                 ->options([
@@ -179,10 +184,10 @@ class CreateProject extends CreateRecord
                 ->schema([
                     Forms\Components\Placeholder::make('project_summary')
                         ->label('Project')
-                        ->content(fn (Get $get): string => $get('name') ?: '-'),
+                        ->content(fn(Get $get): string => $get('name') ?: '-'),
                     Forms\Components\Placeholder::make('related_summary')
                         ->label('Additional Data')
-                        ->content(fn (Get $get): string => sprintf(
+                        ->content(fn(Get $get): string => sprintf(
                             '%d budget item, %d member',
                             count($get('budgetItems') ?? []),
                             count($get('members') ?? []),
@@ -201,7 +206,7 @@ class CreateProject extends CreateRecord
                 ->label('Skip')
                 ->icon('heroicon-o-forward')
                 ->color('gray')
-                ->action(fn ($livewire): mixed => $livewire->dispatchFormEvent(
+                ->action(fn($livewire): mixed => $livewire->dispatchFormEvent(
                     'wizard::nextStep',
                     'data',
                     $stepIndex,

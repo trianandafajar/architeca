@@ -17,7 +17,7 @@ filament()->hasDarkModeForced(),
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v={{ time() }}">
 
     @php
     $title = trim(strip_tags(($livewire ?? null)?->getTitle() ?? ''));

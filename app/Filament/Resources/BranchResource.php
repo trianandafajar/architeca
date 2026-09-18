@@ -107,7 +107,7 @@ class BranchResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\EditAction::make()->icon('heroicon-o-pencil'),
                 ])
                     ->icon('heroicon-m-ellipsis-vertical')
                     ->tooltip('Actions'),

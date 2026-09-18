@@ -124,7 +124,7 @@ class RoleResource extends Resource implements HasShieldPermissions
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->icon('heroicon-o-pencil'),
                 // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

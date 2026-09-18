@@ -51,10 +51,10 @@ class UserResource extends Resource
                             ->afterStateHydrated(function (Forms\Components\TextInput $component): void {
                                 $component->state(null);
                             })
-                            ->dehydrated(fn (?string $state): bool => filled($state))
-                            ->required(fn (string $operation): bool => $operation === 'create')
+                            ->dehydrated(fn(?string $state): bool => filled($state))
+                            ->required(fn(string $operation): bool => $operation === 'create')
                             ->maxLength(255)
-                            ->helperText(fn (string $operation): ?string => $operation === 'edit'
+                            ->helperText(fn(string $operation): ?string => $operation === 'edit'
                                 ? 'Leave empty to keep current password.'
                                 : null),
                         Forms\Components\TextInput::make('password_confirmation')
@@ -62,8 +62,8 @@ class UserResource extends Resource
                             ->password()
                             ->same('password')
                             ->dehydrated(false)
-                            ->required(fn (string $operation): bool => $operation === 'create')
-                            ->helperText(fn (string $operation): ?string => $operation === 'edit'
+                            ->required(fn(string $operation): bool => $operation === 'create')
+                            ->helperText(fn(string $operation): ?string => $operation === 'edit'
                                 ? 'Fill only if you want to change password.'
                                 : null),
                         Forms\Components\Select::make('branch_id')
@@ -74,8 +74,8 @@ class UserResource extends Resource
                             ->nullable(),
                         Forms\Components\Select::make('role')
                             ->label('Role')
-                            ->options(fn (): array => static::getRoleOptions())
-                            ->visible(fn (?User $record): bool => ! $record?->hasAnyRole(['admin', 'super_admin']))
+                            ->options(fn(): array => static::getRoleOptions())
+                            ->visible(fn(?User $record): bool => ! $record?->hasAnyRole(['admin', 'super_admin']))
                             ->required()
                             ->default('staff'),
                     ])
@@ -102,10 +102,10 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('role')
                     ->label('Role')
                     ->badge()
-                    ->state(fn (User $record): string => $record->getRoleNames()
-                        ->map(fn (string $role): string => Str::headline($role))
+                    ->state(fn(User $record): string => $record->getRoleNames()
+                        ->map(fn(string $role): string => Str::headline($role))
                         ->implode(', '))
-                    ->color(fn (User $record): string => match ($record->getRoleNames()->first()) {
+                    ->color(fn(User $record): string => match ($record->getRoleNames()->first()) {
                         'super_admin' => 'danger',
                         'admin' => 'warning',
                         'contractor' => 'success',
@@ -125,25 +125,30 @@ class UserResource extends Resource
                 Tables\Filters\SelectFilter::make('role')
                     ->label('Role')
                     ->relationship('roles', 'name')
-                    ->options(fn (): array => static::getRoleOptions()),
+                    ->options(fn(): array => static::getRoleOptions()),
                 Tables\Filters\SelectFilter::make('branch')
                     ->relationship('branch', 'name')
                     ->label('Branch')
                     ->preload(),
             ])
             ->actions([
-                Impersonate::make()
-                    ->color('primary')
-                    ->tooltip('Login as user')
-                    ->requiresConfirmation()
-                    ->modalHeading('Confirm Login')
-                    ->modalDescription('Are you sure you want to log in as this user?')
-                    ->modalSubmitActionLabel('Yes, Login')
-                    ->redirectTo(fn (User $record): string => $record->hasRole('contractor')
-                        ? url('/contractor')
-                        : url('/staff')),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Impersonate::make()
+                        ->label('Impersonate')
+                        ->grouped()
+                        ->icon('heroicon-o-user-circle')
+                        ->color('primary')
+                        ->tooltip('Login as user')
+                        ->requiresConfirmation()
+                        ->modalHeading('Confirm Login')
+                        ->modalDescription('Are you sure you want to log in as this user?')
+                        ->modalSubmitActionLabel('Yes, Login')
+                        ->redirectTo(fn(User $record): string => $record->hasRole('contractor')
+                            ? url('/contractor')
+                            : url('/staff')),
+                    Tables\Actions\EditAction::make()->icon('heroicon-o-pencil'),
+                    Tables\Actions\DeleteAction::make()->icon('heroicon-o-trash'),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -161,7 +166,7 @@ class UserResource extends Resource
             ->whereNotIn('name', ['panel_user', 'admin', 'super_admin'])
             ->orderBy('name')
             ->pluck('name', 'name')
-            ->mapWithKeys(fn (string $name): array => [$name => Str::headline($name)])
+            ->mapWithKeys(fn(string $name): array => [$name => Str::headline($name)])
             ->all();
     }
 

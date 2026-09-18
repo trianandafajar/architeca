@@ -153,12 +153,12 @@ class ProjectResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\ViewAction::make()->icon('heroicon-o-eye'),
+                    Tables\Actions\EditAction::make()->icon('heroicon-o-pencil'),
+                    Tables\Actions\DeleteAction::make()->icon('heroicon-o-trash'),
                     Tables\Actions\Action::make('changeStatus')
                         ->label('Change Status')
-                        ->icon('heroicon-m-pencil-square')
+                        ->icon('heroicon-o-tag')
                         ->action(function (Project $record, array $data): void {
                             $record->update(['status' => $data['status']]);
                         })
@@ -181,10 +181,10 @@ class ProjectResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->icon('heroicon-o-trash'),
                     Tables\Actions\BulkAction::make('changeStatus')
                         ->label('Change Status')
-                        ->icon('heroicon-m-pencil-square')
+                        ->icon('heroicon-o-tag')
                         ->action(function (Collection $records, array $data): void {
                             foreach ($records as $record) {
                                 $record->update(['status' => $data['status']]);

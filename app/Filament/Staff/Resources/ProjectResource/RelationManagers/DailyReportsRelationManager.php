@@ -25,9 +25,9 @@ class DailyReportsRelationManager extends ContractorDailyReportsRelationManager
         return parent::table($table)
             ->modifyQueryUsing(fn (Builder $query): Builder => $query->where('user_id', Auth::id()))
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make()->icon('heroicon-o-eye'),
+                Tables\Actions\EditAction::make()->icon('heroicon-o-pencil'),
+                Tables\Actions\DeleteAction::make()->icon('heroicon-o-trash'),
             ])
             ->bulkActions([]);
     }

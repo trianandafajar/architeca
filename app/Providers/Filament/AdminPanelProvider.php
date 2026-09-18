@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(\App\Filament\Pages\Auth\Login::class)
+            ->passwordReset()
             ->colors([
                 'primary' => Color::hex('#8B4513'),
                 'gray' => Color::Slate,

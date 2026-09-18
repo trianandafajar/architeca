@@ -56,7 +56,7 @@
                 <div>
                     <div class="mb-2 flex items-center justify-between">
                         <label for="data.password" class="block text-sm font-medium text-[#2D1810]">Password</label>
-                        <a href="#" class="text-sm font-medium text-[#8B4513] hover:underline">Forgot password?</a>
+                        <a href="{{ filament()->getRequestPasswordResetUrl() }}" class="text-sm font-medium text-[#8B4513] hover:underline">Forgot password?</a>
                     </div>
                     <div style="position: relative;">
                         <x-heroicon-o-lock-closed class="h-5 w-5 text-[#B8A98F]"

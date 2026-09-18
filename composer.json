@@ -11,6 +11,8 @@
         "filament/filament": "^3.2",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
+        "resend/resend-laravel": "*",
+        "resend/resend-php": "*",
         "stechstudio/filament-impersonate": "^3.16"
     },
     "require-dev": {

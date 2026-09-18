@@ -17,31 +17,14 @@ $borderPosition = $position === 'top' ? 'bottom' : 'top';
     }
 
     html {
-        margin- {
-                {
-                $position
-            }
-        }
-
-        : var(--architeca-impersonate-banner-height);
+        margin-top: var(--architeca-impersonate-banner-height);
     }
 
     #impersonate-banner {
-        position: {
-                {
-                $fixed ? 'fixed': 'absolute'
-            }
-        }
-
-        ;
-
-            {
-                {
-                $position
-            }
-        }
-
-        : 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
         width: 100%;
         min-height: var(--architeca-impersonate-banner-height);
         display: flex;
@@ -51,15 +34,8 @@ $borderPosition = $position === 'top' ? 'bottom' : 'top';
         padding: .35rem 1rem;
         background: var(--primary, #8b4513);
         color: var(--primary-foreground, #fff);
-
-        border- {
-                {
-                $borderPosition
-            }
-        }
-
-        : 1px solid var(--primary-700, #672d0f);
-        z-index: 45;
+        border-bottom: 1px solid var(--primary-700, #672d0f);
+        z-index: 100;
         font-size: .875rem;
     }
 
@@ -82,18 +58,48 @@ $borderPosition = $position === 'top' ? 'bottom' : 'top';
         background: var(--primary-900, #462012);
     }
 
-    @if ($fixed) div.fi-layout>aside.fi-sidebar {
-        height: calc(100vh - var(--architeca-impersonate-banner-height));
+    html {
+        margin-top: var(--architeca-impersonate-banner-height);
     }
 
-    @if ($position ==='top') .fi-topbar,
-    div.fi-layout>aside.fi-sidebar {
-        top: var(--architeca-impersonate-banner-height);
+    @if ($fixed) 
+    .fi-main-ctn > header {
+        position: fixed !important;
+        top: var(--architeca-impersonate-banner-height) !important;
+        left: 0;
+        right: 0;
+        height: 4rem;
+        z-index: 35;
     }
-
-    @endif @endif @media print {
+    .fi-main-ctn {
+        padding-top: calc(var(--architeca-impersonate-banner-height) + 4rem);
+    }
+    aside.fi-sidebar {
+        top: var(--architeca-impersonate-banner-height) !important;
+        height: calc(100vh - var(--architeca-impersonate-banner-height)) !important;
+        z-index: 40;
+    }
+    @endif     @media print {
         #impersonate-banner {
             display: none;
+        }
+    }
+    @media (max-width: 640px) {
+        #impersonate-banner {
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.25rem;
+        }
+        #impersonate-banner span {
+            font-size: 0.7rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 90%;
+        }
+        #impersonate-banner a {
+            padding: 0.1rem 0.5rem;
+            font-size: 0.7rem;
         }
     }
 </style>

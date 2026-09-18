@@ -244,7 +244,7 @@ html.dark {
     gap: 0;
 }
 
-.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers > .fi-tabs {
+.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers>.fi-tabs {
     align-self: flex-start;
     width: 100%;
     max-width: 100%;
@@ -265,12 +265,12 @@ html.dark {
     color: var(--primary-foreground);
 }
 
-.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers > div[role='tabpanel'] {
+.fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers>div[role='tabpanel'] {
     padding: 1.5rem;
     padding-bottom: 3rem;
 }
 
-.fi-resource-edit-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers > .fi-form {
+.fi-resource-edit-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers>.fi-form {
     padding: 1rem;
 }
 
@@ -371,7 +371,7 @@ html.dark {
     background: #fffaf5;
 }
 
-.fi-resource-create-record-page.fi-resource-projects .fi-fo-wizard > .flex.items-center.justify-between {
+.fi-resource-create-record-page.fi-resource-projects .fi-fo-wizard>.flex.items-center.justify-between {
     margin-top: 0;
     padding: 1rem 1.5rem 1.25rem;
     border-top: 1px solid var(--border);
@@ -432,7 +432,7 @@ html.dark {
         grid-template-columns: 1fr;
     }
 
-    .fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers > div[role='tabpanel'] {
+    .fi-resource-view-record-page.fi-resource-projects .architeca-project-tabs-shell .fi-resource-relation-managers>div[role='tabpanel'] {
         padding: 1rem;
     }
 
@@ -446,4 +446,8 @@ html.dark {
 button:not(:disabled),
 [role='button']:not(:disabled) {
     cursor: pointer;
+}
+
+.fi-input-wrp:focus-within {
+    box-shadow: 0 0 0 2px var(--primary) !important;
 }

@@ -12,51 +12,51 @@
     --card-foreground: #1c1917;
     --popover: #ffffff;
     --popover-foreground: #1c1917;
-    --primary: #8b4513;
+    --primary: #F97316;
     --primary-foreground: #ffffff;
-    --secondary: #f5f0eb;
-    --secondary-foreground: #2d1810;
-    --muted: #f5f0eb;
-    --muted-foreground: #8b7355;
-    --accent: #f5f0eb;
-    --accent-foreground: #2d1810;
+    --secondary: #fff7ed;
+    --secondary-foreground: #7c2d12;
+    --muted: #fff7ed;
+    --muted-foreground: #c2410c;
+    --accent: #fff7ed;
+    --accent-foreground: #7c2d12;
     --destructive: #dc2626;
-    --border: #e5ddd3;
-    --input: #e5ddd3;
-    --ring: #8b4513;
-    --chart-1: #8b4513;
-    --chart-2: #c0875a;
-    --chart-3: #672d0f;
-    --chart-4: #d4a574;
-    --chart-5: #462012;
+    --border: #fed7aa;
+    --input: #fed7aa;
+    --ring: #F97316;
+    --chart-1: #F97316;
+    --chart-2: #fb923c;
+    --chart-3: #ea580c;
+    --chart-4: #fdba74;
+    --chart-5: #9a3412;
 
-    --sidebar: #2d1810;
-    --sidebar-foreground: #f5e6d3;
-    --sidebar-primary: #c0875a;
+    --sidebar: #3c4a45;
+    --sidebar-foreground: #e5e7eb;
+    --sidebar-primary: #F97316;
     --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #8b4513;
+    --sidebar-accent: #F97316;
     --sidebar-accent-foreground: #ffffff;
-    --sidebar-border: #462012;
-    --sidebar-ring: #8b4513;
+    --sidebar-border: #2d3834;
+    --sidebar-ring: #F97316;
 
-    --primary-50: 253 248 243;
-    --primary-100: 251 238 217;
-    --primary-200: 245 213 179;
-    --primary-300: 238 190 140;
-    --primary-400: 228 158 97;
-    --primary-500: 139 69 19;
-    --primary-600: 124 58 17;
-    --primary-700: 103 45 15;
-    --primary-800: 84 37 17;
-    --primary-900: 70 32 18;
-    --primary-950: 38 14 8;
+    --primary-50: 255 247 237;
+    --primary-100: 254 235 208;
+    --primary-200: 253 186 116;
+    --primary-300: 251 146 60;
+    --primary-400: 249 115 22;
+    --primary-500: 249 115 22;
+    --primary-600: 234 88 12;
+    --primary-700: 194 65 12;
+    --primary-800: 154 52 18;
+    --primary-900: 124 45 18;
+    --primary-950: 69 26 3;
 }
 
 html.dark {
     color-scheme: light;
 }
 
-/* --- Filament component overrides: sidebar coklat gelap, konten putih --- */
+/* --- Filament component overrides: sidebar gelap, konten putih --- */
 
 .fi-sidebar {
     background-color: var(--sidebar);
@@ -79,7 +79,7 @@ html.dark {
 }
 
 .fi-sidebar-item:hover {
-    background-color: rgb(192 135 90 / 0.15);
+    background-color: rgb(var(--sidebar-accent) / 0.2);
     color: var(--sidebar-foreground);
 }
 

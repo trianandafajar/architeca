@@ -80,18 +80,17 @@ $hasTopNav = filament()->hasTopNavigation();
                                 ? false
                                 : { content: @js($item->getLabel()), placement: 'right', theme: $store.theme }
                         " x-tooltip.html="tooltip" @endif
-                        @class([ 'flex items-center gap-3 rounded-lg py-2.5 px-4 text-sm font-medium transition-colors'
-                        , 'bg-[#f97316] text-white shadow-sm'=> $item->isActive(),
-                        'text-[#e5e7eb] hover:bg-white/10 hover:text-white' => ! $item->isActive(),
+                        @class([
+                            'flex items-center gap-3 rounded-lg py-2.5 px-4 text-sm font-medium transition-colors',
+                            // active styling handled by x-bind below
+                            'text-[#e5e7eb] hover:bg-[#f97316]/20 hover:text-white' => ! $item->isActive(),
                         ])
                         @if ($item->isActive()) aria-current="page" @endif
                         @if ($collapsibleOnDesktop || $fullyCollapsible)
                         x-bind:class="
-                        $store.sidebar.isOpen
-                        ? (@js($item->isActive()) ? 'bg-[#f97316] text-white' : 'hover:bg-[#f97316]/20
-                        hover:text-white')
-                        : (@js($item->isActive()) ? 'justify-center px-0 bg-[#f97316] text-white' : 'justify-center px-0
-                        hover:bg-[#f97316]/20 hover:text-white')
+                            $store.sidebar.isOpen
+                                ? (@js($item->isActive()) ? 'bg-[#f97316] text-white px-4 justify-start' : 'text-[#e5e7eb] hover:bg-[#f97316]/20 hover:text-white px-4 justify-start')
+                                : (@js($item->isActive()) ? 'bg-transparent text-[#f97316] p-2 justify-center' : 'text-[#e5e7eb] hover:bg-[#f97316]/20 hover:text-white p-2 justify-center')
                         "
                         x-bind:title="$store.sidebar.isOpen ? '' : @js($item->getLabel())"
                         @endif

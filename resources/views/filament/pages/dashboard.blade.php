@@ -23,14 +23,14 @@ return '$' . number_format($value, 0);
 
     {{-- stat cards --}}
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-lg border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+        <div class="rounded-lg border border-border bg-card p-6">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Total Projects</p>
                     <p class="mt-2 text-3xl font-bold tracking-tight text-foreground">{{ $totalProjects }}</p>
                 </div>
-                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                    <x-heroicon-o-building-office-2 class="h-5 w-5 text-primary" />
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
+                    <x-heroicon-o-building-office-2 class="h-5 w-5 text-orange-600" />
                 </div>
             </div>
             <div class="mt-4 flex items-center text-xs">
@@ -41,15 +41,15 @@ return '$' . number_format($value, 0);
             </div>
         </div>
 
-        <div class="rounded-lg border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+        <div class="rounded-lg border border-border bg-card p-6">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Total Budget</p>
                     <p class="mt-2 text-3xl font-bold tracking-tight text-foreground">{{ formatCurrency($totalBudget) }}
                     </p>
                 </div>
-                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
-                    <x-heroicon-o-banknotes class="h-5 w-5 text-blue-600" />
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
+                    <x-heroicon-o-banknotes class="h-5 w-5 text-orange-600" />
                 </div>
             </div>
             <div class="mt-4 flex items-center text-xs text-muted-foreground">
@@ -57,15 +57,15 @@ return '$' . number_format($value, 0);
             </div>
         </div>
 
-        <div class="rounded-lg border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+        <div class="rounded-lg border border-border bg-card p-6">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Total Expenses</p>
                     <p class="mt-2 text-3xl font-bold tracking-tight text-foreground">{{ formatCurrency($totalExpenses)
                         }}</p>
                 </div>
-                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-500/10">
-                    <x-heroicon-o-receipt-percent class="h-5 w-5 text-red-600" />
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
+                    <x-heroicon-o-receipt-percent class="h-5 w-5 text-orange-600" />
                 </div>
             </div>
             <div class="mt-4 flex items-center text-xs">
@@ -76,14 +76,14 @@ return '$' . number_format($value, 0);
             </div>
         </div>
 
-        <div class="rounded-lg border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+        <div class="rounded-lg border border-border bg-card p-6">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Average Progress</p>
                     <p class="mt-2 text-3xl font-bold tracking-tight text-foreground">{{ $avgProgress }}%</p>
                 </div>
-                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/10">
-                    <x-heroicon-o-chart-bar class="h-5 w-5 text-amber-600" />
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
+                    <x-heroicon-o-chart-bar class="h-5 w-5 text-orange-600" />
                 </div>
             </div>
             <div class="mt-4">
@@ -122,8 +122,7 @@ return '$' . number_format($value, 0);
         <div class="xl:col-span-2 rounded-lg border border-border bg-card shadow-sm">
             <div class="flex items-center justify-between border-b border-border px-6 py-4">
                 <h3 class="text-sm font-semibold text-foreground">Recent Projects</h3>
-                <a href="admin/projects"
-                    class="text-xs font-medium text-primary hover:underline">
+                <a href="admin/projects" class="text-xs font-medium text-primary hover:underline">
                     View all
                 </a>
             </div>
@@ -256,11 +255,11 @@ return '$' . number_format($value, 0);
     const expenseData = {!! json_encode($expensesByCategory) !!};
     const monthlyData  = {!! json_encode($monthlyExpenses) !!};
 
-    const brownPalette = [
-        'rgba(139, 69, 19, 0.85)',
-        'rgba(192, 135, 90, 0.80)',
-        'rgba(212, 165, 116, 0.75)',
-        'rgba(103, 45, 15, 0.80)',
+    const orangePallete = [
+        'rgba(249, 115, 22, 0.85)',
+        'rgba(251, 146, 60, 0.80)',
+        'rgba(253, 186, 116, 0.75)',
+        'rgba(234, 88, 12, 0.80)',
     ];
 
     const gridColor = '#e5ddd3';
@@ -273,7 +272,7 @@ return '$' . number_format($value, 0);
             datasets: [{
                 label: 'Amount (USD)',
                 data: expenseData.map(d => d.value),
-                backgroundColor: expenseData.map((_, i) => brownPalette[i % brownPalette.length]),
+                backgroundColor: expenseData.map((_, i) => orangePallete[i % orangePallete.length]),
                 borderRadius: 6,
                 maxBarThickness: 48,
             }],
@@ -328,14 +327,14 @@ return '$' . number_format($value, 0);
             datasets: [{
                 label: 'Expenses (USD)',
                 data: monthlyData.map(d => d.value),
-                borderColor: '#8b4513',
-                backgroundColor: 'rgba(139, 69, 19, 0.08)',
+                borderColor: '#f97316',
+                backgroundColor: 'rgba(249, 115, 22, 0.08)',
                 borderWidth: 2.5,
                 fill: true,
                 tension: 0.4,
                 pointRadius: 5,
                 pointHoverRadius: 7,
-                pointBackgroundColor: '#8b4513',
+                pointBackgroundColor: '#f97316',
                 pointBorderColor: '#fff',
                 pointBorderWidth: 2,
             }],

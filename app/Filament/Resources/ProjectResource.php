@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
+use App\Filament\Pages\Reports;
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -16,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
+use Filament\Navigation\NavigationItem;
 
 class ProjectResource extends Resource
 {
@@ -37,6 +39,18 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema(static::getProjectFormSchema());
+    }
+
+    public static function getNavigationItems(): array
+    {
+        return collect(parent::getNavigationItems())
+            ->map(fn(NavigationItem $item) => $item->isActiveWhen(
+                fn(): bool => request()->routeIs(
+                    static::getRouteBaseName() . '.*',
+                    Reports::getRouteName(),
+                )
+            ))
+            ->all();
     }
 
     /**
@@ -174,6 +188,10 @@ class ProjectResource extends Resource
                     Tables\Actions\ViewAction::make()->icon('heroicon-o-eye'),
                     Tables\Actions\EditAction::make()->icon('heroicon-o-pencil'),
                     Tables\Actions\DeleteAction::make()->icon('heroicon-o-trash'),
+                    Tables\Actions\Action::make('viewReports')
+                        ->label('Reports')
+                        ->icon('heroicon-o-document-chart-bar')
+                        ->url(fn(Project $record): string => Reports::getUrl(['record' => $record->id])),
                     Tables\Actions\Action::make('changeStatus')
                         ->label('Change Status')
                         ->icon('heroicon-o-tag')

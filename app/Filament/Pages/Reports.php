@@ -11,13 +11,17 @@ use Illuminate\Support\Facades\DB;
 
 class Reports extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-bar';
-
     protected static string $view = 'filament.admin.pages.reports';
 
-    protected static ?string $navigationGroup = 'Project';
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 
-    protected static ?int $navigationSort = 3;
+    public static function getNavigationParentItem(): ?string
+    {
+        return 'Projects';
+    }
 
     protected static ?string $title = 'Project Reports';
 

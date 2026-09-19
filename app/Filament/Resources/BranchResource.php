@@ -17,7 +17,10 @@ class BranchResource extends Resource
 {
     protected static ?string $model = Branch::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
+    public static function canViewAny(): bool
+    {
+        return false;
+    }
 
     protected static ?int $navigationSort = 1;
 

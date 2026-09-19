@@ -61,7 +61,19 @@ class ProjectResource extends Resource
                         ->relationship('branch', 'name')
                         ->searchable()
                         ->preload()
-                        ->nullable(),
+                        ->nullable()
+                        ->createOptionForm([
+                            Forms\Components\TextInput::make('name')->required(),
+                            Forms\Components\TextInput::make('code')->required(),
+                            Forms\Components\TextInput::make('location')->nullable(),
+                            Forms\Components\Textarea::make('description')->nullable(),
+                            Forms\Components\Toggle::make('is_active')
+                                ->label('Active')
+                                ->onColor('success')
+                                ->offColor('danger')
+                                ->default(true)
+                                ->inline(false),
+                        ]),
                     Forms\Components\TextInput::make('location')
                         ->label('Location')
                         ->maxLength(255)
@@ -182,8 +194,8 @@ class ProjectResource extends Resource
                                 ->required(),
                         ]),
                 ])
-                ->icon('heroicon-m-ellipsis-vertical')
-                ->tooltip('Actions'),
+                    ->icon('heroicon-m-ellipsis-vertical')
+                    ->tooltip('Actions'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -217,6 +229,7 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
+            RelationManagers\TasksRelationManager::class,
             RelationManagers\BudgetItemsRelationManager::class,
             RelationManagers\ProgressUpdatesRelationManager::class,
             RelationManagers\DailyReportsRelationManager::class,

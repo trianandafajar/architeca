@@ -75,47 +75,32 @@ $items = \Illuminate\Support\Arr::except($items, ['account', 'logout', 'profile'
     </x-filament::dropdown.list>
 </x-filament::dropdown>
 
-<x-filament::modal id="logout-modal" width="md" alignment="center" :close-by-clicking-away="false"
-        icon="heroicon-o-arrow-right-start-on-rectangle" icon-color="danger">
-        <x-slot name="heading">
-            Confirm Logout
-        </x-slot>
+<x-filament::modal id="logout-modal" width="md" :close-by-clicking-away="false">
+    <x-slot name="heading">
+        Sign Out
+    </x-slot>
 
-        <x-slot name="description">
-            <div class="space-y-3">
-                <p class="text-center text-sm text-gray-500 dark:text-gray-400">You are about to log out from your account.</p>
-                <div class="mx-auto flex items-center gap-3 rounded-xl bg-gray-50 px-4 py-3 dark:bg-white/5">
-                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8B4513] text-sm font-semibold text-white">
-                        {{ strtoupper(substr($user->name, 0, 1)) }}
-                    </div>
-                    <div class="min-w-0 text-left">
-                        <p class="truncate text-sm font-medium text-gray-900 dark:text-white">{{ $user->name }}</p>
-                        <p class="truncate text-xs text-gray-500 dark:text-gray-400">{{ $user->email }}</p>
-                    </div>
-                </div>
-            </div>
-        </x-slot>
+    <x-slot name="description">
+        <p class="text-sm text-gray-500">
+            Are you sure you want to sign out of your account?
+        </p>
+    </x-slot>
 
-        <x-slot name="footerActions" class="flex justify-center gap-3">
+    <x-slot name="footer">
+        <div class="flex justify-end gap-3">
             <x-filament::button color="gray" x-on:click="$dispatch('close-modal', { id: 'logout-modal' })">
                 Cancel
             </x-filament::button>
             <form method="post" action="{{ $logoutItem?->getUrl() ?? filament()->getLogoutUrl() }}"
                 x-data="{ loading: false }" @submit="loading = true" class="contents">
                 @csrf
-                <x-filament::button color="danger" type="submit" x-bind:disabled="loading"
-                    x-bind:class="loading ? 'cursor-wait opacity-70' : ''">
-                    <span x-show="! loading" class="flex items-center gap-2">
-                        <x-heroicon-o-arrow-right-start-on-rectangle class="h-4 w-4" />
-                        Logout
-                    </span>
-                    <span x-show="loading" class="flex items-center gap-2">
-                        <x-heroicon-m-arrow-path class="h-4 w-4 animate-spin text-white" />
-                        Logging out...
-                    </span>
+                <x-filament::button color="danger" type="submit" x-bind:disabled="loading">
+                    <span x-show="! loading">Sign Out</span>
+                    <span x-show="loading">Signing out...</span>
                 </x-filament::button>
             </form>
-        </x-slot>
-    </x-filament::modal>
+        </div>
+    </x-slot>
+</x-filament::modal>
 
 {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::USER_MENU_AFTER) }}

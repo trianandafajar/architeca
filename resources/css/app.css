@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+[wire\:loading].btn-action,
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}

@@ -14,6 +14,14 @@ class CreateRole extends CreateRecord
 
     public Collection $permissions;
 
+    protected function getCreateFormAction(): \Filament\Actions\Action
+    {
+        return parent::getCreateFormAction()
+            ->extraAttributes([
+                'class' => 'disabled:opacity-50 disabled:cursor-not-allowed',
+            ]);
+    }
+
     protected function getRedirectUrl(): string
     {
         return static::getResource()::getUrl('index');

@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
-use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateUser extends CreateRecord
@@ -13,6 +13,14 @@ class CreateUser extends CreateRecord
     public function getSubheading(): ?string
     {
         return 'Create a new user account with the appropriate role and access.';
+    }
+
+    protected function getCreateFormAction(): Action
+    {
+        return parent::getCreateFormAction()
+            ->extraAttributes([
+                'class' => 'disabled:opacity-50 disabled:cursor-not-allowed',
+            ]);
     }
 
     protected function getRedirectUrl(): string

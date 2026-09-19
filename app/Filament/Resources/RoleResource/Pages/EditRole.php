@@ -25,7 +25,10 @@ class EditRole extends EditRecord
     protected function getActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->extraAttributes([
+                    'class' => 'disabled:opacity-50 disabled:cursor-not-allowed',
+                ]),
         ];
     }
 

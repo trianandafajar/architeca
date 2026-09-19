@@ -29,9 +29,29 @@ class CreateProject extends CreateRecord
         return Alignment::End;
     }
 
+    protected function getWizardNextAction(): Action
+    {
+        return parent::getWizardNextAction()
+            ->extraAttributes([
+                'class' => 'disabled:opacity-50 disabled:cursor-not-allowed',
+            ]);
+    }
+
+    protected function getWizardPreviousAction(): Action
+    {
+        return parent::getWizardPreviousAction()
+            ->extraAttributes([
+                'class' => 'disabled:opacity-50 disabled:cursor-not-allowed',
+            ]);
+    }
+
     protected function getCreateFormAction(): Action
     {
-        return parent::getCreateFormAction()->color('primary');
+        return parent::getCreateFormAction()
+            ->extraAttributes([
+                'class' => 'disabled:opacity-50 disabled:cursor-not-allowed',
+            ])
+            ->color('primary');
     }
 
     protected function mutateFormDataBeforeCreate(array $data): array

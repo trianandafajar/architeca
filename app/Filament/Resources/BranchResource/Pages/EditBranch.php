@@ -13,7 +13,10 @@ class EditBranch extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->extraAttributes([
+                    'class' => 'disabled:opacity-50 disabled:cursor-not-allowed',
+                ]),
         ];
     }
 }

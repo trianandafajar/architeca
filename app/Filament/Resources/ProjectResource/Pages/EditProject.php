@@ -54,7 +54,10 @@ class EditProject extends EditRecord
 
     protected function getSaveFormAction(): Action
     {
-        return parent::getSaveFormAction()->color('primary');
+        return parent::getSaveFormAction()
+            ->extraAttributes([
+                'class' => 'disabled:opacity-50 disabled:cursor-not-allowed',
+            ]);
     }
 
     protected function getHeaderActions(): array

@@ -11,6 +11,14 @@ class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;
 
+    protected function getSaveFormAction(): Actions\Action
+    {
+        return parent::getSaveFormAction()
+            ->extraAttributes([
+                'class' => 'disabled:opacity-50 disabled:cursor-not-allowed',
+            ]);
+    }
+
     protected function getHeaderActions(): array
     {
         return [
@@ -25,7 +33,10 @@ class EditUser extends EditRecord
                 ->redirectTo(fn (): string => $this->getRecord()->hasRole('contractor')
                     ? url('/contractor')
                     : url('/staff')),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->extraAttributes([
+                    'class' => 'disabled:opacity-50 disabled:cursor-not-allowed',
+                ]),
         ];
     }
 

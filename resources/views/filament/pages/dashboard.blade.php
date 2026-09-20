@@ -12,7 +12,7 @@ return '$' . number_format($value, 0);
     {{-- header --}}
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-bold tracking-tight text-foreground">Dashboard</h1>
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-2">Dashboard</h1>
             <p class="mt-1 text-sm text-muted-foreground">Welcome back, {{ auth()->user()->name }}. Here's an overview
                 of your projects.</p>
         </div>
@@ -23,7 +23,7 @@ return '$' . number_format($value, 0);
 
     {{-- stat cards --}}
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-lg border border-border bg-card p-6">
+        <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Total Projects</p>
@@ -41,7 +41,7 @@ return '$' . number_format($value, 0);
             </div>
         </div>
 
-        <div class="rounded-lg border border-border bg-card p-6">
+        <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Total Budget</p>
@@ -57,7 +57,7 @@ return '$' . number_format($value, 0);
             </div>
         </div>
 
-        <div class="rounded-lg border border-border bg-card p-6">
+        <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Total Expenses</p>
@@ -76,7 +76,7 @@ return '$' . number_format($value, 0);
             </div>
         </div>
 
-        <div class="rounded-lg border border-border bg-card p-6">
+        <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Average Progress</p>
@@ -99,7 +99,7 @@ return '$' . number_format($value, 0);
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
 
         {{-- bar chart --}}
-        <div class="rounded-lg border border-border bg-card p-6 shadow-sm">
+        <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
             <h3 class="text-sm font-semibold text-foreground">Expenses by Category</h3>
             <p class="mb-4 text-xs text-muted-foreground">Spending breakdown across all projects.</p>
             <div class="relative" style="height:300px">
@@ -108,7 +108,7 @@ return '$' . number_format($value, 0);
         </div>
 
         {{-- line chart --}}
-        <div class="rounded-lg border border-border bg-card p-6 shadow-sm">
+        <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
             <h3 class="text-sm font-semibold text-foreground">Budget Usage</h3>
             <p class="mb-4 text-xs text-muted-foreground">Monthly expense trend across projects.</p>
             <div class="relative" style="height:300px">
@@ -222,7 +222,7 @@ return '$' . number_format($value, 0);
 
     {{-- progress by project --}}
     @if ($latestProgress->count())
-    <div class="rounded-lg border border-border bg-card p-6 shadow-sm">
+    <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
         <div class="mb-6">
             <h3 class="text-sm font-semibold text-foreground">Progress by Project</h3>
             <p class="mt-1 text-xs text-muted-foreground">Current completion status for each project.</p>

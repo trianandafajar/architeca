@@ -27,6 +27,7 @@ class ContractorPanelProvider extends PanelProvider
             ->id('contractor')
             ->path('contractor')
             ->login(\App\Filament\Pages\Auth\Login::class)
+            ->profile(\App\Filament\Pages\Auth\EditProfile::class)
             ->colors([
                 'primary' => Color::hex('#8B4513'),
                 'gray' => Color::Slate,

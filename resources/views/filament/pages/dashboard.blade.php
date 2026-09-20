@@ -126,7 +126,7 @@ return '$' . number_format($value, 0);
                     View all
                 </a>
             </div>
-            <div class="overflow-x-auto">
+            {{-- <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead class="bg-gray-100 dark:bg-gray-800">
                         <tr class="border-b border-border">
@@ -190,10 +190,10 @@ return '$' . number_format($value, 0);
                         @endforelse
                     </tbody>
                 </table>
-            </div>
+            </div> --}}
         </div>
 
-        <div class="rounded-lg border border-border bg-card shadow-sm">
+        {{-- <div class="rounded-lg border border-border bg-card shadow-sm">
             <div class="border-b border-border px-6 py-4">
                 <h3 class="text-sm font-semibold text-foreground">Recent Activity</h3>
             </div>
@@ -217,7 +217,7 @@ return '$' . number_format($value, 0);
                 <div class="px-6 py-12 text-center text-sm text-muted-foreground">No recent activity.</div>
                 @endforelse
             </div>
-        </div>
+        </div> --}}
     </div>
 
     {{-- progress by project --}}

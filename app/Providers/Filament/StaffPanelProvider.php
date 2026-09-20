@@ -42,7 +42,6 @@ class StaffPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')
             ->pages([
                 \App\Filament\Staff\Pages\Dashboard::class,
-                \App\Filament\Staff\Pages\DailyReport::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Staff/Widgets'), for: 'App\\Filament\\Staff\\Widgets')
             ->widgets([

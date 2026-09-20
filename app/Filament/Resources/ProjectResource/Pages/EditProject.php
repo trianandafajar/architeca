@@ -24,8 +24,6 @@ class EditProject extends EditRecord
     protected function getAllRelationManagers(): array
     {
         return [
-            \App\Filament\Resources\ProjectResource\RelationManagers\ProgressUpdatesRelationManager::class,
-            \App\Filament\Resources\ProjectResource\RelationManagers\DailyReportsRelationManager::class,
             \App\Filament\Resources\ProjectResource\RelationManagers\ExpensesRelationManager::class,
             \App\Filament\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager::class,
             \App\Filament\Resources\ProjectResource\RelationManagers\AttachmentsRelationManager::class,

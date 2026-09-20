@@ -19,8 +19,6 @@ class ViewProject extends ViewRecord
     protected function getAllRelationManagers(): array
     {
         return [
-            \App\Filament\Staff\Resources\ProjectResource\RelationManagers\ProgressUpdatesRelationManager::class,
-            \App\Filament\Staff\Resources\ProjectResource\RelationManagers\DailyReportsRelationManager::class,
             \App\Filament\Staff\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager::class,
             \App\Filament\Staff\Resources\ProjectResource\RelationManagers\AttachmentsRelationManager::class,
         ];

@@ -53,16 +53,6 @@ class Project extends Model
         return $this->hasMany(BudgetItem::class);
     }
 
-    public function progressUpdates(): HasMany
-    {
-        return $this->hasMany(ProgressUpdate::class);
-    }
-
-    public function dailyReports(): HasMany
-    {
-        return $this->hasMany(DailyReport::class);
-    }
-
     public function expenses(): HasMany
     {
         return $this->hasMany(Expense::class);

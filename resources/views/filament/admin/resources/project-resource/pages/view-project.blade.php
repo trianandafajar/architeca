@@ -5,14 +5,15 @@
         'fi-resource-record-' . $record->getKey(),
     ])
 >
-    @php
-        $latestProgress = $record->progressUpdates()->latest('progress_date')->value('percentage') ?? 0;
-        $totalExpenses = $record->expenses()->sum('amount');
-        $membersCount = $record->members()->count();
-        $attachmentsCount = $record->attachments()->count();
-        $relationManagers = $this->getRelationManagers();
-        $hasCombinedRelationManagerTabsWithContent = $this->hasCombinedRelationManagerTabsWithContent();
-    @endphp
+        @php
+            $latestTask = $record->tasks()->where('is_completed', true)->orderBy('updated_at', 'desc')->first();
+            $latestProgress = $latestTask ? ($record->tasks()->sum('percentage_weight') ? ($record->tasks()->where('is_completed', true)->sum('percentage_weight') / $record->tasks()->sum('percentage_weight')) * 100 : 0) : 0;
+            $totalExpenses = $record->expenses()->sum('amount');
+            $membersCount = $record->members()->count();
+            $attachmentsCount = $record->attachments()->count();
+            $relationManagers = $this->getRelationManagers();
+            $hasCombinedRelationManagerTabsWithContent = $this->hasCombinedRelationManagerTabsWithContent();
+        @endphp
 
     <div class="architeca-project-detail">
         <div class="architeca-kpi-grid" aria-label="Project key performance indicators">

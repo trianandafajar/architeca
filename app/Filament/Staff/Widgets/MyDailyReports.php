@@ -18,7 +18,7 @@ class MyDailyReports extends TableWidget
         return $table
             ->heading('My recent reports')
             ->description('Daily reports you have submitted.')
-            ->query(DailyReport::query()->with('project')->where('user_id', auth()->id()))
+            //         // ->query(DailyReport::query()->with('project')->where('user_id', auth()->id()))
             ->columns([
                 Tables\Columns\TextColumn::make('report_date')->label('Date')->date()->sortable(),
                 Tables\Columns\TextColumn::make('project.name')->label('Project')->limit(28)->searchable(),

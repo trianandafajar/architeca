@@ -2,9 +2,7 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\DailyReport;
 use App\Models\Expense;
-use App\Models\ProgressUpdate;
 use App\Models\Project;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Illuminate\Support\Carbon;
@@ -20,18 +18,19 @@ class Dashboard extends BaseDashboard
 
     public function getViewData(): array
     {
-        $projects = Project::with(['budgetItems', 'expenses', 'progressUpdates', 'dailyReports.user'])->get();
+        $projects = Project::with(['budgetItems', 'expenses', 'tasks'])->get();
 
         $totalBudget = $projects->sum('contract_value');
         $totalExpenses = Expense::sum('amount');
 
         $latestProgressByProject = $projects->map(function ($p) {
-            $latest = $p->progressUpdates->sortByDesc('progress_date')->first();
-
+            $completedWeight = $p->tasks->sum('percentage_weight') * ($p->tasks->where('is_completed', true)->count() > 0 ? 1 : 0);
+            $totalWeight = $p->tasks->sum('percentage_weight');
+            $progress = $totalWeight > 0 ? ($completedWeight / $totalWeight) * 100 : 0;
             return [
                 'name' => $p->name,
-                'progress' => $latest?->percentage ?? 0,
-                'date' => $latest?->progress_date,
+                'progress' => $progress,
+                'date' => now(),
             ];
         });
 
@@ -75,10 +74,10 @@ class Dashboard extends BaseDashboard
             'avgProgress' => round($latestProgressByProject->avg('progress') ?? 0),
             'recentProjects' => $projects->sortByDesc('created_at')->take(5),
             'latestProgress' => $latestProgressByProject,
-            'recentActivity' => DailyReport::with(['project', 'user'])
-                ->latest('report_date')
-                ->take(8)
-                ->get(),
+            // 'recentActivity' => DailyReport::with(['project', 'user'])
+            //     ->latest('report_date')
+            //     ->take(8)
+            //     ->get(),
             'expensesByCategory' => $expensesByCategory,
             'monthlyExpenses' => $monthlyExpenses,
         ];

@@ -255,8 +255,6 @@ class ProjectResource extends Resource
         return [
             RelationManagers\TasksRelationManager::class,
             RelationManagers\BudgetItemsRelationManager::class,
-            RelationManagers\ProgressUpdatesRelationManager::class,
-            RelationManagers\DailyReportsRelationManager::class,
             RelationManagers\ExpensesRelationManager::class,
             RelationManagers\ProjectMembersRelationManager::class,
             RelationManagers\AttachmentsRelationManager::class,

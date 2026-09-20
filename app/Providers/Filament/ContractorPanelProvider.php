@@ -42,7 +42,6 @@ class ContractorPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Contractor/Pages'), for: 'App\\Filament\\Contractor\\Pages')
             ->pages([
                 \App\Filament\Contractor\Pages\Dashboard::class,
-                \App\Filament\Contractor\Pages\Reports::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Contractor/Widgets'), for: 'App\\Filament\\Contractor\\Widgets')
             ->widgets([

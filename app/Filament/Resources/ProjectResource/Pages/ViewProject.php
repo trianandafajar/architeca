@@ -4,10 +4,8 @@ namespace App\Filament\Resources\ProjectResource\Pages;
 
 use App\Filament\Resources\ProjectResource;
 use App\Filament\Resources\ProjectResource\RelationManagers\AttachmentsRelationManager;
-use App\Filament\Resources\ProjectResource\RelationManagers\DailyReportsRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\ExpensesRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager;
-use App\Filament\Resources\ProjectResource\RelationManagers\ProgressUpdatesRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\TasksRelationManager;
 use Filament\Resources\Pages\ViewRecord;
 
@@ -32,8 +30,6 @@ class ViewProject extends ViewRecord
     {
         return [
             TasksRelationManager::class,
-            ProgressUpdatesRelationManager::class,
-            DailyReportsRelationManager::class,
             ExpensesRelationManager::class,
             ProjectMembersRelationManager::class,
             AttachmentsRelationManager::class,

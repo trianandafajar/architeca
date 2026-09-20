@@ -3,7 +3,7 @@
 namespace App\Filament\Contractor\Resources;
 
 use App\Filament\Contractor\Resources\ProjectResource\Pages;
-use App\Filament\Contractor\Resources\ProjectResource\RelationManagers;
+use App\Filament\Resources\ProjectResource\RelationManagers as BaseRelationManagers;
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -216,12 +216,11 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\BudgetItemsRelationManager::class,
-            RelationManagers\ProgressUpdatesRelationManager::class,
-            RelationManagers\DailyReportsRelationManager::class,
-            RelationManagers\ExpensesRelationManager::class,
-            RelationManagers\ProjectMembersRelationManager::class,
-            RelationManagers\AttachmentsRelationManager::class,
+            \App\Filament\Resources\ProjectResource\RelationManagers\TasksRelationManager::class,
+            \App\Filament\Contractor\Resources\ProjectResource\RelationManagers\BudgetItemsRelationManager::class,
+            \App\Filament\Contractor\Resources\ProjectResource\RelationManagers\ExpensesRelationManager::class,
+            \App\Filament\Contractor\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager::class,
+            \App\Filament\Contractor\Resources\ProjectResource\RelationManagers\AttachmentsRelationManager::class,
         ];
     }
 

@@ -20,7 +20,8 @@ class Dashboard extends BaseDashboard
 
     protected function getHeaderWidgets(): array
     {
-        return [StaffOverview::class];
+        // return [StaffOverview::class];
+        return [];
     }
 
     public function getHeaderWidgetsColumns(): int | string | array
@@ -31,8 +32,8 @@ class Dashboard extends BaseDashboard
     protected function getFooterWidgets(): array
     {
         return [
-            AssignedProgressChart::class,
-            MyDailyReports::class,
+            // AssignedProgressChart::class,
+            // MyDailyReports::class,
         ];
     }
 

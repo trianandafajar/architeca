@@ -194,7 +194,7 @@ class AttachmentsRelationManager extends RelationManager
         $records = match ($type) {
             (new Project)->getMorphClass() => collect([$project]),
             (new DailyReport)->getMorphClass() => $project->dailyReports()->latest('report_date')->get(),
-            (new ProgressUpdate)->getMorphClass() => $project->progressUpdates()->latest('progress_date')->get(),
+            // (new ProgressUpdate)->getMorphClass() => $project->progressUpdates()->latest('progress_date')->get(),
             (new Expense)->getMorphClass() => $project->expenses()->latest('expense_date')->get(),
             default => collect(),
         };

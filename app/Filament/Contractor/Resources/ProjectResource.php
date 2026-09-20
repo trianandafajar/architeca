@@ -151,15 +151,17 @@ class ProjectResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make()->icon('heroicon-o-eye'),
-                    Tables\Actions\EditAction::make()->icon('heroicon-o-pencil'),
-                    Tables\Actions\DeleteAction::make()->icon('heroicon-o-trash'),
-                    Tables\Actions\Action::make('changeStatus')
-                        ->label('Change Status')
-                        ->icon('heroicon-o-tag')
-                        ->action(function (Project $record, array $data): void {
-                            $record->update(['status' => $data['status']]);
-                        })
+                        Tables\Actions\ViewAction::make()
+                            ->icon('heroicon-o-eye')
+                            ->color('info'),
+                        Tables\Actions\EditAction::make()
+                            ->icon('heroicon-o-pencil')
+                            ->color('primary'),
+                        Tables\Actions\Action::make('changeStatus')
+                            ->label('Change Status')
+                            ->icon('heroicon-o-tag')
+                            ->color('warning')
+                            ->fillForm(fn(Project $record): array => ['status' => $record->status])
                         ->form([
                             Forms\Components\Select::make('status')
                                 ->label('Status')
@@ -172,9 +174,14 @@ class ProjectResource extends Resource
                                     'cancelled' => 'Cancelled',
                                 ])
                                 ->required(),
-                        ]),
+                        ])
+                        ->action(fn(Project $record, array $data) => $record->update(['status' => $data['status']])),
+                    Tables\Actions\DeleteAction::make()
+                        ->icon('heroicon-o-trash')
+                        ->color('danger'),
                 ])
                     ->icon('heroicon-m-ellipsis-vertical')
+                    ->color('gray')
                     ->tooltip('Actions'),
             ])
             ->bulkActions([

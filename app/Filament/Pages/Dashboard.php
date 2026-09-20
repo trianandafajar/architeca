@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 class Dashboard extends BaseDashboard
 {
+    protected static ?int $navigationSort = 1;
+
     protected static string $view = 'filament.pages.dashboard';
 
     protected static ?string $title = 'Dashboard';

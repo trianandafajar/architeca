@@ -1,7 +1,7 @@
 <x-filament-panels::page>
     @php($user = auth()->user())
 
-    <div class="pf">
+    <div class="pf" x-data="{}" x-on:refresh-header.window="window.location.reload()">
         <aside class="pf-card">
             <div class="pf-head">
                 <button type="button" wire:click="mountAction('changeAvatar')" class="pf-avatar" title="Change photo">

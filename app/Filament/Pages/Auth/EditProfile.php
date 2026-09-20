@@ -60,7 +60,7 @@ class EditProfile extends BaseEditProfile
                     ->description('Your name and email address.')
                     ->schema([
                         $this->getNameFormComponent(),
-                        $this->getEmailFormComponent(),
+                        $this->getEmailFormComponent()->disabled(),
                     ])
                     ->columns(2),
 
@@ -117,10 +117,25 @@ class EditProfile extends BaseEditProfile
             });
     }
 
-    public function getMaxContentWidth(): MaxWidth|string|null
+    public function save(): void
     {
-        return MaxWidth::Full;
+        $this->validate();
+
+        $data = $this->form->getState();
+
+        $user = auth()->user();
+        $user->update([
+            'name' => $data['name'],
+        ]);
+
+        Notification::make()
+            ->title('Profile updated')
+            ->success()
+            ->send();
+
+        $this->dispatch('refresh-header');
     }
+
 
     public function removeAvatarAction(): Action
     {

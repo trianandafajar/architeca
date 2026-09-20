@@ -190,7 +190,9 @@ class ProjectResource extends Resource
                         ->label('Reports')
                         ->icon('heroicon-o-document-chart-bar')
                         ->color('success')
-                        ->url(fn(Project $record): string => Reports::getUrl(['record' => $record->id])),
+                        ->url(fn(Project $record): string => Reports::getUrl(['record' => $record->id]))
+                        ->visible(fn () => auth()->user()->hasRole('contractor')),
+
                     Tables\Actions\EditAction::make()
                         ->icon('heroicon-o-pencil')
                         ->color('primary'),

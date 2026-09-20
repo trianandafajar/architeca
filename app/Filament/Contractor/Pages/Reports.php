@@ -14,7 +14,10 @@ class Reports extends Page
 
     protected static string $view = 'filament.contractor.pages.reports';
 
-    protected static ?string $title = 'Reports';
+    public static function canAccess(): bool
+    {
+        return false;
+    }
 
     protected static ?string $navigationLabel = 'Reports';
 

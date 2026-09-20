@@ -95,7 +95,7 @@
                 <h2 class="text-base font-semibold text-foreground">Recent activity</h2>
                 <p class="mt-1 text-xs text-muted-foreground">Latest reports from your projects.</p>
             </div>
-            <div class="divide-y divide-border">
+            {{-- <div class="divide-y divide-border">
                 @forelse ($recentActivity as $activity)
                     <div class="flex items-start gap-3 px-6 py-4">
                         <div class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10"><x-heroicon-o-document-text class="h-4 w-4 text-primary" /></div>
@@ -108,7 +108,7 @@
                 @empty
                     <div class="px-6 py-12 text-center text-sm text-muted-foreground">No recent activity.</div>
                 @endforelse
-            </div>
+            </div> --}}
         </div>
     </div>
 

@@ -24,7 +24,6 @@ class Dashboard extends BaseDashboard
             })
             ->with([
                 'expenses',
-                'progressUpdates',
                 'members',
                 'attachments',
             ])
@@ -35,15 +34,7 @@ class Dashboard extends BaseDashboard
         $totalBudget = (float) $projects->sum('contract_value');
         $totalExpenses = (float) $projects->sum(fn(Project $project) => $project->expenses->sum('amount'));
 
-        $latestProgress = $projects->map(function (Project $project): array {
-            $progress = $project->progressUpdates->sortByDesc('progress_date')->first();
-
-            return [
-                'project' => $project,
-                'percentage' => (float) ($progress?->percentage ?? 0),
-                'date' => $progress?->progress_date,
-            ];
-        });
+        $latestProgress = collect();
 
         return [
             'projects' => $projects,
@@ -52,14 +43,14 @@ class Dashboard extends BaseDashboard
             'totalBudget' => $totalBudget,
             'totalExpenses' => $totalExpenses,
             'budgetUsedPercent' => $totalBudget > 0 ? round(($totalExpenses / $totalBudget) * 100, 1) : 0,
-            'avgProgress' => round($latestProgress->avg('percentage') ?? 0),
+            'avgProgress' => 0,
             'latestProgress' => $latestProgress,
-            'recentActivity' => DailyReport::query()
-                ->with(['project', 'user'])
-                ->when($projectIds, fn($query) => $query->whereIn('project_id', $projectIds), fn($query) => $query->whereRaw('1 = 0'))
-                ->latest('report_date')
-                ->take(6)
-                ->get(),
+            // 'recentActivity' => DailyReport::query()
+            //     ->with(['project', 'user'])
+            //     ->when($projectIds, fn($query) => $query->whereIn('project_id', $projectIds), fn($query) => $query->whereRaw('1 = 0'))
+            //     ->latest('report_date')
+            //     ->take(6)
+            //     ->get(),
         ];
     }
 }

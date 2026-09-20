@@ -128,7 +128,7 @@ return '$' . number_format($value, 0);
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full">
-                    <thead>
+                    <thead class="bg-gray-100 dark:bg-gray-800">
                         <tr class="border-b border-border">
                             <th
                                 class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">

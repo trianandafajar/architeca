@@ -52,7 +52,7 @@
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[680px]">
-                    <thead class="bg-muted/40">
+                    <thead class="border-b border-border bg-muted/60">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Project</th>
                             <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Status</th>

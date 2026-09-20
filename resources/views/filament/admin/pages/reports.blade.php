@@ -64,7 +64,7 @@
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-                    <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-800/50 dark:text-gray-300">
+                    <thead class="bg-gray-100 text-xs uppercase text-gray-800 dark:bg-gray-700 dark:text-gray-200">
                         <tr>
                             <th class="px-6 py-3">Project Name</th>
                             <th class="px-6 py-3">Budget</th>
@@ -107,7 +107,7 @@
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-                    <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-800/50 dark:text-gray-300">
+                    <thead class="bg-gray-100 text-xs uppercase text-gray-800 dark:bg-gray-700 dark:text-gray-200">
                         <tr>
                             <th class="px-6 py-3">Project</th>
                             <th class="px-6 py-3">Latest Progress</th>
@@ -144,7 +144,7 @@
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-                    <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-800/50 dark:text-gray-300">
+                    <thead class="bg-gray-100 text-xs uppercase text-gray-800 dark:bg-gray-700 dark:text-gray-200">
                         <tr>
                             <th class="px-6 py-3">Date</th>
                             <th class="px-6 py-3">Project</th>

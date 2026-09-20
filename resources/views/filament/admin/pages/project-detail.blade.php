@@ -53,7 +53,7 @@
             <h2 class="mb-4 text-lg font-semibold text-gray-800">Budget</h2>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
                         <tr>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Item</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Qty</th>
@@ -85,7 +85,7 @@
             <h2 class="mb-4 text-lg font-semibold text-gray-800">Progress History</h2>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
                         <tr>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Progress</th>
@@ -117,7 +117,7 @@
             <h2 class="mb-4 text-lg font-semibold text-gray-800">Daily Report</h2>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
                         <tr>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Workers</th>
@@ -147,7 +147,7 @@
             <h2 class="mb-4 text-lg font-semibold text-gray-800">Expenses</h2>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
                         <tr>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Category</th>
@@ -179,7 +179,7 @@
             <h2 class="mb-4 text-lg font-semibold text-gray-800">Project Members</h2>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
                         <tr>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Name</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Email</th>

@@ -11,8 +11,6 @@ class Dashboard extends BaseDashboard
 {
     protected static string $view = 'filament.staff.pages.dashboard';
 
-    protected static ?string $navigationGroup = 'Dashboard';
-
     protected static ?string $title = 'Dashboard';
 
     public function getSubheading(): ?string

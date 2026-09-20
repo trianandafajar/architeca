@@ -4,7 +4,7 @@ namespace App\Filament\Staff\Pages;
 
 use App\Models\Attachment;
 use App\Models\DailyReport as DailyReportModel;
-use App\Models\Project;
+use App\Models\ProjectTask;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -24,7 +24,6 @@ class DailyReport extends Page implements HasForms, HasTable
     use InteractsWithForms, InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationGroup = 'Project';
     protected static string $view = 'filament.staff.pages.daily-report';
     protected static ?string $title = 'Daily Report';
 
@@ -49,13 +48,27 @@ class DailyReport extends Page implements HasForms, HasTable
                     ->label('Report Date')
                     ->default(now())
                     ->required(),
-                Forms\Components\TextInput::make('workers_count')
-                    ->label('Number of Workers')
-                    ->numeric()
-                    ->default(1)
-                    ->required(),
+                Forms\Components\CheckboxList::make('completed_task_ids')
+                    ->label('Tugas')
+                    ->options(function (array $state) {
+                        $projectId = $state['project_id'] ?? null;
+                        if (! $projectId) {
+                            return [];
+                        }
+                        return \App\Models\ProjectTask::where('project_id', $projectId)
+                            ->where('assigned_to', auth()->id())
+                            ->where('is_completed', false)
+                            ->pluck('title', 'id')
+                            ->toArray();
+                    })
+                    ->columnSpanFull(),
+                Forms\Components\Textarea::make('work_description')
+                    ->label('Catatan')
+                    ->required()
+                    ->rows(3)
+                    ->columnSpanFull(),
                 Forms\Components\FileUpload::make('attachments')
-                    ->label('Attachments')
+                    ->label('Foto Bukti')
                     ->multiple()
                     ->enableReordering()
                     ->disk('local')
@@ -63,24 +76,9 @@ class DailyReport extends Page implements HasForms, HasTable
                     ->visibility('private')
                     ->openable()
                     ->downloadable()
-                    ->acceptedFileTypes(['image/*', 'video/*', 'application/pdf'])
-                    ->maxSize(10240)
-                    ->helperText('You can upload multiple images, videos, or PDFs. Max size: 10MB per file.')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('progress_percentage')
-                    ->label('Progress Added (%)')
-                    ->numeric()
-                    ->minValue(0)
-                    ->maxValue(100)
-                    ->default(0),
-                Forms\Components\Textarea::make('work_description')
-                    ->label('Today\'s Work Description')
-                    ->required()
-                    ->rows(3)
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('issues')
-                    ->label('Issues (Optional)')
-                    ->rows(2)
+                    ->acceptedFileTypes(['image/*'])
+                    ->maxSize(5120)
+                    ->helperText('Upload foto bukti (maks 5 MB per gambar).')
                     ->columnSpanFull(),
                 Forms\Components\Actions::make([
                     Forms\Components\Actions\Action::make('submit')
@@ -104,7 +102,15 @@ class DailyReport extends Page implements HasForms, HasTable
         $attachmentPaths = array_values($data['attachments'] ?? []);
         unset($data['attachments']);
 
+        // Update task completion status
+        if (! empty($data['completed_task_ids'])) {
+            \App\Models\ProjectTask::whereIn('id', $data['completed_task_ids'])
+                ->update(['is_completed' => true]);
+        }
+        unset($data['completed_task_ids']);
+
         $data['user_id'] = auth()->id();
+
 
         $report = DailyReportModel::create($data);
 
@@ -138,10 +144,8 @@ class DailyReport extends Page implements HasForms, HasTable
             ->columns([
                 Tables\Columns\TextColumn::make('project.name')->label('Project'),
                 Tables\Columns\TextColumn::make('report_date')->date()->label('Report Date'),
-                Tables\Columns\TextColumn::make('workers_count')->label('Workers Count'),
-                Tables\Columns\TextColumn::make('progress_percentage')->label('Progress (%)'),
                 Tables\Columns\ImageColumn::make('attachment_images')
-                    ->label('Images')
+                    ->label('Photos')
                     ->getStateUsing(fn(DailyReportModel $record): array => $record->attachments
                         ->filter(fn(Attachment $attachment): bool => str_starts_with($attachment->file_type ?? '', 'image/'))
                         ->map(fn(Attachment $attachment): string => Storage::disk('local')->temporaryUrl($attachment->file_path, now()->addMinutes(5)))
@@ -151,6 +155,7 @@ class DailyReport extends Page implements HasForms, HasTable
                     ->limit(3)
                     ->limitedRemainingText()
                     ->size(48),
+                Tables\Columns\TextColumn::make('work_description')->label('Notes')->limit(50),
             ])
             ->defaultSort('report_date', 'desc')
             ->filters([

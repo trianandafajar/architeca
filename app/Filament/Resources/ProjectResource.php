@@ -25,8 +25,6 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
 
-    protected static ?string $navigationGroup = 'Project';
-
     protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationLabel = 'Projects';

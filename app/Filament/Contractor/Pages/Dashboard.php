@@ -10,8 +10,6 @@ class Dashboard extends BaseDashboard
 {
     protected static string $view = 'filament.contractor.pages.dashboard';
 
-    protected static ?string $navigationGroup = 'Dashboard';
-
     protected static ?string $title = 'Dashboard';
 
     public function getViewData(): array

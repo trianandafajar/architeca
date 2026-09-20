@@ -20,7 +20,6 @@ class ProjectResource extends Resource
     protected static ?string $model = Project::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
-    protected static ?string $navigationGroup = 'Project';
     protected static ?string $navigationLabel = 'Projects';
     protected static ?string $modelLabel = 'Project';
     protected static ?string $pluralModelLabel = 'Projects';

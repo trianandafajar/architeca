@@ -16,8 +16,6 @@ class Reports extends Page
 
     protected static ?string $title = 'Reports';
 
-    protected static ?string $navigationGroup = 'Project';
-
     protected static ?string $navigationLabel = 'Reports';
 
     public function getSubheading(): ?string

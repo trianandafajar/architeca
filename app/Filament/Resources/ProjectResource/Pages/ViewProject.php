@@ -8,6 +8,7 @@ use App\Filament\Resources\ProjectResource\RelationManagers\DailyReportsRelation
 use App\Filament\Resources\ProjectResource\RelationManagers\ExpensesRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\ProgressUpdatesRelationManager;
+use App\Filament\Resources\ProjectResource\RelationManagers\TasksRelationManager;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewProject extends ViewRecord
@@ -23,9 +24,14 @@ class ViewProject extends ViewRecord
         return 'A summary of project progress, costs, and activities in a single view.';
     }
 
+
+
+// ...
+
     protected function getAllRelationManagers(): array
     {
         return [
+            TasksRelationManager::class,
             ProgressUpdatesRelationManager::class,
             DailyReportsRelationManager::class,
             ExpensesRelationManager::class,

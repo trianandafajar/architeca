@@ -39,54 +39,11 @@ class DailyReportsRelationManager extends RelationManager
                     ->label('Number of Workers')
                     ->numeric()
                     ->default(0),
-                Forms\Components\FileUpload::make('attachments')
-                    ->label('Attachments')
-                    ->multiple()
-                    ->enableReordering()
-                    ->disk('local')
-                    ->directory('daily-reports')
-                    ->visibility('private')
-                    ->openable()
-                    ->downloadable()
-                    ->dehydrated(false)
-                    ->loadStateFromRelationshipsUsing(function (Forms\Components\FileUpload $component, DailyReport $record): void {
-                        $component->state($record->attachments()->pluck('file_path')->all());
-                    })
-                    ->saveRelationshipsUsing(function (Forms\Components\FileUpload $component, DailyReport $record): void {
-                        $paths = array_values($component->getState() ?? []);
-
-                        $record->attachments()->whereNotIn('file_path', $paths)->delete();
-
-                        foreach ($paths as $path) {
-                            $record->attachments()->firstOrCreate(
-                                ['file_path' => $path],
-                                [
-                                    'project_id' => $record->project_id,
-                                    'user_id' => auth()->id(),
-                                    'file_type' => $component->getDisk()->mimeType($path) ?: null,
-                                ],
-                            );
-                        }
-
-                        $record->unsetRelation('attachments');
-                    })
-                    ->acceptedFileTypes(['image/*', 'video/*', 'application/pdf'])
-                    ->maxSize(10240) // 10MB
-                    ->helperText('You can upload multiple files. Accepted formats: images, videos, PDFs. Max size: 10MB per file.')
-                    ->columnSpanFull(),
                 Forms\Components\ViewField::make('progress_percentage')
                     ->label('Progress (%)')
                     ->view('filament.forms.components.range-slider')
                     ->default(0)
-                    ->rules([
-                        'required',
-                        'numeric',
-                        'min:0',
-                        'max:100',
-                    ])
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('work_description')
-                    ->label('Work Description')
+                    ->rules(['required','numeric','min:0','max:100'])
                     ->columnSpanFull(),
                 Forms\Components\Textarea::make('issues')
                     ->label('Issues / Obstacles')
@@ -104,23 +61,15 @@ class DailyReportsRelationManager extends RelationManager
                     ->label('Date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('workers_count')
-                    ->label('Workers'),
-                Tables\Columns\TextColumn::make('progress_percentage')
-                    ->label('Progress')
-                    ->suffix('%')
-                    ->badge(),
                 Tables\Columns\ImageColumn::make('attachments')
-                    ->label('Attachments')
+                    ->label('Photos')
                     ->getStateUsing(function ($record) {
                         return $record->attachments
-                            ->filter(fn ($attachment) => str_starts_with($attachment->file_type ?? '', 'image/')
-                            )
+                            ->filter(fn ($attachment) => str_starts_with($attachment->file_type ?? '', 'image/'))
                             ->map(fn ($attachment) => Storage::disk('local')->temporaryUrl(
                                 $attachment->file_path,
                                 now()->addMinutes(5)
-                            )
-                            )
+                            ))
                             ->values()
                             ->all();
                     })
@@ -129,7 +78,7 @@ class DailyReportsRelationManager extends RelationManager
                     ->limitedRemainingText()
                     ->size(48),
                 Tables\Columns\TextColumn::make('work_description')
-                    ->label('Description')
+                    ->label('Notes')
                     ->limit(50),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('By'),

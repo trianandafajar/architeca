@@ -176,10 +176,6 @@ class AttachmentsRelationManager extends RelationManager
             ]);
     }
 
-    /**
-     * @param  array<string, mixed>  $data
-     * @return array<string, mixed>
-     */
     protected function prepareAttachmentData(array $data, ?Attachment $record = null): array
     {
         $data['file_type'] = Storage::disk($this->getAttachmentDisk($record))->mimeType($data['file_path']) ?: null;
@@ -187,14 +183,12 @@ class AttachmentsRelationManager extends RelationManager
         return $data;
     }
 
-    /** @return array<int|string, string> */
     protected function getTargetOptions(?string $type): array
     {
         $project = $this->getOwnerRecord();
         $records = match ($type) {
             (new Project)->getMorphClass() => collect([$project]),
             (new DailyReport)->getMorphClass() => $project->dailyReports()->latest('report_date')->get(),
-            // (new ProgressUpdate)->getMorphClass() => $project->progressUpdates()->latest('progress_date')->get(),
             (new Expense)->getMorphClass() => $project->expenses()->latest('expense_date')->get(),
             default => collect(),
         };

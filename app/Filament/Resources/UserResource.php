@@ -155,7 +155,6 @@ class UserResource extends Resource
             ]);
     }
 
-    /** @return array<string, string> */
     public static function getRoleOptions(): array
     {
         $roleModel = config('permission.models.role');

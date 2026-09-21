@@ -2,9 +2,6 @@
 
 namespace App\Filament\Staff\Pages;
 
-use App\Filament\Staff\Widgets\AssignedProgressChart;
-use App\Filament\Staff\Widgets\MyDailyReports;
-use App\Filament\Staff\Widgets\StaffOverview;
 use Filament\Pages\Dashboard as BaseDashboard;
 
 class Dashboard extends BaseDashboard
@@ -20,7 +17,6 @@ class Dashboard extends BaseDashboard
 
     protected function getHeaderWidgets(): array
     {
-        // return [StaffOverview::class];
         return [];
     }
 
@@ -32,8 +28,7 @@ class Dashboard extends BaseDashboard
     protected function getFooterWidgets(): array
     {
         return [
-            // AssignedProgressChart::class,
-            // MyDailyReports::class,
+            //
         ];
     }
 

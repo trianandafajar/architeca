@@ -18,7 +18,6 @@ trait InteractsWithContractorProjects
         });
     }
 
-    /** @return array<int, int> */
     protected function accessibleProjectIds(): array
     {
         return $this->accessibleProjectsQuery()->pluck('id')->all();

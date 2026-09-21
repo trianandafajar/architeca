@@ -7,12 +7,6 @@ use Filament\Forms\Get;
 
 trait FiltersProjectMemberUserOptions
 {
-    /**
-     * Return users who are not already assigned to the current project.
-     *
-     * The current value is kept when editing an existing member so that
-     * the edit form can still display its selected user.
-     */
     protected function getAvailableProjectMemberUserOptions(Get $get): array
     {
         $currentUserId = $get('user_id');

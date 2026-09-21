@@ -36,11 +36,6 @@ class EditRole extends EditRecord
     {
         $permissionData = collect($data)
             ->except(['name', 'guard_name', 'select_all', Utils::getTenantModelForeignKey()]);
-
-        // Keep the current assignments if a form submission does not contain
-        // any permission fields (for example while a permission tab is not
-        // mounted). This prevents an unrelated role edit from clearing all
-        // permissions through syncPermissions().
         $submittedPermissions = $permissionData
             ->values()
             ->flatten()

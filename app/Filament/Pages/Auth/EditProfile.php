@@ -9,7 +9,6 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Auth\EditProfile as BaseEditProfile;
 use Illuminate\Support\Facades\Storage;
-use Filament\Support\Enums\MaxWidth;
 
 class EditProfile extends BaseEditProfile
 {
@@ -74,9 +73,6 @@ class EditProfile extends BaseEditProfile
             ]);
     }
 
-    /**
-     * Dibuka dari blade: wire:click="mountAction('changeAvatar')"
-     */
     public function changeAvatarAction(): Action
     {
         return Action::make('changeAvatar')

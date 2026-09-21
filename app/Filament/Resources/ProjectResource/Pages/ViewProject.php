@@ -22,10 +22,6 @@ class ViewProject extends ViewRecord
         return 'A summary of project progress, costs, and activities in a single view.';
     }
 
-
-
-// ...
-
     protected function getAllRelationManagers(): array
     {
         return [

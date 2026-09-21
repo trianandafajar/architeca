@@ -21,13 +21,11 @@ class TasksRelationManager extends RelationManager
     {
         $fields = [];
 
-        // Title
         $fields[] = Forms\Components\TextInput::make('title')
             ->label('Task Title')
             ->required()
             ->maxLength(255);
 
-        // Weight and assignee – only for admin/contractor
         if (in_array(auth()->user()->role, ['admin', 'contractor'])) {
             $fields[] = Forms\Components\TextInput::make('percentage_weight')
                 ->label('Weight (%)')
@@ -43,7 +41,6 @@ class TasksRelationManager extends RelationManager
                 ->nullable();
         }
 
-        // Completed, Notes, Evidence - always editable
         $fields[] = Forms\Components\Toggle::make('is_completed')
             ->label('Completed')
             ->default(false)
@@ -62,6 +59,16 @@ class TasksRelationManager extends RelationManager
         return $form->schema($fields)->columns(2);
     }
 
+    protected function canCreate(): bool
+    {
+        return true;
+    }
+
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
     public function table(Table $table): Table
     {
         return $table
@@ -71,6 +78,9 @@ class TasksRelationManager extends RelationManager
                 Tables\Columns\IconColumn::make('is_completed')->label('Done')->boolean()->trueIcon('heroicon-m-check-circle')->falseIcon('heroicon-m-x-circle'),
                 Tables\Columns\TextColumn::make('user.name')->label('Assignee')->searchable(),
                 Tables\Columns\TextColumn::make('notes')->label('Notes')->limit(50),
+            ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make()->color('primary'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

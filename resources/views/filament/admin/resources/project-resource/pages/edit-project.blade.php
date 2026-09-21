@@ -21,23 +21,23 @@
     <div class="architeca-project-detail">
         <div class="architeca-kpi-grid" aria-label="Project key performance indicators">
             @php
-            $latestProgress = $record->progressUpdates()->latest('progress_date')->value('percentage') ?? 0;
-            $totalExpenses = $record->expenses()->sum('amount');
+            // $latestProgress = $record->progressUpdates()->latest('progress_date')->value('percentage') ?? 0;
+            // $totalExpenses = $record->expenses()->sum('amount');
             $membersCount = $record->members()->count();
             $attachmentsCount = $record->attachments()->count();
             @endphp
-            <div class="architeca-kpi-card architeca-kpi-progress">
+            {{-- <div class="architeca-kpi-card architeca-kpi-progress">
                 <div class="architeca-kpi-label">
                     <x-filament::icon icon="heroicon-o-chart-bar" class="h-5 w-5" /><span>Latest progress</span>
                 </div>
                 <strong>{{ number_format((float) $latestProgress, 0) }}%</strong>
-            </div>
-            <div class="architeca-kpi-card architeca-kpi-expenses">
+            </div> --}}
+            {{-- <div class="architeca-kpi-card architeca-kpi-expenses">
                 <div class="architeca-kpi-label">
                     <x-filament::icon icon="heroicon-o-banknotes" class="h-5 w-5" /><span>Total expenses</span>
                 </div>
                 <strong>${{ number_format((float) $totalExpenses, 0, '.', ',') }}</strong>
-            </div>
+            </div> --}}
             <div class="architeca-kpi-card architeca-kpi-members">
                 <div class="architeca-kpi-label">
                     <x-filament::icon icon="heroicon-o-user-group" class="h-5 w-5" /><span>Members</span>

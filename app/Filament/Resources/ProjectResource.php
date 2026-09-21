@@ -39,17 +39,6 @@ class ProjectResource extends Resource
             ->schema(static::getProjectFormSchema());
     }
 
-    public static function getNavigationItems(): array
-    {
-        return collect(parent::getNavigationItems())
-            ->map(fn(NavigationItem $item) => $item->isActiveWhen(
-                fn(): bool => request()->routeIs(
-                    static::getRouteBaseName() . '.*',
-                    Reports::getRouteName(),
-                )
-            ))
-            ->all();
-    }
 
     /**
      * @return array<int, Forms\Components\Component>
@@ -190,8 +179,8 @@ class ProjectResource extends Resource
                         ->label('Reports')
                         ->icon('heroicon-o-document-chart-bar')
                         ->color('success')
-                        ->url(fn(Project $record): string => Reports::getUrl(['record' => $record->id]))
-                        ->visible(fn () => auth()->user()->hasRole('contractor')),
+                        ->url('#')
+                        ->visible(fn () => false),
 
                     Tables\Actions\EditAction::make()
                         ->icon('heroicon-o-pencil')

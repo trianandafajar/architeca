@@ -86,10 +86,6 @@ class ProjectResource extends Resource
     {
         return [
             \App\Filament\Resources\ProjectResource\RelationManagers\TasksRelationManager::class,
-            \App\Filament\Resources\ProjectResource\RelationManagers\BudgetItemsRelationManager::class,
-            \App\Filament\Resources\ProjectResource\RelationManagers\ExpensesRelationManager::class,
-            \App\Filament\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager::class,
-            \App\Filament\Resources\ProjectResource\RelationManagers\AttachmentsRelationManager::class,
         ];
     }
 

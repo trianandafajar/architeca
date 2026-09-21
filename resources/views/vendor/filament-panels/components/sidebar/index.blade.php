@@ -11,12 +11,12 @@ $hasTopNav = filament()->hasTopNavigation();
 
 <aside x-data="{}" @if ($collapsibleOnDesktop || $fullyCollapsible) x-cloak x-bind:class="
             $store.sidebar.isOpen
-                ? 'translate-x-0 shadow-xl rtl:-translate-x-0 lg:sticky'
+                ? 'translate-x-0 rtl:-translate-x-0 lg:sticky'
                 : '-translate-x-full rtl:translate-x-full lg:sticky lg:translate-x-0 rtl:lg:-translate-x-0'
         " @else @if ($hasTopNav) x-cloak
-    x-bind:class="$store.sidebar.isOpen ? 'translate-x-0 shadow-xl rtl:-translate-x-0' : '-translate-x-full rtl:translate-x-full'"
+    x-bind:class="$store.sidebar.isOpen ? 'translate-x-0 rtl:-translate-x-0' : '-translate-x-full rtl:translate-x-full'"
     @else x-cloak="-lg" x-bind:class="
-                $store.sidebar.isOpen ? 'translate-x-0 shadow-xl rtl:-translate-x-0 lg:sticky' : 'w-[--sidebar-width] -translate-x-full rtl:translate-x-full lg:sticky'
+                $store.sidebar.isOpen ? 'translate-x-0 rtl:-translate-x-0 lg:sticky' : 'w-[--sidebar-width] -translate-x-full rtl:translate-x-full lg:sticky'
             " @endif @endif x-bind:style="
         @if ($collapsibleOnDesktop || $fullyCollapsible)
             $store.sidebar.isOpen ? 'width: 16rem' : 'width: 4rem'
@@ -31,12 +31,12 @@ $hasTopNav = filament()->hasTopNavigation();
     }}
     >
     {{-- header sidebar --}}
-    <div class="flex h-16 shrink-0 items-center justify-start gap-3 px-4 border-b border-[#2d3834]">
+    <div class="flex h-16 shrink-0 items-center justify-start gap-3 px-4 border-b border-[#fed7aa]">
         @if ($homeUrl = filament()->getHomeUrl())
         <a {{ \Filament\Support\generate_href_html($homeUrl) }}
-            class="flex min-w-0 items-center gap-2.5 font-bold text-[#fdfbf7]">
+            class="flex min-w-0 items-center gap-2.5 font-bold text-[#243447]">
             @else
-            <div class="flex min-w-0 items-center gap-2.5 font-bold text-[#fdfbf7]">
+            <div class="flex min-w-0 items-center gap-2.5 font-bold text-[#243447]">
                 @endif
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center">
                     <img src="{{ asset('images/logo.png') }}" alt="Architeca Logo" class="h-8 w-8" />
@@ -82,15 +82,14 @@ $hasTopNav = filament()->hasTopNavigation();
                         " x-tooltip.html="tooltip" @endif
                         @class([
                             'flex items-center gap-3 rounded-lg py-2.5 px-4 text-sm font-medium transition-colors',
-                            // active styling handled by x-bind below
                             'text-[#e5e7eb] hover:bg-white/20 hover:text-white' => ! $item->isActive(),
                         ])
                         @if ($item->isActive()) aria-current="page" @endif
                         @if ($collapsibleOnDesktop || $fullyCollapsible)
                         x-bind:class="
                             $store.sidebar.isOpen
-                                ? (@js($item->isActive()) ? 'bg-[#f97316] text-white px-4 justify-start' : 'text-[#e5e7eb] hover:bg-[#f97316]/20 hover:text-white px-4 justify-start')
-                                : (@js($item->isActive()) ? 'bg-[#f97316] text-white p-2 justify-center' : 'text-[#e5e7eb] hover:bg-[#f97316]/20 hover:text-white p-2 justify-center')
+                                ? (@js($item->isActive()) ? 'bg-[#f97316] text-white px-4 justify-start' : 'text-[#02070d] hover:bg-[#f97316]/60 hover:text-white px-4 justify-start')
+                                : (@js($item->isActive()) ? 'bg-[#f97316] text-white p-2 justify-center' : 'text-[#02070d] hover:bg-[#f97316]/60 hover:text-white p-2 justify-center')
                         "
                         x-bind:title="$store.sidebar.isOpen ? '' : @js($item->getLabel())"
                         @endif

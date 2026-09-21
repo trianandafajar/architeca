@@ -1,7 +1,8 @@
 <x-filament-panels::page>
     @php
-    $total = $record->tasks->count();
-    $doneCount = $record->tasks->where('is_completed', true)->count();
+    $tasksList = $this->tasks;
+    $total = $tasksList->count();
+    $doneCount = $tasksList->where('is_completed', true)->count();
     $percent = $total ? round($doneCount / $total * 100) : 0;
     @endphp
 

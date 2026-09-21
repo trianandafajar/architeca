@@ -19,7 +19,8 @@ class ViewProjectTasks extends Page
     protected static string $view = 'filament.staff.resources.project-task-resource.pages.view-project-tasks';
 
     public Project $record;
-    public array $notes = [];          // [task_id => notes]
+    public $tasks = [];           // Collection of tasks
+    public array $notes = [];     // [task_id => notes]
     public array $evidence_files = []; // [task_id => TemporaryUploadedFile]
 
     public function mount(int|string $project): void
@@ -27,12 +28,8 @@ class ViewProjectTasks extends Page
         $this->record = Project::whereHas('members', fn(Builder $q) => $q->where('user_id', auth()->id()))
             ->findOrFail($project);
 
-        $this->notes = $this->tasksQuery()->pluck('notes', 'id')->all();
-    }
-
-    protected function getViewData(): array
-    {
-        return ['tasks' => $this->tasksQuery()->orderBy('id')->get()];
+        $this->tasks = $this->tasksQuery()->get();
+        $this->notes = $this->tasks->pluck('notes', 'id')->all();
     }
 
     protected function tasksQuery()
@@ -64,6 +61,9 @@ class ViewProjectTasks extends Page
 
         $task->notes = $this->notes[$task->id] ?? null;
         $task->save();
+
+        // Refresh tasks collection for live update
+        $this->tasks = $this->tasksQuery()->get();
     }
 
     public function toggleTask(int $taskId): void
@@ -88,6 +88,7 @@ class ViewProjectTasks extends Page
         }
 
         $task->update(['is_completed' => ! $task->is_completed]);
+        $this->tasks = $this->tasksQuery()->get();
     }
 
     public function saveTask(int $taskId): void
@@ -108,5 +109,6 @@ class ViewProjectTasks extends Page
 
         $task->update(['evidence_path' => null]);
         unset($this->evidence_files[$taskId]);
+        $this->tasks = $this->tasksQuery()->get();
     }
 }

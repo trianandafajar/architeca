@@ -19,8 +19,8 @@ return '$' . number_format($value, 0);
         </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-xl border border-border bg-card p-5 shadow-sm">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Total Projects</p>
@@ -38,7 +38,7 @@ return '$' . number_format($value, 0);
             </div>
         </div>
 
-        <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
+        <div class="rounded-xl border border-border bg-card p-5 shadow-sm">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Total Budget</p>
@@ -54,7 +54,7 @@ return '$' . number_format($value, 0);
             </div>
         </div>
 
-        <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
+        <div class="rounded-xl border border-border bg-card p-5 shadow-sm">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Total Expenses</p>
@@ -73,7 +73,7 @@ return '$' . number_format($value, 0);
             </div>
         </div>
 
-        <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
+        <div class="rounded-xl border border-border bg-card p-5 shadow-sm">
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Average Progress</p>

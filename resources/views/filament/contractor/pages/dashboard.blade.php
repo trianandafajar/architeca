@@ -15,7 +15,7 @@ $statusClasses = [
 <div class="architeca-dashboard space-y-8">
     <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
-            <h1 class="text-2xl font-bold tracking-tight text-foreground">Contractor dashboard</h1>
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-2">Contractor dashboard</h1>
             <p class="mt-1 text-sm text-muted-foreground">Monitor the projects you own or are assigned to.</p>
         </div>
         <p class="text-sm text-muted-foreground">{{ now()->translatedFormat('l, d F Y') }}</p>
@@ -26,11 +26,11 @@ $statusClasses = [
         ['label' => 'My projects', 'value' => $totalProjects, 'caption' => $activeProjects . ' active', 'icon' =>
         'building-office-2', 'color' => 'text-primary'],
         ['label' => 'Contract value', 'value' => $formatCurrency($totalBudget), 'caption' => 'Across your projects',
-        'icon' => 'banknotes', 'color' => 'text-blue-600'],
+        'icon' => 'banknotes', 'color' => 'text-primary'],
         ['label' => 'Total expenses', 'value' => $formatCurrency($totalExpenses), 'caption' => $budgetUsedPercent . '%
-        of contract value', 'icon' => 'receipt-percent', 'color' => 'text-red-600'],
+        of contract value', 'icon' => 'receipt-percent', 'color' => 'text-primary'],
         ['label' => 'Average progress', 'value' => $avgProgress . '%', 'caption' => 'Latest updates', 'icon' =>
-        'chart-bar', 'color' => 'text-amber-600'],
+        'chart-bar', 'color' => 'text-primary'],
         ] as $card)
         <div class="rounded-xl border border-border bg-card p-5 shadow-sm">
             <div class="flex items-start justify-between gap-4">
@@ -38,7 +38,9 @@ $statusClasses = [
                     <p class="text-sm font-medium text-muted-foreground">{{ $card['label'] }}</p>
                     <p class="mt-2 text-2xl font-bold tracking-tight text-foreground">{{ $card['value'] }}</p>
                 </div>
-                <x-dynamic-component :component="'heroicon-o-' . $card['icon']" class="h-6 w-6 {{ $card['color'] }}" />
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
+                   <x-dynamic-component :component="'heroicon-o-' . $card['icon']" class="h-5 w-5 {{ $card['color'] }}" />
+                </div>
             </div>
             <p class="mt-3 text-xs text-muted-foreground">{{ $card['caption'] }}</p>
         </div>

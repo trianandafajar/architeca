@@ -16,8 +16,8 @@ class ShieldSeeder extends Seeder
             {"name":"panel_user","guard_name":"web","permissions":[]},
             {"name":"super_admin","guard_name":"web","permissions":["view_role","view_any_role","create_role","update_role","delete_role","delete_any_role","view_project","view_any_project","create_project","update_project","restore_project","restore_any_project","replicate_project","reorder_project","delete_project","delete_any_project","force_delete_project","force_delete_any_project","view_user","view_any_user","create_user","update_user","restore_user","restore_any_user","replicate_user","reorder_user","delete_user","delete_any_user","force_delete_user","force_delete_any_user","page_ProjectDetail","page_Reports","page_DailyReport"]},
             {"name":"admin","guard_name":"web","permissions":["view_project","view_any_project","create_project","update_project","restore_project","restore_any_project","replicate_project","reorder_project","delete_project","delete_any_project","view_user","view_any_user","create_user","update_user","restore_user","restore_any_user","replicate_user","reorder_user","delete_user","delete_any_user","page_ProjectDetail","page_Reports"]},
-            {"name":"contractor","guard_name":"web","permissions":["view_project","view_any_project","create_project","update_project","restore_project","restore_any_project","replicate_project","reorder_project","delete_project","delete_any_project","page_ProjectDetail","page_Reports"]},
-            {"name":"staff","guard_name":"web","permissions":["page_DailyReport"]}
+            {"name":"contractor","guard_name":"web","permissions":["view_project","view_any_project","create_project","update_project","restore_project","restore_any_project","replicate_project","reorder_project","delete_project","delete_any_project","page_ProjectDetail","page_Reports","view_project::task","view_any_project::task","create_project::task","update_project::task","delete_project::task"]},
+            {"name":"staff","guard_name":"web","permissions":["page_DailyReport","view_project::task","view_any_project::task"]}
         ]';
         $directPermissions = '[]';
 

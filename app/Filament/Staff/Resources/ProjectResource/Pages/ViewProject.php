@@ -19,6 +19,7 @@ class ViewProject extends ViewRecord
     protected function getAllRelationManagers(): array
     {
         return [
+            \App\Filament\Resources\ProjectResource\RelationManagers\TasksRelationManager::class,
             \App\Filament\Staff\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager::class,
             \App\Filament\Staff\Resources\ProjectResource\RelationManagers\AttachmentsRelationManager::class,
         ];
@@ -26,7 +27,7 @@ class ViewProject extends ViewRecord
 
     public function hasCombinedRelationManagerTabsWithContent(): bool
     {
-        return true;
+        return false;
     }
 
     public function getContentTabLabel(): ?string

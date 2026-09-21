@@ -59,23 +59,13 @@ class TasksRelationManager extends RelationManager
         return $form->schema($fields)->columns(2);
     }
 
-    protected function canCreate(): bool
-    {
-        return true;
-    }
-
-    public function isReadOnly(): bool
-    {
-        return false;
-    }
-
     public function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')->label('Title')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('percentage_weight')->label('Weight')->suffix('%')->sortable(),
-                Tables\Columns\IconColumn::make('is_completed')->label('Done')->boolean()->trueIcon('heroicon-m-check-circle')->falseIcon('heroicon-m-x-circle'),
+                Tables\Columns\ToggleColumn::make('is_completed')->label('Done'),
                 Tables\Columns\TextColumn::make('user.name')->label('Assignee')->searchable(),
                 Tables\Columns\TextColumn::make('notes')->label('Notes')->limit(50),
             ])
@@ -86,5 +76,15 @@ class TasksRelationManager extends RelationManager
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ]);
+    }
+
+    protected function canCreate(): bool
+    {
+        return in_array(auth()->user()->role, ['admin', 'contractor']);
+    }
+
+    public function isReadOnly(): bool
+    {
+        return false;
     }
 }

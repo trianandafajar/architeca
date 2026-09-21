@@ -39,7 +39,7 @@ $hasTopNav = filament()->hasTopNavigation();
             <div class="flex min-w-0 items-center gap-2.5 font-bold text-[#243447]">
                 @endif
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center">
-                    <img src="{{ asset('images/logo.png') }}" alt="Architeca Logo" class="h-8 w-8" />
+                    <img src="{{ asset('images/logo-1.png') }}" alt="Architeca Logo" class="h-8 w-8" />
                 </div>
                 @if ($collapsibleOnDesktop || $fullyCollapsible)
                 <span class="truncate text-lg tracking-tight whitespace-nowrap" x-show="$store.sidebar.isOpen"

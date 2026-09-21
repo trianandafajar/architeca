@@ -2,7 +2,7 @@
     <div class="hidden min-h-screen lg:flex lg:w-1/2 lg:shrink-0 flex-col justify-between bg-[#F97316] px-12 py-12">
         <div class="flex items-center gap-3">
             <div class="flex items-center justify-center rounded-xl">
-                <img src="{{ asset('images/logo.png') }}" alt="Architeca Logo" class="h-12 w-12" />
+                <img src="{{ asset('images/logo-2.png') }}" alt="Architeca Logo" class="h-12 w-12" />
             </div>
             <span class="text-2xl font-bold text-white">ARCHITECA</span>
         </div>
@@ -20,7 +20,7 @@
     <div class="flex min-h-screen w-full lg:w-1/2 lg:shrink-0 flex-col justify-center bg-[#FFFBF7] px-6 py-10 sm:px-10 sm:py-14 lg:px-16 lg:py-16">
         <div class="mx-auto w-full max-w-md rounded-2xl border border-[#E5DDD3] bg-white p-6 shadow-lg sm:p-8 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
             <div class="mb-8 flex items-center gap-2 lg:hidden">
-                <img src="{{ asset('images/logo.png') }}" alt="Architeca Logo" class="h-10 w-10" />
+                <img src="{{ asset('images/logo-1.png') }}" alt="Architeca Logo" class="h-10 w-10" />
                 <span class="text-xl font-bold text-[#2D1810]">ARCHITECA</span>
             </div>
             <h1 class="mb-2 text-2xl font-bold text-[#2D1810]">Reset password</h1>

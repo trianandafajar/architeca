@@ -3,7 +3,7 @@
         class="hidden min-h-screen lg:flex lg:w-1/2 lg:shrink-0 flex-col justify-between bg-[#F97316] px-12 py-12 border-e border-[#FED7AA]">
         <div class="flex items-center gap-3">
             <div class="flex items-center justify-center rounded-xl">
-                <img src="{{ asset('images/logo.png') }}" alt="Architeca Logo" class="h-12 w-12" />
+                <img src="{{ asset('images/logo-2.png') }}" alt="Architeca Logo" class="h-12 w-12" />
             </div>
             <span class="text-2xl font-bold text-white">ARCHITECA</span>
         </div>
@@ -27,7 +27,7 @@
             class="mx-auto w-full max-w-md rounded-2xl border border-[#E5DDD3] bg-white p-6 shadow-lg sm:p-8 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
             <div class="mb-8 flex items-center gap-2 lg:hidden">
                 <div class="flex items-center justify-center">
-                    <img src="{{ asset('images/logo.png') }}" alt="Architeca Logo" class="h-10 w-10" />
+                    <img src="{{ asset('images/logo-1.png') }}" alt="Architeca Logo" class="h-10 w-10" />
                 </div>
                 <span class="text-xl font-bold text-[#7c2d12]">ARCHITECA</span>
             </div>

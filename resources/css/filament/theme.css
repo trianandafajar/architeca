@@ -448,6 +448,22 @@ button:not(:disabled),
     cursor: pointer;
 }
 
-.fi-ta-header-row {
-    background-color: #f1f5f9 !important;
+.fi-fo-field-wrp-view input,
+.fi-fo-field-wrp-view select,
+.fi-fo-field-wrp-view textarea,
+.fi-fo-component-ctn input,
+.fi-fo-component-ctn select,
+.fi-fo-component-ctn textarea {
+    border-width: 1px !important;
+    border-color: transparent !important;
+}
+
+.fi-fo-field-wrp-view input:focus,
+.fi-fo-field-wrp-view select:focus,
+.fi-fo-field-wrp-view textarea:focus,
+.fi-fo-component-ctn input:focus,
+.fi-fo-component-ctn select:focus,
+.fi-fo-component-ctn textarea:focus {
+    border-color: var(--ring) !important;
+    box-shadow: 0 0 0 2px rgb(var(--primary-500) / 0.2) !important;
 }

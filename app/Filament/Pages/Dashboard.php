@@ -24,7 +24,7 @@ class Dashboard extends BaseDashboard
         $totalExpenses = Expense::sum('amount');
 
         $latestProgressByProject = $projects->map(function ($p) {
-            $completedWeight = $p->tasks->sum('percentage_weight') * ($p->tasks->where('is_completed', true)->count() > 0 ? 1 : 0);
+            $completedWeight = $p->tasks->where('is_completed', true)->sum('percentage_weight');
             $totalWeight = $p->tasks->sum('percentage_weight');
             $progress = $totalWeight > 0 ? ($completedWeight / $totalWeight) * 100 : 0;
             return [
@@ -33,6 +33,7 @@ class Dashboard extends BaseDashboard
                 'date' => now(),
             ];
         });
+
 
         $categoryLabels = [
             'material' => 'Material',

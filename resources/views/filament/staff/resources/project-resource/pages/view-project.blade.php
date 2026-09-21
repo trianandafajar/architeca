@@ -6,7 +6,7 @@
     ])
 >
     @php
-        $latestProgress = $record->progressUpdates()->latest('progress_date')->value('percentage') ?? 0;
+        $progress = $record->progress;
         $myReportsCount = $record->dailyReports()->where('user_id', auth()->id())->count();
         $membersCount = $record->members()->count();
         $myAttachmentsCount = $record->attachments()->where('user_id', auth()->id())->count();
@@ -19,9 +19,10 @@
             <div class="architeca-kpi-card architeca-kpi-progress">
                 <div class="architeca-kpi-label">
                     <x-filament::icon icon="heroicon-o-chart-bar" class="h-5 w-5" />
-                    <span>Latest progress</span>
+                    <span>Real Progress</span>
                 </div>
-                <strong>{{ number_format((float) $latestProgress, 0) }}%</strong>
+                <x-filament::progress-bar :value="$progress" class="mt-2" />
+                <span class="text-sm font-semibold">{{ number_format($progress, 0) }}%</span>
             </div>
             <div class="architeca-kpi-card architeca-kpi-reports">
                 <div class="architeca-kpi-label">

@@ -67,4 +67,12 @@ class Project extends Model
     {
         return $this->hasMany(ProjectTask::class);
     }
+
+    public function getProgressAttribute(): float
+    {
+        $total = $this->tasks()->count();
+        if ($total === 0) return 0;
+        $completed = $this->tasks()->where('is_completed', true)->count();
+        return ($completed / $total) * 100;
+    }
 }

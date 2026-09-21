@@ -23,7 +23,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
-        return $user->can('view_project');
+        return true;
     }
 
     /**

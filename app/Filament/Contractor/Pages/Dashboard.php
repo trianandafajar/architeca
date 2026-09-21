@@ -26,6 +26,7 @@ class Dashboard extends BaseDashboard
                 'expenses',
                 'members',
                 'attachments',
+                'tasks',
             ])
             ->latest('created_at')
             ->get();
@@ -34,7 +35,16 @@ class Dashboard extends BaseDashboard
         $totalBudget = (float) $projects->sum('contract_value');
         $totalExpenses = (float) $projects->sum(fn(Project $project) => $project->expenses->sum('amount'));
 
-        $latestProgress = collect();
+        $latestProgress = $projects->map(function (Project $p) {
+            $completedWeight = $p->tasks->where('is_completed', true)->sum('percentage_weight');
+            $totalWeight = $p->tasks->sum('percentage_weight');
+            $progress = $totalWeight > 0 ? ($completedWeight / $totalWeight) * 100 : 0;
+            return [
+                'project' => $p,
+                'name' => $p->name,
+                'percentage' => $progress,
+            ];
+        });
 
         return [
             'projects' => $projects,
@@ -43,14 +53,8 @@ class Dashboard extends BaseDashboard
             'totalBudget' => $totalBudget,
             'totalExpenses' => $totalExpenses,
             'budgetUsedPercent' => $totalBudget > 0 ? round(($totalExpenses / $totalBudget) * 100, 1) : 0,
-            'avgProgress' => 0,
+            'avgProgress' => round($latestProgress->avg('percentage') ?? 0),
             'latestProgress' => $latestProgress,
-            // 'recentActivity' => DailyReport::query()
-            //     ->with(['project', 'user'])
-            //     ->when($projectIds, fn($query) => $query->whereIn('project_id', $projectIds), fn($query) => $query->whereRaw('1 = 0'))
-            //     ->latest('report_date')
-            //     ->take(6)
-            //     ->get(),
         ];
     }
 }

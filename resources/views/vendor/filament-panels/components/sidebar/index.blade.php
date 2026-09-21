@@ -120,27 +120,4 @@ $hasTopNav = filament()->hasTopNavigation();
 
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::SIDEBAR_NAV_END) }}
     </nav>
-
-    {{-- footer --}}
-    <div class="shrink-0 border-t border-[#2d3834] px-2 py-3">
-        <div @class([ 'flex items-center gap-3 rounded-lg py-2' , 'justify-center px-0'=> $collapsibleOnDesktop ||
-            $fullyCollapsible,
-            ])
-            @if ($collapsibleOnDesktop || $fullyCollapsible)
-            x-bind:class="$store.sidebar.isOpen ? 'justify-start px-2' : 'justify-center px-0'"
-            @endif
-            >
-            @if ($user = auth()->user())
-            <div
-                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f97316] text-sm font-semibold text-white">
-                {{ strtoupper(substr($user->name, 0, 1)) }}
-            </div>
-            <div class="min-w-0 flex-1 whitespace-nowrap" @if ($collapsibleOnDesktop || $fullyCollapsible)
-                x-show="$store.sidebar.isOpen" x-transition.opacity @endif>
-                <p class="truncate text-sm font-medium text-[#fdfbf7]">{{ $user->name }}</p>
-                <p class="truncate text-xs text-[#a0a9a6]">{{ $user->role }}</p>
-            </div>
-            @endif
-        </div>
-    </div>
 </aside>

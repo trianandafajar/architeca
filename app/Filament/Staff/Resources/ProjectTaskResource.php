@@ -17,7 +17,8 @@ class ProjectTaskResource extends Resource
 {
     protected static ?string $model = ProjectTask::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+    protected static ?string $navigationLabel = 'My Tasks';
 
     public static function getEloquentQuery(): Builder
     {
@@ -29,10 +30,14 @@ class ProjectTaskResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')->label('Task Title')->required(),
-                Forms\Components\Toggle::make('is_completed')->label('Completed')->default(false),
-                Forms\Components\FileUpload::make('evidence_path')->label('Evidence Photo')->image()->directory('tasks-evidence'),
-                Forms\Components\Textarea::make('notes')->label('Notes'),
+                Forms\Components\TextInput::make('title')->label('Task Title')->required()->disabled(),
+                Forms\Components\Toggle::make('is_completed')->label('Completed')->onColor('success')->offColor('danger'),
+                Forms\Components\FileUpload::make('evidence_path')
+                    ->label('Evidence Photo')
+                    ->image()
+                    ->directory('tasks-evidence')
+                    ->columnSpanFull(),
+                Forms\Components\Textarea::make('notes')->label('Notes')->columnSpanFull(),
             ]);
     }
 
@@ -40,8 +45,9 @@ class ProjectTaskResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')->label('Task'),
-                Tables\Columns\ToggleColumn::make('is_completed')->label('Done'),
+                Tables\Columns\TextColumn::make('title')->label('Task')->searchable(),
+                Tables\Columns\ToggleColumn::make('is_completed')->onColor('success')->offColor('danger')->label('Done'),
+                Tables\Columns\ImageColumn::make('evidence_path')->label('Evidence')->circular(),
                 Tables\Columns\TextColumn::make('notes')->label('Notes')->limit(50),
             ])
             ->actions([

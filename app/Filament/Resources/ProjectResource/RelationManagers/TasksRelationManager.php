@@ -65,7 +65,7 @@ class TasksRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('title')->label('Title')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('percentage_weight')->label('Weight')->suffix('%')->sortable(),
-                Tables\Columns\ToggleColumn::make('is_completed')->label('Done'),
+                Tables\Columns\ToggleColumn::make('is_completed')->onColor('success')->offColor('danger')->label('Done'),
                 Tables\Columns\TextColumn::make('user.name')->label('Assignee')->searchable(),
                 Tables\Columns\TextColumn::make('notes')->label('Notes')->limit(50),
             ])

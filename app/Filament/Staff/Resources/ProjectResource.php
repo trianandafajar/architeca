@@ -85,11 +85,8 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            \App\Filament\Resources\ProjectResource\RelationManagers\TasksRelationManager::class,
-            \App\Filament\Resources\ProjectResource\RelationManagers\BudgetItemsRelationManager::class,
-            \App\Filament\Resources\ProjectResource\RelationManagers\ExpensesRelationManager::class,
-            \App\Filament\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager::class,
-            \App\Filament\Resources\ProjectResource\RelationManagers\AttachmentsRelationManager::class,
+            \App\Filament\Staff\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager::class,
+            \App\Filament\Staff\Resources\ProjectResource\RelationManagers\AttachmentsRelationManager::class,
         ];
     }
 

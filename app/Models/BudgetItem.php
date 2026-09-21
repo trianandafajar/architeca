@@ -2,10 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[Fillable([
+    'project_id',
+    'item_name',
+    'quantity',
+    'unit',
+    'unit_price',
+    'total_price',
+    'notes',
+])]
 class BudgetItem extends Model
 {
     use HasFactory;
@@ -17,16 +27,6 @@ class BudgetItem extends Model
                 * (float) ($budgetItem->unit_price ?? 0);
         });
     }
-
-    protected $fillable = [
-        'project_id',
-        'item_name',
-        'quantity',
-        'unit',
-        'unit_price',
-        'total_price',
-        'notes',
-    ];
 
     protected function casts(): array
     {

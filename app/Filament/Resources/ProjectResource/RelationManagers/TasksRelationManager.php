@@ -35,8 +35,15 @@ class TasksRelationManager extends RelationManager
                 ->required();
             $fields[] = Forms\Components\Select::make('assigned_to')
                 ->label('Assignee')
-                ->relationship('user', 'name')
+                ->relationship(
+                    name: 'user',
+                    titleAttribute: 'name',
+                    modifyQueryUsing: fn (Builder $query) => $query
+                        ->latest()
+                        ->limit(20)
+                )
                 ->searchable()
+                ->preload()
                 ->placeholder('Select staff')
                 ->nullable();
         }

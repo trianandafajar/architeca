@@ -3,26 +3,26 @@
 namespace App\Models;
 
 use App\Models\Branch;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[Fillable([
+    'owner_id',
+    'branch_id',
+    'name',
+    'client_name',
+    'location',
+    'contract_value',
+    'start_date',
+    'end_date',
+    'status',
+])]
 class Project extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'owner_id',
-        'branch_id',
-        'name',
-        'client_name',
-        'location',
-        'contract_value',
-        'start_date',
-        'end_date',
-        'status',
-    ];
 
     protected function casts(): array
     {

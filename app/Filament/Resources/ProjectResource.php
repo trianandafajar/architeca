@@ -114,19 +114,25 @@ class ProjectResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('client_name')
                     ->label('Client')
+                    ->formatStateUsing(fn ($state, $record) =>
+                        $record->branch?->name
+                            ? "{$state}, {$record->branch->name}"
+                            : $state
+                    )
                     ->searchable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('branch.name')
-                    ->label('Branch')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('location')
-                    ->label('Location')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('contract_value')
                     ->label('Contract Value')
                     ->money('USD')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('start_date')
+                    ->label('Period')
+                    ->formatStateUsing(fn ($record) =>
+                        collect([
+                            $record->start_date?->format('M d, Y'),
+                            $record->end_date?->format('M d, Y'),
+                        ])->filter()->join(' - ')
+                    )
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
@@ -137,19 +143,10 @@ class ProjectResource extends Resource
                         'completed' => 'success',
                         'cancelled' => 'danger',
                     }),
-                Tables\Columns\TextColumn::make('start_date')
-                    ->label('Start')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('end_date')
-                    ->label('End')
-                    ->date()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->paginated([10, 25, 50, 100])

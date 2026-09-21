@@ -79,8 +79,7 @@ class BranchResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('location')
                     ->label('Location')
-                    ->searchable()
-                    ->toggleable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('projects_count')
                     ->label('Projects')
                     ->counts('projects')
@@ -93,8 +92,7 @@ class BranchResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
             ->defaultSort('name', 'asc')
             ->paginated([10, 25, 50])

@@ -97,8 +97,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('branch.name')
                     ->label('Branch')
                     ->searchable()
-                    ->sortable()
-                    ->toggleable(),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('role')
                     ->label('Role')
                     ->badge()
@@ -115,8 +114,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->paginated([10, 25, 50])

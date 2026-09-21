@@ -448,22 +448,13 @@ button:not(:disabled),
     cursor: pointer;
 }
 
-.fi-fo-field-wrp-view input,
-.fi-fo-field-wrp-view select,
-.fi-fo-field-wrp-view textarea,
-.fi-fo-component-ctn input,
-.fi-fo-component-ctn select,
-.fi-fo-component-ctn textarea {
-    border-width: 1px !important;
-    border-color: transparent !important;
+/* Paksa border input Filament */
+.fi-input-wrp {
+    border: 1px solid var(--border) !important;
 }
 
-.fi-fo-field-wrp-view input:focus,
-.fi-fo-field-wrp-view select:focus,
-.fi-fo-field-wrp-view textarea:focus,
-.fi-fo-component-ctn input:focus,
-.fi-fo-component-ctn select:focus,
-.fi-fo-component-ctn textarea:focus {
+.fi-input-wrp:focus-within {
     border-color: var(--ring) !important;
-    box-shadow: 0 0 0 2px rgb(var(--primary-500) / 0.2) !important;
+    border-width: 2px !important;
+    /* box-shadow: 0 0 0 2px rgb(var(--primary-500) / 0.2) !important; */
 }

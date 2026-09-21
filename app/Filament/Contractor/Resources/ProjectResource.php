@@ -3,7 +3,6 @@
 namespace App\Filament\Contractor\Resources;
 
 use App\Filament\Contractor\Resources\ProjectResource\Pages;
-use App\Filament\Resources\ProjectResource\RelationManagers as BaseRelationManagers;
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -96,7 +95,8 @@ class ProjectResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('client_name')
                     ->label('Client')
-                    ->formatStateUsing(fn ($state, $record) =>
+                    ->formatStateUsing(
+                        fn($state, $record) =>
                         $record->branch?->name
                             ? "{$state}, {$record->branch->name}"
                             : $state
@@ -109,7 +109,8 @@ class ProjectResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')
                     ->label('Period')
-                    ->formatStateUsing(fn ($record) =>
+                    ->formatStateUsing(
+                        fn($record) =>
                         collect([
                             $record->start_date?->format('M d, Y'),
                             $record->end_date?->format('M d, Y'),
@@ -151,17 +152,17 @@ class ProjectResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                        Tables\Actions\ViewAction::make()
-                            ->icon('heroicon-o-eye')
-                            ->color('info'),
-                        Tables\Actions\EditAction::make()
-                            ->icon('heroicon-o-pencil')
-                            ->color('primary'),
-                        Tables\Actions\Action::make('changeStatus')
-                            ->label('Change Status')
-                            ->icon('heroicon-o-tag')
-                            ->color('warning')
-                            ->fillForm(fn(Project $record): array => ['status' => $record->status])
+                    Tables\Actions\ViewAction::make()
+                        ->icon('heroicon-o-eye')
+                        ->color('info'),
+                    Tables\Actions\EditAction::make()
+                        ->icon('heroicon-o-pencil')
+                        ->color('primary'),
+                    Tables\Actions\Action::make('changeStatus')
+                        ->label('Change Status')
+                        ->icon('heroicon-o-tag')
+                        ->color('warning')
+                        ->fillForm(fn(Project $record): array => ['status' => $record->status])
                         ->form([
                             Forms\Components\Select::make('status')
                                 ->label('Status')

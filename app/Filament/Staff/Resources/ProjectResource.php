@@ -3,7 +3,6 @@
 namespace App\Filament\Staff\Resources;
 
 use App\Filament\Staff\Resources\ProjectResource\Pages;
-use App\Filament\Staff\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Grid;

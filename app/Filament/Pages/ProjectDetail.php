@@ -2,7 +2,6 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\Project;
 use Filament\Pages\Page;
 use Illuminate\Database\Eloquent\Model;
 

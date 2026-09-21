@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
-use App\Filament\Pages\Reports;
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -17,7 +16,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
-use Filament\Navigation\NavigationItem;
 
 class ProjectResource extends Resource
 {

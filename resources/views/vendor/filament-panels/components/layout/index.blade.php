@@ -6,22 +6,17 @@ $livewire ??= null;
 @endphp
 
 <x-filament-panels::layout.base :livewire="$livewire">
-
-    {{-- overlay --}}
     @if (filament()->hasNavigation())
     <div x-cloak x-data="{}" x-on:click="$store.sidebar.close()" x-show="$store.sidebar.isOpen"
         x-transition.opacity.300ms class="fixed inset-0 z-[60] bg-black/50 transition duration-300 lg:hidden"></div>
     @endif
 
     <div class="flex min-h-screen w-full">
-        {{-- sidebar --}}
         @if (filament()->hasNavigation())
         <x-filament-panels::sidebar :navigation="$navigation" class="fi-main-sidebar shrink-0" />
         @endif
 
-        {{-- main --}}
         <div class="fi-main-ctn flex min-w-0 flex-1 flex-col">
-            {{-- header --}}
             @if (filament()->hasTopbar())
             {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::TOPBAR_BEFORE,
             scopes: $livewire?->getRenderHookScopes()) }}
@@ -54,7 +49,6 @@ $livewire ??= null;
                 <div class="flex-1"></div>
 
                 <div class="flex items-center gap-2">
-                    {{-- user menu --}}
                     <x-filament-panels::user-menu />
                 </div>
             </header>

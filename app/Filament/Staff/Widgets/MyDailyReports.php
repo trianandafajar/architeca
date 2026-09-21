@@ -5,7 +5,6 @@ namespace App\Filament\Staff\Widgets;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
-use App\Models\DailyReport;
 
 class MyDailyReports extends TableWidget
 {
@@ -18,7 +17,6 @@ class MyDailyReports extends TableWidget
         return $table
             ->heading('My recent reports')
             ->description('Daily reports you have submitted.')
-            //         // ->query(DailyReport::query()->with('project')->where('user_id', auth()->id()))
             ->columns([
                 Tables\Columns\TextColumn::make('report_date')->label('Date')->date()->sortable(),
                 Tables\Columns\TextColumn::make('project.name')->label('Project')->limit(28)->searchable(),

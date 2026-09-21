@@ -22,16 +22,16 @@ class ProjectTaskPolicy
 
     public function create(User $user): bool
     {
-        return in_array(strtolower($user->role), ['admin', 'contractor']);
+        return $user->can('create_projecttask');
     }
 
     public function update(User $user, ProjectTask $projectTask): bool
     {
-        return true;
+        return $user->can('update_projecttask');
     }
 
     public function delete(User $user, ProjectTask $projectTask): bool
     {
-        return in_array(strtolower($user->role), ['admin', 'contractor']);
+        return $user->can('delete_projecttask');
     }
 }

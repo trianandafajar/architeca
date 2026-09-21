@@ -50,6 +50,7 @@ class TasksRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->where('assigned_to', auth()->id()))
             ->columns([
                 Tables\Columns\TextColumn::make('title')->label('Task')->searchable(),
                 Tables\Columns\IconColumn::make('is_completed')

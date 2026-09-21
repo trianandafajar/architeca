@@ -34,7 +34,8 @@ class ViewProjectTasks extends Page
 
     protected function tasksQuery()
     {
-        return ProjectTask::where('project_id', $this->record->id);
+        return ProjectTask::where('project_id', $this->record->id)
+            ->where('assigned_to', auth()->id());
     }
 
     protected function findTask(int $id): ProjectTask

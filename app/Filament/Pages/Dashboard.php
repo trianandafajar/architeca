@@ -66,19 +66,24 @@ class Dashboard extends BaseDashboard
             ])
             ->values();
 
+        $avgProgress = round($latestProgressByProject->avg('progress') ?? 0);
+        $budgetUsedPercent = $totalBudget > 0 ? round(($totalExpenses / $totalBudget) * 100, 1) : 0;
+
+        $recentActivity = \App\Models\DailyReport::with(['project', 'user'])
+            ->latest('report_date')
+            ->take(8)
+            ->get();
+
         return [
             'totalProjects' => $projects->count(),
             'activeProjects' => $projects->where('status', 'active')->count(),
             'totalBudget' => $totalBudget,
             'totalExpenses' => $totalExpenses,
-            'budgetUsedPercent' => $totalBudget > 0 ? round(($totalExpenses / $totalBudget) * 100, 1) : 0,
-            'avgProgress' => round($latestProgressByProject->avg('progress') ?? 0),
+            'budgetUsedPercent' => $budgetUsedPercent,
+            'avgProgress' => $avgProgress,
             'recentProjects' => $projects->sortByDesc('created_at')->take(5),
             'latestProgress' => $latestProgressByProject,
-            // 'recentActivity' => DailyReport::with(['project', 'user'])
-            //     ->latest('report_date')
-            //     ->take(8)
-            //     ->get(),
+            'recentActivity' => $recentActivity,
             'expensesByCategory' => $expensesByCategory,
             'monthlyExpenses' => $monthlyExpenses,
         ];

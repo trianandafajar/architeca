@@ -8,8 +8,6 @@ return '$' . number_format($value, 0);
 @endphp
 
 <div class="architeca-dashboard space-y-8">
-
-    {{-- header --}}
     <div class="flex items-center justify-between">
         <div>
             <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-2">Dashboard</h1>
@@ -21,7 +19,6 @@ return '$' . number_format($value, 0);
         </div>
     </div>
 
-    {{-- stat cards --}}
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
             <div class="flex items-start justify-between">
@@ -95,10 +92,7 @@ return '$' . number_format($value, 0);
         </div>
     </div>
 
-    {{-- charts --}}
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-
-        {{-- bar chart --}}
         <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
             <h3 class="text-sm font-semibold text-foreground">Expenses by Category</h3>
             <p class="mb-4 text-xs text-muted-foreground">Spending breakdown across all projects.</p>
@@ -107,7 +101,6 @@ return '$' . number_format($value, 0);
             </div>
         </div>
 
-        {{-- line chart --}}
         <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
             <h3 class="text-sm font-semibold text-foreground">Budget Usage</h3>
             <p class="mb-4 text-xs text-muted-foreground">Monthly expense trend across projects.</p>
@@ -117,85 +110,13 @@ return '$' . number_format($value, 0);
         </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 xl:grid-cols-3">
-
-        <div class="xl:col-span-2 rounded-lg border border-border bg-card shadow-sm">
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-12">
+        <div class="xl:col-span-4 rounded-lg border border-border bg-card shadow-sm">
             <div class="flex items-center justify-between border-b border-border px-6 py-4">
-                <h3 class="text-sm font-semibold text-foreground">Recent Projects</h3>
-                <a href="admin/projects" class="text-xs font-medium text-primary hover:underline">
+                <h3 class="text-sm font-semibold text-foreground">Recent Activity</h3>
+                <a href="/admin/projects" class="text-xs font-medium text-primary hover:underline">
                     View all
                 </a>
-            </div>
-            {{-- <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-100 dark:bg-gray-800">
-                        <tr class="border-b border-border">
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                                Project</th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                                Client</th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                                Status</th>
-                            <th
-                                class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                                Budget</th>
-                            <th
-                                class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                                Progress</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-border">
-                        @forelse ($recentProjects as $project)
-                        @php $progress = $project->progressUpdates->sortByDesc('progress_date')->first()?->percentage ??
-                        0; @endphp
-                        <tr class="transition-colors hover:bg-muted/50">
-                            <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-foreground">{{
-                                $project->name }}</td>
-                            <td class="whitespace-nowrap px-6 py-4 text-sm text-muted-foreground">{{
-                                $project->client_name ?? '—' }}</td>
-                            <td class="whitespace-nowrap px-6 py-4">
-                                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
-                                        {{ match($project->status) {
-                                            'active' => 'bg-green-50 text-green-700 ring-1 ring-green-600/20',
-                                            'planning' => 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20',
-                                            'on_hold' => 'bg-blue-50 text-blue-700 ring-1 ring-blue-600/20',
-                                            'completed' => 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20',
-                                            'cancelled' => 'bg-red-50 text-red-700 ring-1 ring-red-600/20',
-                                            default => 'bg-gray-50 text-gray-700 ring-1 ring-gray-600/20',
-                                        } }}">
-                                    {{ ucfirst(str_replace('_', ' ', $project->status)) }}
-                                </span>
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4 text-right text-sm text-foreground">{{
-                                formatCurrency($project->contract_value) }}</td>
-                            <td class="whitespace-nowrap px-6 py-4 text-right">
-                                <div class="flex items-center justify-end gap-2">
-                                    <div class="h-1.5 w-16 overflow-hidden rounded-full bg-muted">
-                                        <div class="h-full rounded-full bg-primary" style="width: {{ $progress }}%">
-                                        </div>
-                                    </div>
-                                    <span class="text-xs font-medium text-muted-foreground">{{ number_format($progress,
-                                        0) }}%</span>
-                                </div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="5" class="px-6 py-12 text-center text-sm text-muted-foreground">No projects
-                                found.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div> --}}
-        </div>
-
-        {{-- <div class="rounded-lg border border-border bg-card shadow-sm">
-            <div class="border-b border-border px-6 py-4">
-                <h3 class="text-sm font-semibold text-foreground">Recent Activity</h3>
             </div>
             <div class="divide-y divide-border max-h-[480px] overflow-y-auto">
                 @forelse ($recentActivity as $activity)
@@ -217,37 +138,36 @@ return '$' . number_format($value, 0);
                 <div class="px-6 py-12 text-center text-sm text-muted-foreground">No recent activity.</div>
                 @endforelse
             </div>
-        </div> --}}
-    </div>
-
-    {{-- progress by project --}}
-    @if ($latestProgress->count())
-    <div class="rounded-xl border border-border bg-card p-8 shadow-sm">
-        <div class="mb-6">
-            <h3 class="text-sm font-semibold text-foreground">Progress by Project</h3>
-            <p class="mt-1 text-xs text-muted-foreground">Current completion status for each project.</p>
         </div>
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach ($latestProgress as $prog)
-            <div
-                class="flex flex-col gap-3 rounded-lg border border-border p-4 transition-all hover:shadow-sm hover:border-primary/30">
-                <div class="min-w-0">
-                    <p class="truncate text-sm font-medium text-foreground">{{ $prog['name'] }}</p>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="h-2 flex-1 overflow-hidden rounded-full bg-muted">
-                        <div class="h-full rounded-full bg-primary transition-all duration-500"
-                            style="width: {{ $prog['progress'] }}%"></div>
-                    </div>
-                    <span class="text-xs font-semibold text-primary tabular-nums">{{ number_format($prog['progress'], 0)
-                        }}%</span>
-                </div>
+
+        @if ($latestProgress->count())
+        <div class="xl:col-span-8 rounded-xl border border-border bg-card p-8 shadow-sm">
+            <div class="mb-6">
+                <h3 class="text-sm font-semibold text-foreground">Progress by Project</h3>
+                <p class="mt-1 text-xs text-muted-foreground">Current completion status for each project.</p>
             </div>
-            @endforeach
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach ($latestProgress as $prog)
+                <div
+                    class="flex flex-col gap-3 rounded-lg border border-border p-4 transition-all hover:shadow-sm hover:border-primary/30">
+                    <div class="min-w-0">
+                        <p class="truncate text-sm font-medium text-foreground">{{ $prog['name'] }}</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="h-2 flex-1 overflow-hidden rounded-full bg-muted">
+                            <div class="h-full rounded-full bg-primary transition-all duration-500"
+                                style="width: {{ $prog['progress'] }}%"></div>
+                        </div>
+                        <span class="text-xs font-semibold text-primary tabular-nums">{{
+                            number_format($prog['progress'], 0)
+                            }}%</span>
+                    </div>
+                </div>
+                @endforeach
+            </div>
         </div>
+        @endif
     </div>
-    @endif
-
 </div>
 
 <script src="{{ asset('js/vendor/chart.umd.js') }}"></script>
@@ -263,8 +183,6 @@ return '$' . number_format($value, 0);
     ];
 
     const gridColor = '#e5ddd3';
-
-    // --- bar chart ---
     new Chart(document.getElementById('expenseBarChart'), {
         type: 'bar',
         data: {
@@ -319,7 +237,6 @@ return '$' . number_format($value, 0);
         },
     });
 
-    // --- line chart ---
     new Chart(document.getElementById('budgetLineChart'), {
         type: 'line',
         data: {

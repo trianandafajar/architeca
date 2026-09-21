@@ -32,7 +32,8 @@
                     <span class="text-sm text-gray-500">{{ $doneCount }} / {{ $total }} completed</span>
                 </div>
                 <div class="h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-white/10">
-                    <div class="h-full rounded-full bg-primary-600 transition-all" style="width: {{ $percent }}%"></div>
+                    <div class="h-full rounded-full transition-all duration-500"
+                        style="width: {{ $percent }}%; background-color: #F97316;"></div>
                 </div>
             </div>
 
@@ -53,7 +54,8 @@
                     <div class="flex items-center gap-3">
                         <input type="checkbox" wire:click="toggleTask({{ $task->id }})" @checked($isDone)
                             @disabled($locked) title="{{ $locked ? 'Upload photo first' : '' }}"
-                            class="h-5 w-5 rounded border-gray-300 text-primary-600 focus:ring-primary-600 disabled:cursor-not-allowed disabled:opacity-40 dark:border-white/20 dark:bg-white/5">
+                            style="color: #F97316;"
+                            class="h-5 w-5 rounded border-gray-300 disabled:cursor-not-allowed disabled:opacity-40 dark:border-white/20 dark:bg-white/5">
 
                         <span class="flex-1 font-semibold {{ $isDone ? 'text-gray-400 line-through' : '' }}">
                             {{ $task->title }}

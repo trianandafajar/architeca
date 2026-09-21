@@ -38,7 +38,7 @@ class TasksRelationManager extends RelationManager
                 ->relationship(
                     name: 'user',
                     titleAttribute: 'name',
-                    modifyQueryUsing: fn (Builder $query) => $query
+                    modifyQueryUsing: fn(Builder $query) => $query
                         ->latest()
                         ->limit(20)
                 )
@@ -48,11 +48,9 @@ class TasksRelationManager extends RelationManager
                 ->nullable();
         }
 
-        $fields[] = Forms\Components\Toggle::make('is_completed')
+$fields[] = Forms\Components\Checkbox::make('is_completed')
             ->label('Completed')
             ->default(false)
-            ->onColor('success')
-            ->offColor('danger')
             ->inline(false);
         $fields[] = Forms\Components\FileUpload::make('evidence_path')
             ->label('Evidence Photo')
@@ -72,9 +70,11 @@ class TasksRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('title')->label('Title')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('percentage_weight')->label('Weight')->suffix('%')->sortable(),
-                Tables\Columns\ToggleColumn::make('is_completed')->onColor('success')->offColor('danger')->label('Done'),
                 Tables\Columns\TextColumn::make('user.name')->label('Assignee')->searchable(),
                 Tables\Columns\TextColumn::make('notes')->label('Notes')->limit(50),
+                Tables\Columns\IconColumn::make('is_completed')
+                    ->boolean()
+                    ->label('Done'),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()->color('primary'),

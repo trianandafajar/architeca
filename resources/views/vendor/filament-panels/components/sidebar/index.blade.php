@@ -25,7 +25,7 @@ $hasTopNav = filament()->hasTopNavigation();
         @endif
     " {{ $attributes->class([
     'fi-sidebar fixed inset-y-0 start-0 z-[70] flex h-screen shrink-0 flex-col overflow-hidden transition-all
-    duration-300 bg-[#3c4a45]
+    duration-300 bg-[#  ]
     lg:z-0',
     ])
     }}

@@ -1,43 +1,30 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\ProjectResource\RelationManagers;
 
-use App\Filament\Staff\Resources\ProjectTaskResource\Pages;
-use App\Filament\Staff\Resources\ProjectTaskResource\RelationManagers;
-use App\Models\ProjectTask;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Model;
 
-class ProjectTaskResource extends Resource
+class TasksRelationManager extends RelationManager
 {
-    protected static ?string $model = ProjectTask::class;
+    protected static string $relationship = 'tasks';
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
-    protected static ?string $navigationLabel = 'My Tasks';
+    protected static ?string $title = 'Tasks';
 
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->where('assigned_to', auth()->id());
-    }
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('project.name')
-                    ->label('Project')
-                    ->disabled()
-                    ->dehydrated(false),
                 Forms\Components\TextInput::make('title')
                     ->label('Task Title')
                     ->required()
-                    ->disabled(),
+                    ->disabled()
+                    ->dehydrated(false),
                 Forms\Components\Checkbox::make('is_completed')
                     ->label('Completed')
                     ->default(false)
@@ -60,7 +47,7 @@ class ProjectTaskResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
@@ -74,21 +61,5 @@ class ProjectTaskResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListProjectsForTasks::route('/'),
-            'project-view' => Pages\ViewProjectTasks::route('/project/{project}'),
-            'edit' => Pages\EditProjectTask::route('/{record}/edit'),
-        ];
     }
 }

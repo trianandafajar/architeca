@@ -19,7 +19,7 @@ class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-folder';
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $navigationLabel = 'Projects';
     protected static ?string $modelLabel = 'Project';
     protected static ?string $pluralModelLabel = 'Projects';
@@ -101,7 +101,8 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            \App\Filament\Staff\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager::class,
+            
+        \App\Filament\Staff\Resources\ProjectResource\RelationManagers\TasksRelationManager::class,
             \App\Filament\Staff\Resources\ProjectResource\RelationManagers\AttachmentsRelationManager::class,
         ];
     }

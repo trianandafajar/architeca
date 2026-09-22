@@ -25,7 +25,7 @@ $hasTopNav = filament()->hasTopNavigation();
         @endif
     " {{ $attributes->class([
     'fi-sidebar fixed inset-y-0 start-0 z-[70] flex h-screen shrink-0 flex-col overflow-hidden transition-all
-    duration-300 bg-[#  ]
+    duration-300 bg-[#fffbeb]
     lg:z-0',
     ])
     }}
@@ -74,22 +74,28 @@ $hasTopNav = filament()->hasTopNavigation();
             <ul class="space-y-2 px-2">
                 @foreach ($group->getItems() as $item)
                 <li>
+                    {{--
+                    Warna (background & text) SELALU dari @class, statis, tidak pernah
+                    dicampur dengan x-bind:class. x-bind:class di bawah HANYA mengatur
+                    padding/justify sesuai sidebar terbuka/tertutup, tidak menyentuh warna
+                    sama sekali — supaya tidak ada konflik/duplikasi utility class.
+                    --}}
                     <a href="{{ $item->getUrl() }}" @if ($collapsibleOnDesktop || $fullyCollapsible)
                         x-data="{ tooltip: false }" x-effect="
                             tooltip = $store.sidebar.isOpen
                                 ? false
                                 : { content: @js($item->getLabel()), placement: 'right', theme: $store.theme }
                         " x-tooltip.html="tooltip" @endif
-                        @class([
-                            'flex items-center gap-3 rounded-lg py-2.5 px-4 text-sm font-medium transition-colors',
-                            'text-[#e5e7eb] hover:bg-white/20 hover:text-white' => ! $item->isActive(),
+                        @class([ 'flex items-center gap-3 rounded-lg py-2.5 px-4 text-sm font-medium transition-colors'
+                        , 'bg-[#f97316] text-white'=> $item->isActive(),
+                        'text-[#02070d] hover:bg-[#f97316]/60 hover:text-white' => ! $item->isActive(),
                         ])
                         @if ($item->isActive()) aria-current="page" @endif
                         @if ($collapsibleOnDesktop || $fullyCollapsible)
                         x-bind:class="
-                            $store.sidebar.isOpen
-                                ? (@js($item->isActive()) ? 'bg-[#f97316] text-white px-4 justify-start' : 'text-[#02070d] hover:bg-[#f97316]/60 hover:text-white px-4 justify-start')
-                                : (@js($item->isActive()) ? 'bg-[#f97316] text-white p-2 justify-center' : 'text-[#02070d] hover:bg-[#f97316]/60 hover:text-white p-2 justify-center')
+                        $store.sidebar.isOpen
+                        ? 'px-4 justify-start'
+                        : 'p-2 justify-center'
                         "
                         x-bind:title="$store.sidebar.isOpen ? '' : @js($item->getLabel())"
                         @endif

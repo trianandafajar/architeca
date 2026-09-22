@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-[wire\:loading].btn-action,
-button:disabled {
-    opacity: 0.5;
+[disabled], [aria-disabled="true"], button:disabled {
     cursor: not-allowed !important;
-    pointer-events: none;
+    opacity: 0.5 !important;
 }

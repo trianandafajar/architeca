@@ -47,7 +47,12 @@
             {{ $this->form }}
 
             <div class="pf-actions">
-                <x-filament::button type="submit" class="disabled:opacity-50 disabled:cursor-not-allowed" wire:target="save">Save changes
+                <x-filament::button 
+                    type="submit" 
+                    wire:target="save" 
+                    wire:loading.attr="disabled"
+                    class="disabled:opacity-50 disabled:cursor-not-allowed">
+                    Save changes
                 </x-filament::button>
             </div>
         </form>

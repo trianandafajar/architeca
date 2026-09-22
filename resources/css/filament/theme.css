@@ -444,18 +444,20 @@ html.dark {
     }
 }
 
-button:not(:disabled),
-[role='button']:not(:disabled) {
-    cursor: pointer;
+/* Global transition for interactive elements */
+* {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
 }
 
-/* Paksa border input Filament */
+/* Remove forced !important where not needed for better control */
 .fi-input-wrp {
-    border: 1px solid var(--border) !important;
+    border: 1px solid var(--border);
+    transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .fi-input-wrp:focus-within {
-    border-color: var(--ring) !important;
-    border-width: 2px !important;
-    /* box-shadow: 0 0 0 2px rgb(var(--primary-500) / 0.2) !important; */
+    border-color: var(--ring);
+    box-shadow: 0 0 0 1px var(--ring);
 }

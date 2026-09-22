@@ -29,7 +29,7 @@ class ContractorPanelProvider extends PanelProvider
             ->login(\App\Filament\Pages\Auth\Login::class)
             ->profile(\App\Filament\Pages\Auth\EditProfile::class)
             ->colors([
-                'primary' => Color::hex('#8B4513'),
+                'primary' => Color::Orange,
                 'gray' => Color::Slate,
             ])
             ->spa()

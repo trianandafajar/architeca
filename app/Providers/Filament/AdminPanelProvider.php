@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->profile(\App\Filament\Pages\Auth\EditProfile::class)
             ->passwordReset()
             ->colors([
-                'primary' => Color::hex('#8B4513'),
+                'primary' => Color::Orange,
                 'gray' => Color::Slate,
             ])
             ->spa()

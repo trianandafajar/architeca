@@ -31,7 +31,7 @@ $hasTopNav = filament()->hasTopNavigation();
     }}
     >
     {{-- header sidebar --}}
-    <div class="flex h-16 shrink-0 items-center border-b border-border px-3 transition-all duration-300"
+    <div class="flex h-16 shrink-0 items-center border-b border-white/10 px-3 transition-all duration-300"
         @if ($collapsibleOnDesktop || $fullyCollapsible)
         x-bind:class="$store.sidebar.isOpen ? 'justify-start gap-3' : 'justify-center gap-0'"
         @else
@@ -39,12 +39,12 @@ $hasTopNav = filament()->hasTopNavigation();
         @endif>
         @if ($homeUrl = filament()->getHomeUrl())
         <a {{ \Filament\Support\generate_href_html($homeUrl) }}
-            class="flex min-w-0 items-center gap-2.5 font-bold text-[#243447]">
+            class="flex min-w-0 items-center gap-2.5 font-bold text-white">
             @else
-            <div class="flex min-w-0 items-center gap-2.5 font-bold text-[#243447]">
+            <div class="flex min-w-0 items-center gap-2.5 font-bold text-white">
                 @endif
                 <div class="flex h-9 w-9 shrink-0 items-center justify-center">
-                    <img src="{{ asset('images/logo-1.png') }}" alt="Architeca Logo" class="h-9 w-9 object-contain" />
+                    <img src="{{ asset('images/logo.png') }}" alt="Architeca Logo" class="h-9 w-9 object-contain" />
                 </div>
                 @if ($collapsibleOnDesktop || $fullyCollapsible)
                 <span class="text-2xl tracking-tight whitespace-nowrap" x-show="$store.sidebar.isOpen"
@@ -83,8 +83,8 @@ $hasTopNav = filament()->hasTopNavigation();
                                 : { content: @js($item->getLabel()), placement: 'right', theme: $store.theme }
                         " x-tooltip.html="tooltip" @endif
                         @class([ 'flex items-center gap-3 rounded-lg h-11 text-sm font-medium transition-colors'
-                        , 'bg-[#f97316] text-white'=> $item->isActive(),
-                        'text-[#02070d] hover:bg-[#f97316]/60 hover:text-white' => ! $item->isActive(),
+                        , 'bg-primary text-white'=> $item->isActive(),
+                        'text-gray-300 hover:bg-gray-800 hover:text-white' => ! $item->isActive(),
                         ])
                         @if ($item->isActive()) aria-current="page" @endif
                         @if ($collapsibleOnDesktop || $fullyCollapsible)
@@ -108,7 +108,7 @@ $hasTopNav = filament()->hasTopNavigation();
                         </span>
                         @if ($badge = $item->getBadge())
                         <span
-                            class="ml-auto inline-flex shrink-0 items-center rounded-full bg-[#f97316]/50 px-2 py-0.5 text-xs font-medium text-[#fdfbf7]"
+                            class="ml-auto inline-flex shrink-0 items-center rounded-full bg-gray-800 px-2 py-0.5 text-xs font-medium text-white"
                             @if ($collapsibleOnDesktop || $fullyCollapsible) x-show="$store.sidebar.isOpen"
                             x-transition.opacity @endif>
                             {{ $badge }}

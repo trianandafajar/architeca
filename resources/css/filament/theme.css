@@ -30,14 +30,14 @@
     --chart-4: #fdba74;
     --chart-5: #9a3412;
 
-    /* Sidebar: White */
-    --sidebar: #ffffff;
-    --sidebar-foreground: #18181b;
+    /* Sidebar: Dark Slate Mode */
+    --sidebar: #0f172a;
+    --sidebar-foreground: #f8fafc;
     --sidebar-primary: #f97316;
     --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #f1f5f9;
-    --sidebar-accent-foreground: #18181b;
-    --sidebar-border: #e2e8f0;
+    --sidebar-accent: #1e293b;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #1e293b;
     --sidebar-ring: #f97316;
 
     --primary-50: 255 247 237;
@@ -86,8 +86,8 @@ html.dark {
 
 .fi-sidebar-item-active,
 .fi-sidebar-item-active:hover {
-    background-color: var(--sidebar-accent);
-    color: var(--sidebar-accent-foreground);
+    background-color: var(--primary);
+    color: #ffffff !important;
 }
 
 .fi-sidebar-header {

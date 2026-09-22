@@ -19,9 +19,9 @@ class ViewProjectTasks extends Page
     protected static string $view = 'filament.staff.resources.project-task-resource.pages.view-project-tasks';
 
     public Project $record;
-    public $tasks = [];           // Collection of tasks
-    public array $notes = [];     // [task_id => notes]
-    public array $evidence_files = []; // [task_id => TemporaryUploadedFile]
+    public $tasks = [];
+    public array $notes = [];
+    public array $evidence_files = [];
 
     public function mount(int|string $project): void
     {
@@ -63,7 +63,6 @@ class ViewProjectTasks extends Page
         $task->notes = $this->notes[$task->id] ?? null;
         $task->save();
 
-        // Refresh tasks collection for live update
         $this->tasks = $this->tasksQuery()->get();
     }
 

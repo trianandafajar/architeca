@@ -96,7 +96,7 @@ $items = \Illuminate\Support\Arr::except($items, ['account', 'logout', 'profile'
                 @csrf
                 <x-filament::button color="danger" type="submit" x-bind:disabled="loading">
                     <span x-show="! loading">Sign Out</span>
-                    <span x-show="loading">Signing out...</span>
+                    <span x-show="loading" class="cursor-not-allowed opacity-50">Signing out...</span>
                 </x-filament::button>
             </form>
         </div>

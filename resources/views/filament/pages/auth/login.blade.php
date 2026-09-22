@@ -46,7 +46,7 @@
                             style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none;" />
                         <input type="email" id="data.email" wire:model="data.email" placeholder="name@example.com"
                             required
-                            class="w-full rounded-xl border border-[#B8A98F] bg-white py-3 text-sm text-[#273C52] placeholder-[#273C52] shadow-sm transition focus:border-[#F97316] focus:outline-none focus:ring-1.5 focus:ring-[#F97316]"
+                            class="w-full rounded-xl border border-[#B8A98F] bg-white py-3 text-sm text-[#273C52] placeholder-[#B8A98F] shadow-sm transition focus:border-[#F97316] focus:outline-none focus:ring-1.5 focus:ring-[#F97316]"
                             style="padding-left: 44px; padding-right: 16px;" />
                     </div>
                     @error('data.email')

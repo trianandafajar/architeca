@@ -21,10 +21,10 @@
         <div class="mx-auto w-full max-w-md rounded-2xl border border-[#E5DDD3] bg-white p-6 shadow-lg sm:p-8 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
             <div class="mb-8 flex items-center gap-2 lg:hidden">
                 <img src="{{ asset('images/logo-1.png') }}" alt="Architeca Logo" class="h-10 w-10" />
-                <span class="text-xl font-bold text-[#2D1810]">ARCHITECA</span>
+                <span class="text-xl font-bold text-[#273C52]">ARCHITECA</span>
             </div>
-            <h1 class="mb-2 text-2xl font-bold text-[#2D1810]">Welcome back</h1>
-            <p class="mb-8 text-sm text-white/70">Enter your credentials to access your account.</p>
+            <h1 class="mb-2 text-2xl font-bold text-[#273C52]">Welcome back</h1>
+            <p class="mb-8 text-sm text-[#273C52]/70">Enter your credentials to access your account.</p>
 
             <form wire:submit="authenticate" class="space-y-6">
                 {{ $this->form }}
@@ -34,7 +34,7 @@
                 </div>
 
                 <button type="submit"
-                    class="w-full rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-[#EA580C] focus:outline-none focus:ring-2 focus:ring-[#F97316]/50 focus:ring-offset-2 active:scale-[0.98]"
+                    class="w-full rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-[#EA580C] focus:outline-none focus:ring-1.5 focus:ring-[#F97316    ]"
                     wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-wait">
                     <span wire:loading.remove>Sign In</span>
                     <span wire:loading wire:target="authenticate">Signing in...</span>

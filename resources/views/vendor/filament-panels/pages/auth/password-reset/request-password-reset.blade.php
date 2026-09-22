@@ -17,17 +17,20 @@
         <p class="text-sm text-white">&copy; {{ date('Y') }} Architeca. All rights reserved.</p>
     </div>
 
-    <div class="flex min-h-screen w-full lg:w-1/2 lg:shrink-0 flex-col justify-center bg-[#FFFBF7] px-6 py-10 sm:px-10 sm:py-14 lg:px-16 lg:py-16">
-        <div class="mx-auto w-full max-w-md rounded-2xl border border-[#E5DDD3] bg-white p-6 shadow-lg sm:p-8 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
+    <div
+        class="flex min-h-screen w-full lg:w-1/2 lg:shrink-0 flex-col justify-center bg-[#FFFBF7] px-6 py-10 sm:px-10 sm:py-14 lg:px-16 lg:py-16">
+        <div
+            class="mx-auto w-full max-w-md rounded-2xl border border-[#E5DDD3] bg-white p-6 shadow-lg sm:p-8 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
             <div class="mb-8 flex items-center gap-2 lg:hidden">
                 <img src="{{ asset('images/logo-1.png') }}" alt="Architeca Logo" class="h-10 w-10" />
-                <span class="text-xl font-bold text-[#2D1810]">ARCHITECA</span>
+                <span class="text-xl font-bold text-[#273C52]">ARCHITECA</span>
             </div>
-            <h1 class="mb-2 text-2xl font-bold text-[#2D1810]">Reset password</h1>
-            <p class="mb-8 text-sm text-[#8B7355]">Enter your email address to request a password reset.</p>
+            <h1 class="mb-2 text-2xl font-bold text-[#273C52]">Reset password</h1>
+            <p class="mb-8 text-sm text-[#273C52]">Enter your email address to request a password reset.</p>
 
             <form wire:submit="request" class="space-y-6">
-                <div class="[&_.fi-input-wrapper]:!rounded-xl [&_.fi-input-wrapper]:!border-[#E5DDD3] [&_.fi-input-wrapper]:!py-3 [&_.fi-input-wrapper]:!shadow-sm [&_.fi-input-wrapper]:focus-within:!border-[#F97316] [&_.fi-input-wrapper]:focus-within:!ring-2 [&_.fi-input-wrapper]:focus-within:!ring-[#F97316]/30">
+                <div
+                    class="[&_.fi-input-wrapper]:!rounded-xl [&_.fi-input-wrapper]:!border-[#E5DDD3] [&_.fi-input-wrapper]:!py-3 [&_.fi-input-wrapper]:!shadow-sm [&_.fi-input-wrapper]:focus-within:!border-[#F97316] [&_.fi-input-wrapper]:focus-within:!ring-2 [&_.fi-input-wrapper]:focus-within:!ring-[#F97316]/30">
                     {{ $this->form }}
                 </div>
 

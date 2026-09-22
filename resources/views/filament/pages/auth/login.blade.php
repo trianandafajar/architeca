@@ -29,24 +29,24 @@
                 <div class="flex items-center justify-center">
                     <img src="{{ asset('images/logo-1.png') }}" alt="Architeca Logo" class="h-10 w-10" />
                 </div>
-                <span class="text-xl font-bold text-[#7c2d12]">ARCHITECA</span>
+                <span class="text-xl font-bold text-[#273C52]">ARCHITECA</span>
             </div>
-            <h1 class="mb-2 text-2xl font-bold text-[#7c2d12] lg:text-[#7c2d12]">Welcome back</h1>
-            <p class="mb-8 text-sm text-white/70 lg:text-white/70">Enter your credentials to access your account.
+            <h1 class="mb-2 text-2xl font-bold text-[#273C52]">Welcome back</h1>
+            <p class="mb-8 text-sm text-[#273C52]">Enter your credentials to access your account.
             </p>
 
             <form wire:submit="authenticate" class="space-y-6">
                 @csrf
 
                 <div>
-                    <label for="data.email" class="mb-2 block text-sm font-medium text-[#7c2d12]">Email
+                    <label for="data.email" class="mb-2 block text-sm font-medium text-[#273C52]">Email
                         address</label>
                     <div style="position: relative;">
                         <x-heroicon-o-envelope class="h-5 w-5 text-[#B8A98F]"
                             style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none;" />
                         <input type="email" id="data.email" wire:model="data.email" placeholder="name@example.com"
                             required
-                            class="w-full rounded-xl border border-[#fed7aa] bg-white py-3 text-sm text-[#7c2d12] placeholder-[#fdba74] shadow-sm transition focus:border-[#F97316] focus:outline-none focus:ring-2 focus:ring-[#F97316]/30"
+                            class="w-full rounded-xl border border-[#B8A98F] bg-white py-3 text-sm text-[#273C52] placeholder-[#273C52] shadow-sm transition focus:border-[#F97316] focus:outline-none focus:ring-1.5 focus:ring-[#F97316]"
                             style="padding-left: 44px; padding-right: 16px;" />
                     </div>
                     @error('data.email')
@@ -56,19 +56,19 @@
 
                 <div>
                     <div class="mb-2 flex items-center justify-between">
-                        <label for="data.password" class="block text-sm font-medium text-[#7c2d12]">Password</label>
+                        <label for="data.password" class="block text-sm font-medium text-[#273C52]">Password</label>
                         <a href="{{ filament()->getRequestPasswordResetUrl() }}"
                             class="text-sm font-medium text-[#F97316] hover:underline">Forgot password?</a>
                     </div>
                     <div style="position: relative;">
-                        <x-heroicon-o-lock-closed class="h-5 w-5 text-[#fdba74]"
+                        <x-heroicon-o-lock-closed class="h-5 w-5 text-[#B8A98F]"
                             style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none;" />
                         <input :type="showPassword ? 'text' : 'password'" id="data.password" wire:model="data.password"
                             placeholder="Enter your password" required
-                            class="w-full rounded-xl border border-[#fed7aa] bg-white py-3 text-sm text-[#7c2d12] placeholder-[#fdba74] shadow-sm transition focus:border-[#F97316] focus:outline-none focus:ring-2 focus:ring-[#F97316]/30"
+                            class="w-full rounded-xl border border-[#B8A98F] bg-white py-3 text-sm text-[#273C52] placeholder-[#B8A98F] shadow-sm transition focus:border-[#F97316] focus:outline-none focus:ring-1.5 focus:ring-[#F97316]"
                             style="padding-left: 44px; padding-right: 44px;" />
                         <button type="button" @click="showPassword = !showPassword"
-                            class="text-[#fdba74] hover:text-[#F97316]"
+                            class="text-[#B8A98F] hover:text-[#F97316] focus:outline-none"
                             style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: transparent; border: 0;">
                             <x-heroicon-o-eye x-show="!showPassword" class="h-5 w-5" />
                             <x-heroicon-o-eye-slash x-show="showPassword" class="h-5 w-5" x-cloak />
@@ -81,12 +81,12 @@
 
                 <label class="flex items-center gap-2">
                     <input type="checkbox" wire:model="data.remember"
-                        class="h-4 w-4 rounded border-[#fed7aa] text-[#F97316] focus:ring-[#F97316]/30" />
-                    <span class="text-sm text-[#7c2d12]">Remember me</span>
+                        class="h-4 w-4 rounded border-[#B8A98F] text-[#F97316] focus:ring-[#F97316]" />
+                    <span class="text-sm text-[#273C52]">Remember me</span>
                 </label>
 
                 <button type="submit"
-                    class="w-full rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-[#EA580C] focus:outline-none focus:ring-2 focus:ring-[#F97316]/50 focus:ring-offset-2 active:scale-[0.98]"
+                    class="w-full rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-[#EA580C] focus:outline-none focus:ring-1.5 focus:ring-[#F97316]"
                     wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-wait">
                     <span wire:loading.remove>Sign In</span>
                     <span wire:loading wire:target="authenticate">Signing in...</span>

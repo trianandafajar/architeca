@@ -22,7 +22,7 @@ $livewire ??= null;
             scopes: $livewire?->getRenderHookScopes()) }}
 
             <header
-                class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-4 border-b border-border bg-background px-6 transition-all">
+                class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-4 border-b border-border bg-white px-6 transition-all">
                 <div class="flex items-center gap-3">
                     <div class="flex items-center justify-center lg:hidden">
                         <img src="{{ asset('images/logo-1.png') }}" alt="Architeca Logo" class="h-8 w-8" />

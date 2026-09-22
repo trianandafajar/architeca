@@ -19,7 +19,7 @@ $hasTopNav = filament()->hasTopNavigation();
                 $store.sidebar.isOpen ? 'translate-x-0 rtl:-translate-x-0 lg:sticky' : 'w-[--sidebar-width] -translate-x-full rtl:translate-x-full lg:sticky'
             " @endif @endif x-bind:style="
         @if ($collapsibleOnDesktop || $fullyCollapsible)
-            $store.sidebar.isOpen ? 'width: 16rem' : 'width: 4rem'
+            $store.sidebar.isOpen ? 'width: 16rem' : 'width: 5rem'
         @else
             'width: 16rem'
         @endif
@@ -31,23 +31,28 @@ $hasTopNav = filament()->hasTopNavigation();
     }}
     >
     {{-- header sidebar --}}
-    <div class="flex h-16 shrink-0 items-center justify-start gap-3 px-4 border-b border-[#fed7aa]">
+    <div class="flex h-16 shrink-0 items-center border-b border-border px-3 transition-all duration-300"
+        @if ($collapsibleOnDesktop || $fullyCollapsible)
+        x-bind:class="$store.sidebar.isOpen ? 'justify-start gap-3' : 'justify-center gap-0'"
+        @else
+        class="justify-start gap-3"
+        @endif>
         @if ($homeUrl = filament()->getHomeUrl())
         <a {{ \Filament\Support\generate_href_html($homeUrl) }}
             class="flex min-w-0 items-center gap-2.5 font-bold text-[#243447]">
             @else
             <div class="flex min-w-0 items-center gap-2.5 font-bold text-[#243447]">
                 @endif
-                <div class="flex h-8 w-8 shrink-0 items-center justify-center">
-                    <img src="{{ asset('images/logo-1.png') }}" alt="Architeca Logo" class="h-8 w-8" />
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center">
+                    <img src="{{ asset('images/logo-1.png') }}" alt="Architeca Logo" class="h-9 w-9 object-contain" />
                 </div>
                 @if ($collapsibleOnDesktop || $fullyCollapsible)
-                <span class="truncate text-lg tracking-tight whitespace-nowrap" x-show="$store.sidebar.isOpen"
+                <span class="text-2xl tracking-tight whitespace-nowrap" x-show="$store.sidebar.isOpen"
                     x-transition.opacity>
                     Architeca
                 </span>
                 @else
-                <span class="truncate text-lg tracking-tight whitespace-nowrap">
+                <span class="text-xl tracking-tight whitespace-nowrap">
                     Architeca
                 </span>
                 @endif
@@ -64,22 +69,9 @@ $hasTopNav = filament()->hasTopNavigation();
 
         @foreach ($navigation as $group)
         <div>
-            @if ($group->getLabel())
-            <h4 class="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-[#a0a9a6] whitespace-nowrap"
-                @if($collapsibleOnDesktop || $fullyCollapsible) x-show="$store.sidebar.isOpen" x-transition.opacity
-                @endif>
-                {{ $group->getLabel() }}
-            </h4>
-            @endif
             <ul class="space-y-2 px-2">
                 @foreach ($group->getItems() as $item)
                 <li>
-                    {{--
-                    Warna (background & text) SELALU dari @class, statis, tidak pernah
-                    dicampur dengan x-bind:class. x-bind:class di bawah HANYA mengatur
-                    padding/justify sesuai sidebar terbuka/tertutup, tidak menyentuh warna
-                    sama sekali — supaya tidak ada konflik/duplikasi utility class.
-                    --}}
                     <a href="{{ $item->getUrl() }}" @if ($collapsibleOnDesktop || $fullyCollapsible)
                         x-data="{ tooltip: false }" x-effect="
                             tooltip = $store.sidebar.isOpen

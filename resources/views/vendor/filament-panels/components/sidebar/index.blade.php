@@ -19,7 +19,7 @@ $hasTopNav = filament()->hasTopNavigation();
                 $store.sidebar.isOpen ? 'translate-x-0 rtl:-translate-x-0 lg:sticky' : 'w-[--sidebar-width] -translate-x-full rtl:translate-x-full lg:sticky'
             " @endif @endif x-bind:style="
         @if ($collapsibleOnDesktop || $fullyCollapsible)
-            $store.sidebar.isOpen ? 'width: 16rem' : 'width: 5rem'
+            $store.sidebar.isOpen ? 'width: 16rem' : 'width: 4rem'
         @else
             'width: 16rem'
         @endif
@@ -69,7 +69,11 @@ $hasTopNav = filament()->hasTopNavigation();
 
         @foreach ($navigation as $group)
         <div>
-            <ul class="space-y-2 px-2">
+            <ul class="space-y-2" @if ($collapsibleOnDesktop || $fullyCollapsible)
+                x-bind:class="$store.sidebar.isOpen ? 'px-2' : 'px-0'"
+                @else
+                class="space-y-2 px-2"
+                @endif>
                 @foreach ($group->getItems() as $item)
                 <li>
                     <a href="{{ $item->getUrl() }}" @if ($collapsibleOnDesktop || $fullyCollapsible)
@@ -78,7 +82,7 @@ $hasTopNav = filament()->hasTopNavigation();
                                 ? false
                                 : { content: @js($item->getLabel()), placement: 'right', theme: $store.theme }
                         " x-tooltip.html="tooltip" @endif
-                        @class([ 'flex items-center gap-3 rounded-lg py-2.5 px-4 text-sm font-medium transition-colors'
+                        @class([ 'flex items-center gap-3 rounded-lg h-11 text-sm font-medium transition-colors'
                         , 'bg-[#f97316] text-white'=> $item->isActive(),
                         'text-[#02070d] hover:bg-[#f97316]/60 hover:text-white' => ! $item->isActive(),
                         ])
@@ -87,14 +91,16 @@ $hasTopNav = filament()->hasTopNavigation();
                         x-bind:class="
                         $store.sidebar.isOpen
                         ? 'px-4 justify-start'
-                        : 'p-2 justify-center'
+                        : 'w-11 mx-auto !px-0 justify-center'
                         "
                         x-bind:title="$store.sidebar.isOpen ? '' : @js($item->getLabel())"
                         @endif
                         >
                         @if ($icon = $item->isActive() ? ($item->getActiveIcon() ?? $item->getIcon()) :
                         $item->getIcon())
-                        <x-dynamic-component :component="$icon" class="h-5 w-5 shrink-0" />
+                        <span class="flex h-5 w-5 shrink-0 items-center justify-center">
+                            <x-dynamic-component :component="$icon" class="h-5 w-5 shrink-0" />
+                        </span>
                         @endif
                         <span class="truncate whitespace-nowrap text-base" @if ($collapsibleOnDesktop ||
                             $fullyCollapsible) x-show="$store.sidebar.isOpen" x-transition.opacity @endif>

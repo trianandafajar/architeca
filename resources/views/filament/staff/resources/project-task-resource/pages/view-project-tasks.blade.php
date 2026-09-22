@@ -53,8 +53,7 @@
 
                     <div class="flex items-center gap-3">
                         <input type="checkbox" wire:click="toggleTask({{ $task->id }})" @checked($isDone)
-                            @disabled($locked) title="{{ $locked ? 'Upload photo first' : '' }}"
-                            style="color: #F97316;"
+                            @disabled($locked) title="{{ $locked ? 'Upload photo first' : '' }}" style="color: #F97316;"
                             class="h-5 w-5 rounded border-gray-300 disabled:cursor-not-allowed disabled:opacity-40 dark:border-white/20 dark:bg-white/5">
 
                         <span class="flex-1 font-semibold {{ $isDone ? 'text-gray-400 line-through' : '' }}">
@@ -99,9 +98,13 @@
                             <span class="text-xs text-gray-400">
                                 {{ $locked ? 'Upload photo to enable checkbox' : 'Ready to complete' }}
                             </span>
-                            <x-filament::button size="xs" wire:click="saveTask({{ $task->id }})">
-                                Save
-                            </x-filament::button>
+                            <span class="{{ $locked ? 'cursor-not-allowed' : '' }}">
+                                <x-filament::button size="xs" wire:click="saveTask({{ $task->id }})" :disabled="$locked"
+                                    class="disabled:cursor-not-allowed"
+                                    title="{{ $locked ? 'Upload photo first' : '' }}">
+                                    Save
+                                </x-filament::button>
+                            </span>
                         </div>
                         @endunless
                     </div>

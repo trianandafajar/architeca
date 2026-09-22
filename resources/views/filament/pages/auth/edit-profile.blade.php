@@ -47,7 +47,8 @@
             {{ $this->form }}
 
             <div class="pf-actions">
-                <x-filament::button type="submit" wire:target="save">Save changes</x-filament::button>
+                <x-filament::button type="submit" class="disabled:opacity-50 disabled:cursor-not-allowed" wire:target="save">Save changes
+                </x-filament::button>
             </div>
         </form>
     </div>
@@ -62,13 +63,6 @@
             grid-template-columns: minmax(0, 1fr);
             gap: 1.5rem;
             align-items: start;
-        }
-
-        .dark .pf {
-            --pf-bg: rgb(var(--gray-900));
-            --pf-line: rgba(255, 255, 255, .1);
-            --pf-text: #fff;
-            --pf-muted: rgb(var(--gray-400));
         }
 
         @media (min-width: 1024px) {
@@ -104,8 +98,8 @@
             margin-bottom: .75rem;
             overflow: hidden;
             border-radius: 9999px;
-            box-shadow: 0 0 0 4px var(--pf-bg), 0 4px 10px rgba(0, 0, 0, .12);
             cursor: pointer;
+            border: 4px solid var(--primary);
         }
 
         .pf-avatar:focus-visible {

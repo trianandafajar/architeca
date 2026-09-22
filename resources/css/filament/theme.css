@@ -189,13 +189,13 @@ html.dark {
     min-height: 6rem;
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    background: transparent;
+    background: #ffffff;
     padding: 1rem 1.125rem;
     transition: border-color 150ms ease, transform 150ms ease, background-color 150ms ease;
 }
 
 .fi-resource-view-record-page.fi-resource-projects .architeca-kpi-card:hover {
-    background: #fafafa;
+    background: #ffffff;
     border-color: #d4d4d8;
     transform: translateY(-1px);
 }

@@ -3,11 +3,13 @@
 namespace App\Filament\Staff\Resources\ProjectTaskResource\Pages;
 
 use App\Filament\Staff\Resources\ProjectTaskResource;
+use App\Models\Attachment;
 use App\Models\Project;
 use App\Models\ProjectTask;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
@@ -54,9 +56,22 @@ class ViewProjectTasks extends Page
 
             if ($task->evidence_path) {
                 Storage::disk('public')->delete($task->evidence_path);
+                $task->attachments()->where('file_path', $task->evidence_path)->delete();
             }
 
-            $task->evidence_path = $this->evidence_files[$task->id]->store('tasks-evidence', 'public');
+            $path = $this->evidence_files[$task->id]->store('tasks-evidence', 'public');
+            $task->evidence_path = $path;
+            
+            $fileType = Storage::disk('public')->mimeType($path) ?: null;
+
+            $task->attachments()->create([
+                'project_id' => $task->project_id,
+                'user_id' => Auth::id(),
+                'file_path' => $path,
+                'file_type' => $fileType,
+                'caption' => 'Evidence for task: ' . $task->title,
+            ]);
+
             unset($this->evidence_files[$task->id]);
         }
 
@@ -94,6 +109,7 @@ class ViewProjectTasks extends Page
 
         if ($task->evidence_path) {
             Storage::disk('public')->delete($task->evidence_path);
+            $task->attachments()->where('file_path', $task->evidence_path)->delete();
         }
 
         $task->update(['evidence_path' => null]);

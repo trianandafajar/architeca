@@ -7,6 +7,7 @@ use App\Models\DailyReport;
 use App\Models\Expense;
 use App\Models\ProgressUpdate;
 use App\Models\Project;
+use App\Models\ProjectTask;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -39,9 +40,8 @@ class AttachmentsRelationManager extends RelationManager
                     ->label('Attach to')
                     ->options([
                         (new Project)->getMorphClass() => 'Project',
-                        (new DailyReport)->getMorphClass() => 'Daily Report',
-                        (new ProgressUpdate)->getMorphClass() => 'Progress Update',
                         (new Expense)->getMorphClass() => 'Expense',
+                        (new ProjectTask)->getMorphClass() => 'Task',
                     ])
                     ->default((new Project)->getMorphClass())
                     ->prefixIcon('heroicon-m-link')
@@ -49,7 +49,7 @@ class AttachmentsRelationManager extends RelationManager
                     ->required()
                     ->live()
                     ->afterStateUpdated(
-                        fn (Set $set, ?string $state) => $set(
+                        fn(Set $set, ?string $state) => $set(
                             'attachable_id',
                             $state === (new Project)->getMorphClass()
                                 ? $this->getOwnerRecord()->getKey()
@@ -61,11 +61,11 @@ class AttachmentsRelationManager extends RelationManager
                     ->label('Target record')
                     ->placeholder('Select target record')
                     ->options(
-                        fn (Get $get): array =>
-                            $this->getTargetOptions($get('attachable_type'))
+                        fn(Get $get): array =>
+                        $this->getTargetOptions($get('attachable_type'))
                     )
                     ->default(
-                        fn () => $this->getOwnerRecord()->getKey()
+                        fn() => $this->getOwnerRecord()->getKey()
                     )
                     ->prefixIcon('heroicon-m-square-3-stack-3d')
                     ->native(false)
@@ -73,66 +73,66 @@ class AttachmentsRelationManager extends RelationManager
                     ->preload()
                     ->required()
                     ->in(
-                        fn (Get $get): array =>
-                            array_keys(
-                                $this->getTargetOptions(
-                                    $get('attachable_type')
-                                )
+                        fn(Get $get): array =>
+                        array_keys(
+                            $this->getTargetOptions(
+                                $get('attachable_type')
                             )
+                        )
                     ),
-                    Forms\Components\FileUpload::make('file_path')
-                        ->label('Attachment')
-                        ->disk(
-                            fn (?Attachment $record): string =>
-                                $this->getAttachmentDisk($record)
-                        )
-                        ->visibility(
-                            fn (?Attachment $record): string =>
-                                $this->getAttachmentDisk($record) === 'local'
-                                    ? 'private'
-                                    : 'public'
-                        )
-                        ->directory('attachments')
-                        ->openable()
-                        ->downloadable()
-                        ->previewable()
-                        ->helperText('Upload the file you want to attach.')
-                        ->required()
-                        ->columnSpanFull(),
+                Forms\Components\FileUpload::make('file_path')
+                    ->label('Attachment')
+                    ->disk(
+                        fn(?Attachment $record): string =>
+                        $this->getAttachmentDisk($record)
+                    )
+                    ->visibility(
+                        fn(?Attachment $record): string =>
+                        $this->getAttachmentDisk($record) === 'local'
+                            ? 'private'
+                            : 'public'
+                    )
+                    ->directory('attachments')
+                    ->openable()
+                    ->downloadable()
+                    ->previewable()
+                    ->helperText('Upload the file you want to attach.')
+                    ->required()
+                    ->columnSpanFull(),
 
-                    Forms\Components\TextInput::make('caption')
-                        ->label('Caption')
-                        ->placeholder('Optional description...')
-                        ->maxLength(255)
-                        ->columnSpanFull(),
+                Forms\Components\TextInput::make('caption')
+                    ->label('Caption')
+                    ->placeholder('Optional description...')
+                    ->maxLength(255)
+                    ->columnSpanFull(),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with('attachable'))
+            ->modifyQueryUsing(fn(Builder $query): Builder => $query->with('attachable'))
             ->columns([
                 Tables\Columns\ImageColumn::make('preview')
                     ->label('Preview')
-                    ->getStateUsing(fn (Attachment $record): ?string => str_starts_with($record->file_type ?? '', 'image/')
+                    ->getStateUsing(fn(Attachment $record): ?string => str_starts_with($record->file_type ?? '', 'image/')
                         || in_array(strtolower(pathinfo($record->file_path, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'bmp'], true)
-                            ? $record->file_path : null)
-                    ->disk(fn (Attachment $record): string => $this->getAttachmentDisk($record))
-                    ->visibility(fn (Attachment $record): string => $this->getAttachmentDisk($record) === 'local' ? 'private' : 'public')
-                    ->url(fn (Attachment $record): string => $this->getAttachmentUrl($record))
+                        ? $record->file_path : null)
+                    ->disk(fn(Attachment $record): string => $this->getAttachmentDisk($record))
+                    ->visibility(fn(Attachment $record): string => $this->getAttachmentDisk($record) === 'local' ? 'private' : 'public')
+                    ->url(fn(Attachment $record): string => $this->getAttachmentUrl($record))
                     ->openUrlInNewTab()
                     ->size(50)
                     ->rounded(),
                 Tables\Columns\TextColumn::make('file_path')
                     ->label('File')
-                    ->formatStateUsing(fn (string $state): string => basename($state))
-                    ->url(fn (Attachment $record): string => $this->getAttachmentUrl($record))
+                    ->formatStateUsing(fn(string $state): string => basename($state))
+                    ->url(fn(Attachment $record): string => $this->getAttachmentUrl($record))
                     ->openUrlInNewTab()
                     ->limit(50),
                 Tables\Columns\TextColumn::make('source')
                     ->label('From')
-                    ->getStateUsing(fn (Attachment $record): string => $record->attachable
+                    ->getStateUsing(fn(Attachment $record): string => $record->attachable
                         ? $this->getTargetLabel($record->attachable)
                         : 'Target unavailable')
                     ->wrap(),
@@ -151,14 +151,14 @@ class AttachmentsRelationManager extends RelationManager
             ->headerActions([
                 $this->configureProjectModalAction(
                     Tables\Actions\CreateAction::make()->color('primary')
-                        ->mutateFormDataUsing(fn (array $data): array => $this->prepareAttachmentData($data)),
+                        ->mutateFormDataUsing(fn(array $data): array => $this->prepareAttachmentData($data)),
                     'Upload file and add caption for this project.',
                 ),
             ])
             ->actions([
                 $this->configureProjectModalAction(
                     Tables\Actions\EditAction::make()
-                        ->mutateFormDataUsing(fn (array $data, Attachment $record): array => $this->prepareAttachmentData($data, $record)),
+                        ->mutateFormDataUsing(fn(array $data, Attachment $record): array => $this->prepareAttachmentData($data, $record)),
                     'Update file or attachment caption.',
                 ),
                 $this->configureProjectModalAction(
@@ -190,20 +190,22 @@ class AttachmentsRelationManager extends RelationManager
             (new Project)->getMorphClass() => collect([$project]),
             (new DailyReport)->getMorphClass() => $project->dailyReports()->latest('report_date')->get(),
             (new Expense)->getMorphClass() => $project->expenses()->latest('expense_date')->get(),
+            (new ProjectTask)->getMorphClass() => $project->tasks()->get(),
             default => collect(),
         };
 
-        return $records->mapWithKeys(fn (Model $record): array => [$record->getKey() => $this->getTargetLabel($record)])->all();
+        return $records->mapWithKeys(fn(Model $record): array => [$record->getKey() => $this->getTargetLabel($record)])->all();
     }
 
     protected function getTargetLabel(Model $record): string
     {
         return match (true) {
-            $record instanceof Project => 'Project (self) — '.$record->name,
-            $record instanceof DailyReport => 'Daily Report #'.$record->getKey().' — '.$record->report_date?->format('d M Y'),
-            $record instanceof ProgressUpdate => 'Progress Update #'.$record->getKey().' — '.$record->progress_date?->format('d M Y').' ('.$record->percentage.'%)',
-            $record instanceof Expense => 'Expense #'.$record->getKey().' — '.$record->expense_date?->format('d M Y').' / '.$record->category,
-            default => class_basename($record).' #'.$record->getKey(),
+            $record instanceof Project => 'Project (self) — ' . $record->name,
+            $record instanceof DailyReport => 'Daily Report #' . $record->getKey() . ' — ' . $record->report_date?->format('d M Y'),
+            $record instanceof ProgressUpdate => 'Progress Update #' . $record->getKey() . ' — ' . $record->progress_date?->format('d M Y') . ' (' . $record->percentage . '%)',
+            $record instanceof Expense => 'Expense #' . $record->getKey() . ' — ' . $record->expense_date?->format('d M Y') . ' / ' . $record->category,
+            $record instanceof ProjectTask => 'Task #' . $record->getKey() . ' — ' . $record->title,
+            default => class_basename($record) . ' #' . $record->getKey(),
         };
     }
 

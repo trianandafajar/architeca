@@ -31,7 +31,7 @@ trait HasProjectAttachments
                     $record->attachments()->firstOrCreate(
                         ['file_path' => $path],
                         [
-                            'project_id' => $record->project_id,
+                            'project_id' => $record instanceof \App\Models\Project ? $record->id : $record->project_id,
                             'user_id' => auth()->id(),
                             'file_type' => $component->getDisk()->mimeType($path) ?: null,
                         ],

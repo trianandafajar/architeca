@@ -141,7 +141,7 @@ class ProjectResource extends Resource
                         ->color('info'),
                     Tables\Actions\EditAction::make()
                         ->icon('heroicon-o-pencil')
-                        ->color('primary'),
+                        ->color('success'),
                     Tables\Actions\Action::make('changeStatus')
                         ->label('Change Status')
                         ->icon('heroicon-o-tag')

@@ -30,35 +30,41 @@ class ProjectTaskResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('project.name')
-                    ->label('Project')
-                    ->disabled()
-                    ->dehydrated(false),
-                Forms\Components\TextInput::make('title')
-                    ->label('Task Title')
-                    ->required()
-                    ->disabled(),
-                Forms\Components\Checkbox::make('is_completed')
-                    ->label('Completed')
-                    ->default(false)
-                    ->inline(false)
-                    ->rules([
-                        fn (\Filament\Forms\Get $get): \Closure => function (string $attribute, $value, \Closure $fail) use ($get) {
-                            if ($value && (empty($get('evidence_path')) || empty($get('notes')))) {
-                                $fail('Upload evidence and fill notes before marking as completed.');
-                            }
-                        },
+                Forms\Components\Section::make('Task Information')
+                    ->schema([
+                        Forms\Components\TextInput::make('title')
+                            ->label('Task Title')
+                            ->required(),
+                        Forms\Components\TextInput::make('percentage_weight')
+                            ->label('Weight (%)')
+                            ->numeric()
+                            ->required(),
+                        Forms\Components\Select::make('assigned_to')
+                            ->relationship('user', 'name')
+                            ->required(),
                     ]),
-                Forms\Components\FileUpload::make('evidence_path')
-                    ->label('Evidence Photo')
-                    ->image()
-                    ->directory('tasks-evidence')
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('notes')
-                    ->label('Notes')
-                    ->columnSpanFull(),
             ]);
     }
+
+    public static function getEditForm(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Section::make('Task Execution')
+                    ->schema([
+                        Forms\Components\Checkbox::make('is_completed')
+                            ->label('Completed')
+                            ->default(false),
+                        Forms\Components\FileUpload::make('evidence_path')
+                            ->label('Evidence Photo')
+                            ->image()
+                            ->directory('tasks-evidence'),
+                        Forms\Components\Textarea::make('notes')
+                            ->label('Notes'),
+                    ]),
+            ]);
+    }
+
 
     public static function table(Table $table): Table
     {

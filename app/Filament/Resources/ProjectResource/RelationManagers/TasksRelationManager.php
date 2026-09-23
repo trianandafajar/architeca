@@ -19,49 +19,29 @@ class TasksRelationManager extends RelationManager
 
     public function form(Form $form): Form
     {
-        $fields = [];
-
-        $fields[] = Forms\Components\TextInput::make('title')
-            ->label('Task Title')
-            ->required()
-            ->maxLength(255);
-
-        if (in_array(auth()->user()->role, ['admin', 'contractor'])) {
-            $fields[] = Forms\Components\TextInput::make('percentage_weight')
-                ->label('Weight (%)')
-                ->numeric()
-                ->minValue(0)
-                ->maxValue(100)
-                ->required();
-            $fields[] = Forms\Components\Select::make('assigned_to')
-                ->label('Assignee')
-                ->relationship(
-                    name: 'user',
-                    titleAttribute: 'name',
-                    modifyQueryUsing: fn(Builder $query) => $query
-                        ->latest()
-                        ->limit(20)
-                )
-                ->searchable()
-                ->preload()
-                ->placeholder('Select staff')
-                ->nullable();
-        }
-
-$fields[] = Forms\Components\Checkbox::make('is_completed')
-            ->label('Completed')
-            ->default(false)
-            ->inline(false);
-        $fields[] = Forms\Components\FileUpload::make('evidence_path')
-            ->label('Evidence Photo')
-            ->image()
-            ->directory('tasks-evidence')
-            ->columnSpanFull();
-        $fields[] = Forms\Components\Textarea::make('notes')
-            ->label('Notes')
-            ->columnSpanFull();
-
-        return $form->schema($fields)->columns(2);
+        return $form
+            ->schema([
+                Forms\Components\TextInput::make('title')
+                    ->label('Task Title')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('percentage_weight')
+                    ->label('Weight (%)')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->required(),
+                Forms\Components\Select::make('assigned_to')
+                    ->label('Assignee')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->placeholder('Select staff')
+                    ->nullable(),
+                Forms\Components\Textarea::make('notes')
+                    ->label('Notes')
+                    ->columnSpanFull(),
+            ])->columns(2);
     }
 
     public function table(Table $table): Table
@@ -77,10 +57,89 @@ $fields[] = Forms\Components\Checkbox::make('is_completed')
                     ->label('Done'),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()->color('primary'),
+                Tables\Actions\CreateAction::make()
+                    ->label('New project task')
+                    ->modalHeading('Create project task')
+                    ->modalDescription('Add multiple tasks to this project.')
+                    ->form([
+                        Forms\Components\Select::make('assigned_to_all')
+                            ->label('Assignee for All Tasks')
+                            ->relationship('user', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->placeholder('Select staff to assign to all')
+                            ->nullable()
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, $set, $get) {
+                                $tasks = $get('tasks') ?? [];
+                                foreach ($tasks as $key => $task) {
+                                    $tasks[$key]['assigned_to'] = $state;
+                                }
+                                $set('tasks', $tasks);
+                            }),
+                        Forms\Components\Repeater::make('tasks')
+                            ->schema([
+                                Forms\Components\TextInput::make('title')
+                                    ->label('Task Title')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('percentage_weight')
+                                    ->label('Weight (%)')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->maxValue(100)
+                                    ->required(),
+                                Forms\Components\Select::make('assigned_to')
+                                    ->label('Assignee')
+                                    ->relationship('user', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->placeholder('Select staff')
+                                    ->nullable(),
+                            ])
+                            ->default([[]])
+                            ->columns(3)
+                            ->createItemButtonLabel('Add Task')
+                            ->minItems(1)
+                            ->columnSpanFull(),
+                    ])
+                    ->action(function (array $data, \Illuminate\Database\Eloquent\Model $ownerRecord): void {
+                        $tasks = $data['tasks'] ?? [];
+                        foreach ($tasks as $taskData) {
+                            $ownerRecord->tasks()->create($taskData);
+                        }
+                    }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->form([
+                        Forms\Components\TextInput::make('title')
+                            ->label('Task Title')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('percentage_weight')
+                            ->label('Weight (%)')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(100)
+                            ->required(),
+                        Forms\Components\Select::make('assigned_to')
+                            ->label('Assignee')
+                            ->relationship('user', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->placeholder('Select staff')
+                            ->nullable(),
+                        Forms\Components\Checkbox::make('is_completed')
+                            ->label('Completed'),
+                        Forms\Components\FileUpload::make('evidence_path')
+                            ->label('Evidence Photo')
+                            ->image()
+                            ->directory('tasks-evidence'),
+                        Forms\Components\Textarea::make('notes')
+                            ->label('Notes')
+                            ->columnSpanFull(),
+                    ]),
                 Tables\Actions\DeleteAction::make(),
             ]);
     }

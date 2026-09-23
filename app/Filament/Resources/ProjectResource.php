@@ -170,13 +170,6 @@ class ProjectResource extends Resource
                     Tables\Actions\ViewAction::make()
                         ->icon('heroicon-o-eye')
                         ->color('info'),
-                    Tables\Actions\Action::make('viewReports')
-                        ->label('Reports')
-                        ->icon('heroicon-o-document-chart-bar')
-                        ->color('success')
-                        ->url('#')
-                        ->visible(fn () => false),
-
                     Tables\Actions\EditAction::make()
                         ->icon('heroicon-o-pencil')
                         ->color('primary'),

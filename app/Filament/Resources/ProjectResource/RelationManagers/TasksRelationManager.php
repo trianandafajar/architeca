@@ -33,7 +33,7 @@ class TasksRelationManager extends RelationManager
                     ->required(),
                 Forms\Components\Select::make('assigned_to')
                     ->label('Assignee')
-                    ->relationship('user', 'name')
+                    ->relationship('user', 'name', modifyQueryUsing: fn(Builder $query) => $query->where('role', 'staff'))
                     ->searchable()
                     ->preload()
                     ->placeholder('Select staff')
@@ -64,7 +64,7 @@ class TasksRelationManager extends RelationManager
                     ->form([
                         Forms\Components\Select::make('assigned_to_all')
                             ->label('Assignee for All Tasks')
-                            ->relationship('user', 'name')
+                            ->relationship('user', 'name', modifyQueryUsing: fn(Builder $query) => $query->where('role', 'staff'))
                             ->searchable()
                             ->preload()
                             ->placeholder('Select staff to assign to all')
@@ -91,7 +91,7 @@ class TasksRelationManager extends RelationManager
                                     ->required(),
                                 Forms\Components\Select::make('assigned_to')
                                     ->label('Assignee')
-                                    ->relationship('user', 'name')
+                                    ->relationship('user', 'name', modifyQueryUsing: fn(Builder $query) => $query->where('role', 'staff'))
                                     ->searchable()
                                     ->preload()
                                     ->placeholder('Select staff')
@@ -103,10 +103,10 @@ class TasksRelationManager extends RelationManager
                             ->minItems(1)
                             ->columnSpanFull(),
                     ])
-                    ->action(function (array $data, \Illuminate\Database\Eloquent\Model $ownerRecord): void {
+                    ->action(function (array $data): void {
                         $tasks = $data['tasks'] ?? [];
                         foreach ($tasks as $taskData) {
-                            $ownerRecord->tasks()->create($taskData);
+                            $this->getOwnerRecord()->tasks()->create($taskData);
                         }
                     }),
             ])
@@ -125,7 +125,7 @@ class TasksRelationManager extends RelationManager
                             ->required(),
                         Forms\Components\Select::make('assigned_to')
                             ->label('Assignee')
-                            ->relationship('user', 'name')
+                            ->relationship('user', 'name', modifyQueryUsing: fn(Builder $query) => $query->where('role', 'staff'))
                             ->searchable()
                             ->preload()
                             ->placeholder('Select staff')

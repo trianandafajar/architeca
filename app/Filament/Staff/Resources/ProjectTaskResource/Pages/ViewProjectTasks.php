@@ -74,17 +74,6 @@ class ViewProjectTasks extends Page
             $this->persist($task);
 
             $pending = $this->evidence_files[$task->id] ?? null;
-            $hasPhoto = filled($task->evidence_path) || $pending;
-
-            if (! $hasPhoto) {
-                Notification::make()
-                    ->title('Incomplete')
-                    ->body('Please upload an evidence photo before completing this task.')
-                    ->danger()
-                    ->send();
-
-                return;
-            }
         }
 
         $task->update(['is_completed' => ! $task->is_completed]);

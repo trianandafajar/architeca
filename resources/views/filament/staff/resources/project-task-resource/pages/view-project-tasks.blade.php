@@ -44,7 +44,7 @@
                 $pending = $this->evidence_files[$task->id] ?? null;
                 $hasPhoto = filled($task->evidence_path) || $pending;
                 $hasNotes = filled($this->notes[$task->id] ?? null);
-                $locked = ! $isDone && ! $hasPhoto;
+                $locked = false;
                 @endphp
 
                 <div
@@ -53,7 +53,7 @@
 
                     <div class="flex items-center gap-3">
                         <input type="checkbox" wire:click="toggleTask({{ $task->id }})" @checked($isDone)
-                            @disabled($locked) title="{{ $locked ? 'Upload photo first' : '' }}" style="color: #F97316;"
+                            style="color: #F97316;"
                             class="h-5 w-5 rounded border-gray-300 disabled:cursor-not-allowed disabled:opacity-40 dark:border-white/20 dark:bg-white/5">
 
                         <span class="flex-1 font-semibold {{ $isDone ? 'text-gray-400 line-through' : '' }}">
@@ -89,19 +89,19 @@
                         </label>
                         @endif
 
-                        <textarea wire:model.live.debounce.500ms="notes.{{ $task->id }}" rows="2" @disabled($isDone)
+                        <textarea wire:model.live.debounce.500ms="notes.{{ $task->id }}" rows="2"
                             placeholder="Add notes..."
                             class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 dark:border-white/10 dark:bg-white/5 dark:disabled:bg-transparent"></textarea>
 
                         @unless($isDone)
                         <div class="flex items-center justify-between">
                             <span class="text-xs text-gray-400">
-                                {{ $locked ? 'Upload photo to enable checkbox' : 'Ready to complete' }}
+                                Ready to complete
                             </span>
-                            <span class="{{ $locked ? 'cursor-not-allowed' : '' }}">
-                                <x-filament::button size="xs" wire:click="saveTask({{ $task->id }})" :disabled="$locked"
-                                    class="disabled:cursor-not-allowed"
-                                    title="{{ $locked ? 'Upload photo first' : '' }}">
+                            <span class="">
+                                <x-filament::button size="xs" wire:click="saveTask({{ $task->id }})"
+                                    class=""
+                                    title="Save">
                                     Save
                                 </x-filament::button>
                             </span>

@@ -155,11 +155,13 @@ class CreateProject extends CreateRecord
                                         ->password()
                                         ->required()
                                         ->minLength(8),
-                                    Forms\Components\Select::make('role')
+                                    Forms\Components\TextInput::make('role')
                                         ->label('Role')
                                         ->default('staff')
+                                        ->formatStateUsing(fn(?string $state): string => ucfirst($state ?: 'staff'))
                                         ->disabled()
                                         ->dehydrated()
+                                        ->dehydrateStateUsing(fn(): string => 'staff')
                                         ->required(),
                                 ])
                                 ->createOptionAction(fn(Forms\Components\Actions\Action $action): Forms\Components\Actions\Action => $action

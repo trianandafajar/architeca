@@ -23,6 +23,28 @@ class BudgetItem extends Model
         static::saving(function (BudgetItem $budgetItem): void {
             $budgetItem->total_price = (float) ($budgetItem->unit_price ?? 0);
         });
+
+        static::saved(function (BudgetItem $budgetItem): void {
+            // Sync to expenses table so project budgets show up under expenses/budgeting
+            Expense::updateOrCreate(
+                [
+                    'project_id' => $budgetItem->project_id,
+                    'description' => 'Budget: ' . $budgetItem->item_name,
+                ],
+                [
+                    'user_id' => auth()->id() ?? $budgetItem->project?->user_id ?? 1,
+                    'expense_date' => now(),
+                    'category' => 'other',
+                    'amount' => $budgetItem->total_price,
+                ]
+            );
+        });
+
+        static::deleted(function (BudgetItem $budgetItem): void {
+            Expense::where('project_id', $budgetItem->project_id)
+                ->where('description', 'Budget: ' . $budgetItem->item_name)
+                ->delete();
+        });
     }
 
     protected function casts(): array

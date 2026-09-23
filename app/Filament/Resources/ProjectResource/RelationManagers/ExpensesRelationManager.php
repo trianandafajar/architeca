@@ -18,7 +18,7 @@ class ExpensesRelationManager extends RelationManager
 
     protected static string $relationship = 'expenses';
 
-    protected static ?string $title = 'Expenses';
+    protected static ?string $title = 'Budgeting';
 
     protected static ?string $icon = 'heroicon-o-banknotes';
 

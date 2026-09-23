@@ -6,6 +6,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
+use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
 use Filament\Pages\Auth\EditProfile as BaseEditProfile;
 use Illuminate\Support\Facades\Storage;
@@ -129,7 +130,7 @@ class EditProfile extends BaseEditProfile
             ->success()
             ->send();
 
-        $this->dispatch('refresh-header');
+        $this->redirect(Filament::getUrl());
     }
 
 

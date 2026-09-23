@@ -121,8 +121,7 @@ class UserResource extends Resource
                         ->label('Impersonate')
                         ->grouped()
                         ->icon('heroicon-o-user-circle')
-                        ->color('primary')
-                        ->tooltip('Login as user')
+                        ->color('warning')
                         ->requiresConfirmation()
                         ->modalHeading('Confirm Login')
                         ->modalDescription('Are you sure you want to log in as this user?')
@@ -130,7 +129,8 @@ class UserResource extends Resource
                         ->redirectTo(fn(User $record): string => $record->hasRole('contractor')
                             ? url('/contractor')
                             : url('/staff')),
-                    Tables\Actions\EditAction::make()->icon('heroicon-o-pencil'),
+                    Tables\Actions\EditAction::make()->icon('heroicon-o-pencil')
+                    ->color('success'),
                     Tables\Actions\DeleteAction::make()->icon('heroicon-o-trash'),
                 ])
             ])

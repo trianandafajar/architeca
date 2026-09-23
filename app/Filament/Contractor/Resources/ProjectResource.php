@@ -54,17 +54,22 @@ class ProjectResource extends Resource
                         Forms\Components\TextInput::make('location')
                             ->label('Location')
                             ->maxLength(255),
-                    Forms\Components\TextInput::make('contract_value')
-                        ->label('Contract Value')
-                        ->numeric()
-                        ->minValue(0)
-                        ->extraInputAttributes(['min' => 0])
-                        ->prefix('$')
-                        ->default(0),
+                        Forms\Components\TextInput::make('contract_value')
+                            ->label('Contract Value')
+                            ->numeric()
+                            ->minValue(0)
+                            ->extraInputAttributes(['min' => 0])
+                            ->prefix('$')
+                            ->default(0),
                         Forms\Components\DatePicker::make('start_date')
-                            ->label('Start Date'),
+                            ->label('Start Date')
+                            ->minDate(now())
+                            ->reactive()
+                            ->afterStateUpdated(fn($set) => $set('end_date', null)),
                         Forms\Components\DatePicker::make('end_date')
-                            ->label('End Date'),
+                            ->label('End Date')
+                            ->minDate(fn($get) => $get('start_date'))
+                            ->after('start_date'),
                         Forms\Components\Select::make('status')
                             ->label('Status')
                             ->options([

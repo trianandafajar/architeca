@@ -67,9 +67,14 @@ class ProjectResource extends Resource
                         ->prefix('$')
                         ->default(0),
                     Forms\Components\DatePicker::make('start_date')
-                        ->label('Start Date'),
+                        ->label('Start Date')
+                        ->minDate(now())
+                        ->reactive()
+                        ->afterStateUpdated(fn($set) => $set('end_date', null)),
                     Forms\Components\DatePicker::make('end_date')
-                        ->label('End Date'),
+                        ->label('End Date')
+                        ->minDate(fn ($get) => $get('start_date'))
+                        ->after('start_date'),
                     Forms\Components\Select::make('status')
                         ->label('Status')
                         ->options([

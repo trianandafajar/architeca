@@ -175,11 +175,8 @@ class CreateProject extends CreateRecord
                             Forms\Components\Select::make('role')
                                 ->label('Role in Project')
                                 ->options([
-                                    'owner' => 'Owner',
-                                    'manager' => 'Manager',
-                                    'supervisor' => 'Supervisor',
-                                    'worker' => 'Worker',
-                                    'viewer' => 'Viewer',
+                                    'supervisor' => 'Contractor',
+                                    'worker' => 'Staff',
                                 ])
                                 ->default('worker')
                                 ->required(),

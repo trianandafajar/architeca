@@ -76,7 +76,8 @@ $nextAction = $getAction('next');
 
         isStepAccessible: function (stepId) {
             return (
-                @js($isSkippable()) || this.getStepIndex(this.step) > this.getStepIndex(stepId)
+                @js($isSkippable()) ||
+                this.getStepIndex(this.step) >= this.getStepIndex(stepId)
             )
         },
 
@@ -134,15 +135,10 @@ $nextAction = $getAction('next');
                 x-bind:disabled="! isStepAccessible(@js($step->getId())) || @js($previousAction->isDisabled())"
                 role="step"
                 class="fi-fo-wizard-header-step-button flex h-full items-center gap-x-4 px-6 py-4 text-start">
-                <div class="fi-fo-wizard-header-step-icon-ctn flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+                <div class="fi-fo-wizard-header-step-icon-ctn flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors"
                     x-bind:class="{
-                            'bg-primary-600 dark:bg-primary-500':
-                                getStepIndex(step) > {{ $loop->index }},
-                            'border-2': getStepIndex(step) <= {{ $loop->index }},
-                            'border-primary-600 dark:border-primary-500':
-                                getStepIndex(step) === {{ $loop->index }},
-                            'border-gray-300 dark:border-gray-600':
-                                getStepIndex(step) < {{ $loop->index }},
+                            'bg-orange-500': getStepIndex(step) >= {{ $loop->index }},
+                            'border-2 border-orange-500': getStepIndex(step) < {{ $loop->index }},
                         }">
                     @php
                     $completedIcon = $step->getCompletedIcon();
@@ -156,16 +152,15 @@ $nextAction = $getAction('next');
                     @if (filled($icon = $step->getIcon()))
                     <x-filament::icon :icon="$icon" x-cloak="x-cloak" x-show="getStepIndex(step) <= {{ $loop->index }}"
                         class="fi-fo-wizard-header-step-icon h-6 w-6" x-bind:class="{
-                                    'text-gray-500 dark:text-gray-400': getStepIndex(step) !== {{ $loop->index }},
-                                    'text-primary-600 dark:text-primary-500': getStepIndex(step) === {{ $loop->index }},
+                                    'text-white': getStepIndex(step) === {{ $loop->index }},
+                                    'text-gray-400 dark:text-gray-500': getStepIndex(step) < {{ $loop->index }},
                                 }" />
                     @else
                     <span x-show="getStepIndex(step) <= {{ $loop->index }}"
                         class="fi-fo-wizard-header-step-indicator text-sm font-medium" x-bind:class="{
+                                    'text-white': getStepIndex(step) === {{ $loop->index }},
                                     'text-gray-500 dark:text-gray-400':
-                                        getStepIndex(step) !== {{ $loop->index }},
-                                    'text-primary-600 dark:text-primary-500':
-                                        getStepIndex(step) === {{ $loop->index }},
+                                        getStepIndex(step) > {{ $loop->index }},
                                 }">
                         {{ str_pad($loop->index + 1, 2, '0', STR_PAD_LEFT) }}
                     </span>

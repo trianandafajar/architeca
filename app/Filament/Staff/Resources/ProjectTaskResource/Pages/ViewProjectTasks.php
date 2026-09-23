@@ -78,8 +78,6 @@ class ViewProjectTasks extends Page
 
         $task->update(['is_completed' => ! $task->is_completed]);
         $this->tasks = $this->tasksQuery()->get();
-        
-        $this->redirect(ProjectTaskResource::getUrl('view', ['record' => $this->record->id]));
     }
 
     public function saveTask(int $taskId): void
@@ -87,8 +85,6 @@ class ViewProjectTasks extends Page
         $this->persist($this->findTask($taskId));
 
         Notification::make()->title('Saved successfully')->success()->send();
-        
-        $this->redirect(ProjectTaskResource::getUrl('view', ['record' => $this->record->id]));
     }
 
     public function removeEvidence(int $taskId): void

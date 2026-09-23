@@ -66,12 +66,6 @@ class UserResource extends Resource
                             ->helperText(fn(string $operation): ?string => $operation === 'edit'
                                 ? 'Fill only if you want to change password.'
                                 : null),
-                        Forms\Components\Select::make('branch_id')
-                            ->label('Branch')
-                            ->relationship('branch', 'name')
-                            ->searchable()
-                            ->preload()
-                            ->nullable(),
                         Forms\Components\Select::make('role')
                             ->label('Role')
                             ->options(fn(): array => static::getRoleOptions())
@@ -94,10 +88,6 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('branch.name')
-                    ->label('Branch')
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('role')
                     ->label('Role')
                     ->badge()
@@ -124,10 +114,6 @@ class UserResource extends Resource
                     ->label('Role')
                     ->relationship('roles', 'name')
                     ->options(fn(): array => static::getRoleOptions()),
-                Tables\Filters\SelectFilter::make('branch')
-                    ->relationship('branch', 'name')
-                    ->label('Branch')
-                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([

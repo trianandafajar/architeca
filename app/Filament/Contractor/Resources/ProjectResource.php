@@ -51,12 +51,6 @@ class ProjectResource extends Resource
                         Forms\Components\TextInput::make('client_name')
                             ->label('Client Name')
                             ->maxLength(255),
-                        Forms\Components\Select::make('branch_id')
-                            ->label('Branch')
-                            ->relationship('branch', 'name')
-                            ->searchable()
-                            ->preload()
-                            ->nullable(),
                         Forms\Components\TextInput::make('location')
                             ->label('Location')
                             ->maxLength(255),
@@ -95,12 +89,6 @@ class ProjectResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('client_name')
                     ->label('Client')
-                    ->formatStateUsing(
-                        fn($state, $record) =>
-                        $record->branch?->name
-                            ? "{$state}, {$record->branch->name}"
-                            : $state
-                    )
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('contract_value')
@@ -145,10 +133,6 @@ class ProjectResource extends Resource
                         'completed' => 'Completed',
                         'cancelled' => 'Cancelled',
                     ]),
-                Tables\Filters\SelectFilter::make('branch')
-                    ->relationship('branch', 'name')
-                    ->label('Branch')
-                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([

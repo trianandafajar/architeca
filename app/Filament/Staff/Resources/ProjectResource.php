@@ -45,11 +45,6 @@ class ProjectResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('client_name')
                     ->label('Client')
-                    ->formatStateUsing(fn ($state, $record) =>
-                        $record->branch?->name
-                            ? "{$state}, {$record->branch->name}"
-                            : $state
-                    )
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('contract_value')

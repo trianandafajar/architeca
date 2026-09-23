@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Branch;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'owner_id',
-    'branch_id',
     'name',
     'client_name',
     'location',
@@ -22,6 +19,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 ])]
 class Project extends Model
 {
+    protected $fillable = [
+        'owner_id',
+        'name',
+        'client_name',
+        'location',
+        'contract_value',
+        'start_date',
+        'end_date',
+        'status',
+    ];
+
     use HasFactory;
 
     protected function casts(): array
@@ -36,11 +44,6 @@ class Project extends Model
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
-    }
-
-    public function branch(): BelongsTo
-    {
-        return $this->belongsTo(Branch::class);
     }
 
     public function members(): HasMany

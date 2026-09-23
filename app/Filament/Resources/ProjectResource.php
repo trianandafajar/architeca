@@ -51,28 +51,10 @@ class ProjectResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->placeholder('e.g.: Building A Construction'),
-                    Forms\Components\TextInput::make('client_name')
+                     Forms\Components\TextInput::make('client_name')
                         ->label('Client Name')
                         ->maxLength(255)
                         ->placeholder('client name'),
-                    Forms\Components\Select::make('branch_id')
-                        ->label('Branch')
-                        ->relationship('branch', 'name')
-                        ->searchable()
-                        ->preload()
-                        ->nullable()
-                        ->createOptionForm([
-                            Forms\Components\TextInput::make('name')->required(),
-                            Forms\Components\TextInput::make('code')->required(),
-                            Forms\Components\TextInput::make('location')->nullable(),
-                            Forms\Components\Textarea::make('description')->nullable(),
-                            Forms\Components\Toggle::make('is_active')
-                                ->label('Active')
-                                ->onColor('success')
-                                ->offColor('danger')
-                                ->default(true)
-                                ->inline(false),
-                        ]),
                     Forms\Components\TextInput::make('location')
                         ->label('Location')
                         ->maxLength(255)
@@ -112,11 +94,6 @@ class ProjectResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('client_name')
                     ->label('Client')
-                    ->formatStateUsing(fn ($state, $record) =>
-                        $record->branch?->name
-                            ? "{$state}, {$record->branch->name}"
-                            : $state
-                    )
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('contract_value')
@@ -160,10 +137,6 @@ class ProjectResource extends Resource
                         'completed' => 'Completed',
                         'cancelled' => 'Cancelled',
                     ]),
-                Tables\Filters\SelectFilter::make('branch')
-                    ->relationship('branch', 'name')
-                    ->label('Branch')
-                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([

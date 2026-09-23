@@ -22,7 +22,6 @@ use Spatie\Permission\Traits\HasRoles;
     'email',
     'password',
     'role',
-    'branch_id',
     'avatar_url',
 )]
 #[Hidden(
@@ -67,11 +66,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function branch(): BelongsTo
-    {
-        return $this->belongsTo(Branch::class);
     }
 
     public function ownedProjects(): HasMany

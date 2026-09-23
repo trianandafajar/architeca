@@ -10,7 +10,7 @@ return '$' . number_format($value, 0);
 <div class="architeca-dashboard space-y-8">
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-2">das</h1>
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-2">Dashboard</h1>
         </div>
         <div class="text-sm text-muted-foreground">
             {{ now()->format('l, F j, Y') }}

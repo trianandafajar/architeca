@@ -30,6 +30,7 @@ class TasksRelationManager extends RelationManager
                     ->numeric()
                     ->minValue(0)
                     ->maxValue(100)
+                    ->extraInputAttributes(['min' => 0])
                     ->required(),
                 Forms\Components\Select::make('assigned_to')
                     ->label('Assignee')

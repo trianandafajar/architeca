@@ -62,6 +62,8 @@ class ProjectResource extends Resource
                     Forms\Components\TextInput::make('contract_value')
                         ->label('Contract Value')
                         ->numeric()
+                        ->minValue(0)
+                        ->extraInputAttributes(['min' => 0])
                         ->prefix('$')
                         ->default(0),
                     Forms\Components\DatePicker::make('start_date')

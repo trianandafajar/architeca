@@ -46,6 +46,8 @@ class ExpensesRelationManager extends RelationManager
                 Forms\Components\TextInput::make('amount')
                     ->label('Amount')
                     ->numeric()
+                    ->minValue(0)
+                    ->extraInputAttributes(['min' => 0])
                     ->prefix('$')
                     ->required(),
                 Forms\Components\Textarea::make('description')

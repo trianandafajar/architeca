@@ -38,6 +38,8 @@ class ProjectTaskResource extends Resource
                         Forms\Components\TextInput::make('percentage_weight')
                             ->label('Weight (%)')
                             ->numeric()
+                            ->minValue(0)
+                            ->extraInputAttributes(['min' => 0])
                             ->required(),
                         Forms\Components\Select::make('assigned_to')
                             ->relationship('user', 'name')

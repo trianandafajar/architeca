@@ -158,7 +158,6 @@ class CreateProject extends CreateRecord
                                     Forms\Components\Select::make('role')
                                         ->label('Role')
                                         ->options([
-                                            'admin' => 'Admin',
                                             'contractor' => 'Contractor',
                                             'staff' => 'Staff',
                                         ])

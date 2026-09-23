@@ -16,7 +16,6 @@ $statusClasses = [
     <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
             <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-2">Contractor dashboard</h1>
-            <p class="mt-1 text-sm text-muted-foreground">Monitor the projects you own or are assigned to.</p>
         </div>
         <p class="text-sm text-muted-foreground">{{ now()->translatedFormat('l, d F Y') }}</p>
     </div>
@@ -39,7 +38,8 @@ $statusClasses = [
                     <p class="mt-2 text-2xl font-bold tracking-tight text-foreground">{{ $card['value'] }}</p>
                 </div>
                 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
-                   <x-dynamic-component :component="'heroicon-o-' . $card['icon']" class="h-5 w-5 {{ $card['color'] }}" />
+                    <x-dynamic-component :component="'heroicon-o-' . $card['icon']"
+                        class="h-5 w-5 {{ $card['color'] }}" />
                 </div>
             </div>
             <p class="mt-3 text-xs text-muted-foreground">{{ $card['caption'] }}</p>

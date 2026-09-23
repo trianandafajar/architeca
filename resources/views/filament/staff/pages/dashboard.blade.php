@@ -11,8 +11,6 @@ return '$' . number_format($value, 0);
     <div class="flex items-center justify-between">
         <div>
             <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-2">Staff Dashboard</h1>
-            <p class="mt-1 text-sm text-muted-foreground">Welcome back, {{ auth()->user()->name }}. Here is your
-                assigned workload overview.</p>
         </div>
         <div class="text-sm text-muted-foreground">
             {{ now()->format('l, F j, Y') }}

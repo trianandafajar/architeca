@@ -92,15 +92,6 @@ class CreateProject extends CreateRecord
                                 ->label('Item Name')
                                 ->required()
                                 ->maxLength(255),
-                            Forms\Components\TextInput::make('quantity')
-                                ->label('Quantity')
-                                ->numeric()
-                                ->default(0)
-                                ->live(onBlur: true)
-                                ->afterStateUpdated(fn(Get $get, Set $set): mixed => $set(
-                                    'total_price',
-                                    (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
-                                )),
                             Forms\Components\TextInput::make('unit')
                                 ->label('Unit')
                                 ->maxLength(50),
@@ -112,7 +103,7 @@ class CreateProject extends CreateRecord
                                 ->live(onBlur: true)
                                 ->afterStateUpdated(fn(Get $get, Set $set): mixed => $set(
                                     'total_price',
-                                    (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
+                                    (float) ($get('unit_price') ?? 0),
                                 )),
                             Forms\Components\TextInput::make('total_price')
                                 ->label('Total Price')
@@ -121,9 +112,6 @@ class CreateProject extends CreateRecord
                                 ->default(0)
                                 ->readOnly()
                                 ->dehydrated(),
-                            Forms\Components\Textarea::make('notes')
-                                ->label('Notes')
-                                ->columnSpanFull(),
                         ])
                         ->columns(2),
                     $this->skipWizardStepAction('skip_budget_items', 1),

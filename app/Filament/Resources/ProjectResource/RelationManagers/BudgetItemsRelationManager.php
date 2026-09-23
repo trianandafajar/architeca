@@ -29,15 +29,6 @@ class BudgetItemsRelationManager extends RelationManager
                     ->label('Item Name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('quantity')
-                    ->label('Quantity')
-                    ->numeric()
-                    ->default(0)
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
-                        'total_price',
-                        (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
-                    )),
                 Forms\Components\TextInput::make('unit')
                     ->label('Unit')
                     ->maxLength(50),
@@ -49,7 +40,7 @@ class BudgetItemsRelationManager extends RelationManager
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
                         'total_price',
-                        (float) ($get('quantity') ?? 0) * (float) ($get('unit_price') ?? 0),
+                        (float) ($get('unit_price') ?? 0),
                     )),
                 Forms\Components\TextInput::make('total_price')
                     ->label('Total Price')
@@ -58,9 +49,6 @@ class BudgetItemsRelationManager extends RelationManager
                     ->default(0)
                     ->readOnly()
                     ->dehydrated(),
-                Forms\Components\Textarea::make('notes')
-                    ->label('Notes')
-                    ->columnSpanFull(),
             ])
             ->columns(2);
     }
@@ -71,8 +59,6 @@ class BudgetItemsRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('item_name')
                     ->label('Item'),
-                Tables\Columns\TextColumn::make('quantity')
-                    ->label('Qty'),
                 Tables\Columns\TextColumn::make('unit')
                     ->label('Unit'),
                 Tables\Columns\TextColumn::make('unit_price')

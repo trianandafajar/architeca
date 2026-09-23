@@ -10,11 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable([
     'project_id',
     'item_name',
-    'quantity',
     'unit',
     'unit_price',
     'total_price',
-    'notes',
 ])]
 class BudgetItem extends Model
 {
@@ -23,15 +21,13 @@ class BudgetItem extends Model
     protected static function booted(): void
     {
         static::saving(function (BudgetItem $budgetItem): void {
-            $budgetItem->total_price = (float) ($budgetItem->quantity ?? 0)
-                * (float) ($budgetItem->unit_price ?? 0);
+            $budgetItem->total_price = (float) ($budgetItem->unit_price ?? 0);
         });
     }
 
     protected function casts(): array
     {
         return [
-            'quantity' => 'decimal:2',
             'unit_price' => 'decimal:2',
             'total_price' => 'decimal:2',
         ];

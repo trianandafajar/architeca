@@ -30,6 +30,11 @@ class AttachmentsRelationManager extends RelationManager
 
     protected static ?string $icon = 'heroicon-o-paper-clip';
 
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return false;
+    }
+
     protected static ?string $recordTitleAttribute = 'file_path';
 
     public function form(Form $form): Form

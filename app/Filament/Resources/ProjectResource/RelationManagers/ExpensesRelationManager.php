@@ -28,7 +28,7 @@ class ExpensesRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\Hidden::make('user_id')->default(fn () => auth()->id()),
+                Forms\Components\Hidden::make('user_id')->default(fn() => auth()->id()),
                 Forms\Components\DatePicker::make('expense_date')
                     ->label('Date')
                     ->default(now())
@@ -59,7 +59,7 @@ class ExpensesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with('attachments'))
+            ->modifyQueryUsing(fn(Builder $query): Builder => $query->with('attachments'))
             ->columns([
                 Tables\Columns\TextColumn::make('expense_date')
                     ->label('Date')
@@ -69,7 +69,7 @@ class ExpensesRelationManager extends RelationManager
                     ->label('Category')
                     ->badge()
                     ->color('info')
-                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
+                    ->formatStateUsing(fn(string $state): string => ucfirst($state)),
                 Tables\Columns\TextColumn::make('description')
                     ->label('Description')
                     ->limit(50),

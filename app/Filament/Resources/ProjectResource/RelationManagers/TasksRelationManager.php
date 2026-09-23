@@ -74,7 +74,7 @@ class TasksRelationManager extends RelationManager
                             ->searchable()
                             ->preload()
                             ->placeholder('Select staff to assign to all')
-                            ->nullable()
+                            ->required()
                             ->reactive()
                             ->afterStateUpdated(function ($state, $set, $get) {
                                 $tasks = $get('tasks') ?? [];
@@ -95,23 +95,20 @@ class TasksRelationManager extends RelationManager
                                     ->minValue(0)
                                     ->maxValue(100)
                                     ->required(),
-                                Forms\Components\Select::make('assigned_to')
-                                    ->label('Assignee')
-                                    ->relationship('user', 'name', modifyQueryUsing: fn(Builder $query) => $query->where('role', 'staff'))
-                                    ->searchable()
-                                    ->preload()
-                                    ->placeholder('Select staff')
-                                    ->nullable(),
+                                Forms\Components\Hidden::make('assigned_to')
+                                    ->default(fn($get) => $get('../../assigned_to_all')),
                             ])
                             ->default([[]])
-                            ->columns(3)
+                            ->columns(2)
                             ->createItemButtonLabel('Add Task')
                             ->minItems(1)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
                     ])
                     ->action(function (array $data): void {
                         $tasks = $data['tasks'] ?? [];
+                        $assignedTo = $data['assigned_to_all'] ?? null;
                         foreach ($tasks as $taskData) {
+                            $taskData['assigned_to'] = $assignedTo;
                             $this->getOwnerRecord()->tasks()->create($taskData);
                         }
                     }),

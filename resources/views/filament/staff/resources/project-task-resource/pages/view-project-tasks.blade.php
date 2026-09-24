@@ -91,22 +91,10 @@
 
                         <textarea wire:model.live.debounce.500ms="notes.{{ $task->id }}" rows="2"
                             placeholder="Add notes..."
+                            @disabled($isDone)
                             class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 dark:border-white/10 dark:bg-white/5 dark:disabled:bg-transparent"></textarea>
 
-                        @unless($isDone)
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs text-gray-400">
-                                Ready to complete
-                            </span>
-                            <span class="">
-                                <x-filament::button size="xs" wire:click="saveTask({{ $task->id }})"
-                                    class=""
-                                    title="Save">
-                                    Save
-                                </x-filament::button>
-                            </span>
-                        </div>
-                        @endunless
+                        
                     </div>
                 </div>
                 @endforeach

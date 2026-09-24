@@ -51,16 +51,19 @@ class ProjectResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->placeholder('e.g.: Building A Construction'),
-                     Forms\Components\TextInput::make('client_name')
+                    Forms\Components\TextInput::make('client_name')
                         ->label('Client Name')
+                        ->required()
                         ->maxLength(255)
                         ->placeholder('client name'),
                     Forms\Components\TextInput::make('location')
                         ->label('Location')
+                        ->required()
                         ->maxLength(255)
                         ->placeholder('project location'),
                     Forms\Components\TextInput::make('contract_value')
                         ->label('Contract Value')
+                        ->required()
                         ->numeric()
                         ->minValue(0)
                         ->extraInputAttributes(['min' => 0])
@@ -68,15 +71,18 @@ class ProjectResource extends Resource
                         ->default(0),
                     Forms\Components\DatePicker::make('start_date')
                         ->label('Start Date')
+                        ->required()
                         ->minDate(now())
                         ->reactive()
                         ->afterStateUpdated(fn($set) => $set('end_date', null)),
                     Forms\Components\DatePicker::make('end_date')
                         ->label('End Date')
-                        ->minDate(fn ($get) => $get('start_date'))
+                        ->required()
+                        ->minDate(fn($get) => $get('start_date'))
                         ->after('start_date'),
                     Forms\Components\Select::make('status')
                         ->label('Status')
+                        ->required()
                         ->options([
                             'planning' => 'Planning',
                             'active' => 'Active',
@@ -109,7 +115,8 @@ class ProjectResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')
                     ->label('Period')
-                    ->formatStateUsing(fn ($record) =>
+                    ->formatStateUsing(
+                        fn($record) =>
                         collect([
                             $record->start_date?->format('M d, Y'),
                             $record->end_date?->format('M d, Y'),

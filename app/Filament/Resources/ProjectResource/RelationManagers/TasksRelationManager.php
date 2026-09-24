@@ -132,7 +132,7 @@ class TasksRelationManager extends RelationManager
                             ->searchable()
                             ->preload()
                             ->placeholder('Select staff')
-                            ->nullable(),
+                            ->required(),
                         Forms\Components\Checkbox::make('is_completed')
                             ->label('Completed'),
                         Forms\Components\FileUpload::make('evidence_path')

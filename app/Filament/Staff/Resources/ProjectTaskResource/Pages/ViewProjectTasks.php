@@ -87,8 +87,6 @@ class ViewProjectTasks extends Page
 
         if (! $task->is_completed) {
             $this->persist($task);
-
-            $pending = $this->evidence_files[$task->id] ?? null;
         }
 
         $task->update(['is_completed' => ! $task->is_completed]);
@@ -102,18 +100,34 @@ class ViewProjectTasks extends Page
         Notification::make()->title('Saved successfully')->success()->send();
     }
 
-    public function removeEvidence(int $taskId): void
+    public function removeEvidence(int $taskId, string $path): void
     {
         $task = $this->findTask($taskId);
         abort_if($task->is_completed, 403);
 
-        if ($task->evidence_path) {
-            Storage::disk('public')->delete($task->evidence_path);
-            $task->attachments()->where('file_path', $task->evidence_path)->delete();
+        $evidencePaths = $task->evidence_paths ?? [];
+        if (($key = array_search($path, $evidencePaths)) !== false) {
+            Storage::disk('public')->delete($path);
+            unset($evidencePaths[$key]);
+            $task->update(['evidence_paths' => array_values($evidencePaths)]);
         }
 
-        $task->update(['evidence_path' => null]);
-        unset($this->evidence_files[$taskId]);
+        $this->tasks = $this->tasksQuery()->get();
+    }
+
+    public function updatedEvidenceFiles($value, $key): void
+    {
+        $taskId = explode('.', $key)[0];
+        $task = $this->findTask($taskId);
+        abort_if($task->is_completed, 403);
+
+        $paths = $task->evidence_paths ?? [];
+        foreach ($this->evidence_files[$taskId] as $file) {
+            $paths[] = $file->store('tasks-evidence', 'public');
+        }
+        $task->update(['evidence_paths' => $paths]);
+        
+        $this->evidence_files[$taskId] = [];
         $this->tasks = $this->tasksQuery()->get();
     }
 }

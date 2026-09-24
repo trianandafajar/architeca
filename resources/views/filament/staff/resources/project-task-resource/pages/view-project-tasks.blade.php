@@ -42,9 +42,9 @@
                 @php
                 $isDone = (bool) $task->is_completed;
                 $pending = $this->evidence_files[$task->id] ?? null;
-                $hasPhoto = filled($task->evidence_path) || $pending;
+                $evidencePaths = $task->evidence_paths ?? [];
+                $hasPhoto = count($evidencePaths) > 0 || $pending;
                 $hasNotes = filled($this->notes[$task->id] ?? null);
-                $locked = false;
                 @endphp
 
                 <div
@@ -67,34 +67,43 @@
                     </div>
 
                     <div class="mt-3 space-y-3 pl-8">
-                        @if($task->evidence_path || $pending)
-                        <div class="relative inline-block">
-                            <img src="{{ $pending ? $pending->temporaryUrl() : asset('storage/'.$task->evidence_path) }}"
-                                class="h-24 w-24 rounded-lg object-cover ring-1 ring-gray-950/10">
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($evidencePaths as $index => $path)
+                            <div class="relative inline-block">
+                                <img src="{{ asset('storage/'.$path) }}"
+                                    class="h-24 w-24 rounded-lg object-cover ring-1 ring-gray-950/10">
+                                @unless($isDone)
+                                <button type="button" wire:click="removeEvidence({{ $task->id }}, '{{ $path }}')"
+                                    class="absolute -right-2 -top-2 rounded-full bg-danger-600 p-1 text-white shadow hover:bg-danger-500">
+                                    <x-filament::icon icon="heroicon-m-x-mark" class="h-3.5 w-3.5" />
+                                </button>
+                                @endunless
+                            </div>
+                            @endforeach
+
+                            @if($pending)
+                            <div class="relative inline-block">
+                                <img src="{{ $pending->temporaryUrl() }}"
+                                    class="h-24 w-24 rounded-lg object-cover ring-1 ring-gray-950/10">
+                            </div>
+                            @endif
+
                             @unless($isDone)
-                            <button type="button" wire:click="removeEvidence({{ $task->id }})"
-                                class="absolute -right-2 -top-2 rounded-full bg-danger-600 p-1 text-white shadow hover:bg-danger-500">
-                                <x-filament::icon icon="heroicon-m-x-mark" class="h-3.5 w-3.5" />
-                            </button>
+                            <label
+                                class="flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 text-sm text-gray-500 hover:border-primary-500 hover:text-primary-600 dark:border-white/20">
+                                <x-filament::icon icon="heroicon-o-plus-circle" class="h-6 w-6" />
+                                <span class="mt-1 text-xs" wire:loading.remove wire:target="evidence_files.{{ $task->id }}">Add</span>
+                                <span class="mt-1 text-xs" wire:loading wire:target="evidence_files.{{ $task->id }}">...</span>
+                                <input type="file" accept="image/*" wire:model="evidence_files.{{ $task->id }}"
+                                    class="sr-only" multiple>
+                            </label>
                             @endunless
                         </div>
-                        @elseif(!$isDone)
-                        <label
-                            class="flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-gray-300 px-3 py-3 text-sm text-gray-500 hover:border-primary-500 hover:text-primary-600 dark:border-white/20">
-                            <x-filament::icon icon="heroicon-o-plus-circle" class="h-5 w-5" />
-                            <span wire:loading.remove wire:target="evidence_files.{{ $task->id }}">Add Photo</span>
-                            <span wire:loading wire:target="evidence_files.{{ $task->id }}">Uploading...</span>
-                            <input type="file" accept="image/*" wire:model="evidence_files.{{ $task->id }}"
-                                class="sr-only">
-                        </label>
-                        @endif
 
                         <textarea wire:model.live.debounce.500ms="notes.{{ $task->id }}" rows="2"
                             placeholder="Add notes..."
                             @disabled($isDone)
                             class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 dark:border-white/10 dark:bg-white/5 dark:disabled:bg-transparent"></textarea>
-
-                        
                     </div>
                 </div>
                 @endforeach

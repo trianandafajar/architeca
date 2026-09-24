@@ -53,11 +53,15 @@ class TasksRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('percentage_weight')->label('Weight')->suffix('%')->sortable(),
                 Tables\Columns\TextColumn::make('user.name')->label('Assignee')->searchable(),
                 Tables\Columns\TextColumn::make('notes')->label('Notes')->limit(50),
-                Tables\Columns\ImageColumn::make('evidence_path')
+                Tables\Columns\ImageColumn::make('evidence_paths')
                     ->label('Attachment')
                     ->disk('public')
                     ->height(50)
-                    ->width(50),
+                    ->width(50)
+                    ->circular()
+                    ->stacked()
+                    ->limit(3)
+                    ->limitedRemainingText(),
                 Tables\Columns\IconColumn::make('is_completed')
                     ->boolean()
                     ->label('Done'),
@@ -135,10 +139,13 @@ class TasksRelationManager extends RelationManager
                             ->required(),
                         Forms\Components\Checkbox::make('is_completed')
                             ->label('Completed'),
-                        Forms\Components\FileUpload::make('evidence_path')
-                            ->label('Evidence Photo')
+                        Forms\Components\FileUpload::make('evidence_paths')
+                            ->label('Evidence Photos')
                             ->image()
-                            ->directory('tasks-evidence'),
+                            ->multiple()
+                            ->directory('tasks-evidence')
+                            ->maxFiles(10)
+                            ->preserveFilenames(),
                         Forms\Components\Textarea::make('notes')
                             ->label('Notes')
                             ->columnSpanFull(),

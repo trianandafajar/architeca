@@ -15,9 +15,13 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
     'notes',
     'assigned_to',
     'evidence_path',
+    'evidence_paths',
 ])]
 class ProjectTask extends Model
 {
+    protected $casts = [
+        'evidence_paths' => 'array',
+    ];
     public function attachments(): MorphMany
     {
         return $this->morphMany(Attachment::class, 'attachable');

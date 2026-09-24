@@ -28,9 +28,4 @@ class EditUser extends EditRecord
                 ]),
         ];
     }
-
-    public function getSubheading(): ?string
-    {
-        return 'Update profile, password, or user data.';
-    }
 }

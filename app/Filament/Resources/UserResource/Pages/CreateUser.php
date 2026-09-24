@@ -10,11 +10,6 @@ class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
 
-    public function getSubheading(): ?string
-    {
-        return 'Create a new user account with the appropriate role and access.';
-    }
-
     protected function getCreateFormAction(): Action
     {
         return parent::getCreateFormAction()

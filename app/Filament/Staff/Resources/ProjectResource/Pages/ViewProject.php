@@ -11,11 +11,6 @@ class ViewProject extends ViewRecord
     protected static string $view = 'filament.staff.resources.project-resource.pages.view-project';
     protected static ?string $title = 'Project details';
 
-    public function getSubheading(): ?string
-    {
-        return 'Project summary, progress, work reports, members, and attachments available to you.';
-    }
-
     protected function getAllRelationManagers(): array
     {
         return [

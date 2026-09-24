@@ -11,11 +11,6 @@ class ListProjects extends ListRecords
 
     protected static ?string $title = 'Projects';
 
-    public function getSubheading(): ?string
-    {
-        return 'View projects that assign you as a member and monitor their progress.';
-    }
-
     protected function getHeaderActions(): array
     {
         return [];

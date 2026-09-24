@@ -19,11 +19,6 @@ class CreateProject extends CreateRecord
 
     protected static string $resource = ProjectResource::class;
 
-    public function getSubheading(): ?string
-    {
-        return 'Create a new project and fill in the basic information before managing it.';
-    }
-
     public function getFormActionsAlignment(): string|Alignment
     {
         return Alignment::End;

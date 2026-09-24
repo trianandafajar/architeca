@@ -11,11 +11,6 @@ class ListProjects extends ListRecords
 {
     protected static string $resource = ProjectResource::class;
 
-    public function getSubheading(): ?string
-    {
-        return 'Manage projects you own or are assigned to as a member.';
-    }
-
     protected function getHeaderActions(): array
     {
         return [

@@ -16,11 +16,6 @@ class EditProject extends EditRecord
 
     protected static ?string $title = 'Edit project';
 
-    public function getSubheading(): ?string
-    {
-        return 'Update project information and manage activities from a single view.';
-    }
-
     protected function getAllRelationManagers(): array
     {
         return [

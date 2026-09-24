@@ -10,11 +10,6 @@ class ListRoles extends ListRecords
 {
     protected static string $resource = RoleResource::class;
 
-    public function getSubheading(): ?string
-    {
-        return 'Manage user roles and permissions to control access within the application.';
-    }
-
     protected function getActions(): array
     {
         return [

@@ -13,11 +13,6 @@ class EditRole extends EditRecord
 {
     protected static string $resource = RoleResource::class;
 
-    public function getSubheading(): ?string
-    {
-        return 'Edit the role and manage its associated permissions.';
-    }
-
     public Collection $permissions;
 
     protected string $permissionGuardName;

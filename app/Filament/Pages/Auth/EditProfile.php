@@ -21,12 +21,7 @@ class EditProfile extends BaseEditProfile
     {
         return 'Profile settings';
     }
-
-    public function getSubheading(): ?string
-    {
-        return 'Manage your personal information and security preferences.';
-    }
-
+    
     public function getViewData(): array
     {
         $user = auth()->user();

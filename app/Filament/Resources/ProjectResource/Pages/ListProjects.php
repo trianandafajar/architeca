@@ -11,11 +11,6 @@ class ListProjects extends ListRecords
 {
     protected static string $resource = ProjectResource::class;
 
-    public function getSubheading(): ?string
-    {
-        return 'Manage project information, progress, costs, and members in one place.';
-    }
-
     protected function getHeaderActions(): array
     {
         return [

@@ -10,11 +10,6 @@ class ListUsers extends ListRecords
 {
     protected static string $resource = UserResource::class;
 
-    public function getSubheading(): ?string
-    {
-        return 'Manage application user accounts, roles, and access.';
-    }
-
     protected function getHeaderActions(): array
     {
         return [

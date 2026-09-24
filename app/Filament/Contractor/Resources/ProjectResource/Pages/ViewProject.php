@@ -13,11 +13,6 @@ class ViewProject extends ViewRecord
 
     protected static ?string $title = 'Project details';
 
-    public function getSubheading(): ?string
-    {
-        return 'A summary of project progress, costs, and activities in a single view.';
-    }
-
     protected function getAllRelationManagers(): array
     {
         return [

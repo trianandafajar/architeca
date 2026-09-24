@@ -21,15 +21,13 @@ class BudgetItemsRelationManager extends BaseBudgetItemsRelationManager
                 Forms\Components\TextInput::make('unit')
                     ->label('Unit')
                     ->numeric()
-                    ->minValue(1)
+                    ->minValue(0)
                     ->extraInputAttributes([
-                        'min' => 1,
                         'inputmode' => 'numeric',
                         'onkeydown' => "return !['e', 'E', '+', '-', '.'].includes(event.key)",
-                        'oninput' => 'if (this.value < 1) this.value = 1',
                     ])
                     ->default(0)
-                    ->required()
+                    ->rules(['required', 'numeric', 'min:0'])
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn(Get $get, Set $set): mixed => $set(
                         'total_price',
@@ -38,16 +36,15 @@ class BudgetItemsRelationManager extends BaseBudgetItemsRelationManager
                 Forms\Components\TextInput::make('unit_price')
                     ->label('Unit Price')
                     ->numeric()
-                    ->minValue(1)
+                    ->minValue(0)
                     ->extraInputAttributes([
-                        'min' => 1,
+                        'min' => 0,
                         'inputmode' => 'decimal',
                         'onkeydown' => "return !['e', 'E', '+', '-'].includes(event.key)",
-                        'oninput' => 'if (this.value < 1) this.value = 1',
                     ])
                     ->prefix('$')
                     ->default(0)
-                    ->required()
+                    ->rules(['required', 'numeric', 'min:0'])
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn(Get $get, Set $set): mixed => $set(
                         'total_price',

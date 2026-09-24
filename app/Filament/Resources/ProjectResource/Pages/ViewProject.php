@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ProjectResource\Pages;
 
 use App\Filament\Resources\ProjectResource;
 use App\Filament\Resources\ProjectResource\RelationManagers\AttachmentsRelationManager;
+use App\Filament\Resources\ProjectResource\RelationManagers\BudgetItemsRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\ExpensesRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\TasksRelationManager;
@@ -21,6 +22,7 @@ class ViewProject extends ViewRecord
     {
         return [
             TasksRelationManager::class,
+            BudgetItemsRelationManager::class,
             ExpensesRelationManager::class,
             ProjectMembersRelationManager::class,
             AttachmentsRelationManager::class,

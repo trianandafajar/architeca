@@ -17,7 +17,9 @@ class BudgetItemsRelationManager extends RelationManager
 
     protected static string $relationship = 'budgetItems';
 
-    protected static ?string $title = 'Budget';
+    protected static ?string $title = 'Budgeting';
+
+    protected static ?string $icon = 'heroicon-o-banknotes';
 
     protected static ?string $recordTitleAttribute = 'item_name';
 
@@ -31,16 +33,36 @@ class BudgetItemsRelationManager extends RelationManager
                     ->maxLength(255),
                 Forms\Components\TextInput::make('unit')
                     ->label('Unit')
-                    ->maxLength(50),
+                    ->numeric()
+                    ->minValue(1)
+                    ->extraInputAttributes([
+                        'min' => 1,
+                        'inputmode' => 'numeric',
+                        'onkeydown' => "return !['e', 'E', '+', '-', '.'].includes(event.key)",
+                        'oninput' => 'if (this.value < 1) this.value = 1',
+                    ])
+                    ->default(0)
+                    ->required()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn(Get $get, Set $set): mixed => $set(
+                        'total_price',
+                        (float) ($get('unit_price') ?? 0) * (float) ($get('unit') ?? 0),
+                    )),
                 Forms\Components\TextInput::make('unit_price')
                     ->label('Unit Price')
                     ->numeric()
-                    ->minValue(0)
-                    ->extraInputAttributes(['min' => 0])
+                    ->minValue(1)
+                    ->extraInputAttributes([
+                        'min' => 1,
+                        'inputmode' => 'decimal',
+                        'onkeydown' => "return !['e', 'E', '+', '-'].includes(event.key)",
+                        'oninput' => 'if (this.value < 1) this.value = 1',
+                    ])
                     ->prefix('$')
                     ->default(0)
+                    ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
+                    ->afterStateUpdated(fn(Get $get, Set $set): mixed => $set(
                         'total_price',
                         (float) ($get('unit_price') ?? 0) * (float) ($get('unit') ?? 0),
                     )),

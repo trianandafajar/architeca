@@ -20,6 +20,7 @@ class EditProject extends EditRecord
     {
         return [
             \App\Filament\Resources\ProjectResource\RelationManagers\TasksRelationManager::class,
+            \App\Filament\Contractor\Resources\ProjectResource\RelationManagers\BudgetItemsRelationManager::class,
             \App\Filament\Contractor\Resources\ProjectResource\RelationManagers\ExpensesRelationManager::class,
             \App\Filament\Contractor\Resources\ProjectResource\RelationManagers\ProjectMembersRelationManager::class,
             \App\Filament\Contractor\Resources\ProjectResource\RelationManagers\AttachmentsRelationManager::class,

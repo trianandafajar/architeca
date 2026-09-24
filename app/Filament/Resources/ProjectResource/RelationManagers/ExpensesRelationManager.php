@@ -18,7 +18,7 @@ class ExpensesRelationManager extends RelationManager
 
     protected static string $relationship = 'expenses';
 
-    protected static ?string $title = 'Budgeting';
+    protected static ?string $title = 'Expenses';
 
     protected static ?string $icon = 'heroicon-o-banknotes';
 
@@ -111,6 +111,11 @@ class ExpensesRelationManager extends RelationManager
                     ),
                 ]),
             ]);
+    }
+
+    public static function canViewForRecord($ownerRecord, string $pageClass): bool
+    {
+        return false;
     }
 
     public function isReadOnly(): bool

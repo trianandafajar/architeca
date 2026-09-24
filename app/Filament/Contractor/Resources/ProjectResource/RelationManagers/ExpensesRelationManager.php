@@ -6,4 +6,8 @@ use App\Filament\Resources\ProjectResource\RelationManagers\ExpensesRelationMana
 
 class ExpensesRelationManager extends BaseExpensesRelationManager
 {
+    public static function canViewForRecord($ownerRecord, string $pageClass): bool
+    {
+        return false;
+    }
 }

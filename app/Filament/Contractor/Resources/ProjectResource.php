@@ -47,15 +47,18 @@ class ProjectResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->label('Project Name')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->live(onBlur: true),
                         Forms\Components\TextInput::make('client_name')
                             ->label('Client Name')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->live(onBlur: true),
                         Forms\Components\TextInput::make('location')
                             ->label('Location')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->live(onBlur: true),
                         Forms\Components\TextInput::make('contract_value')
                             ->label('Contract Value')
                             ->numeric()
@@ -63,7 +66,8 @@ class ProjectResource extends Resource
                             ->minValue(0)
                             ->extraInputAttributes(['min' => 0])
                             ->prefix('$')
-                            ->default(0),
+                            ->default(0)
+                            ->live(onBlur: true),
                         Forms\Components\DatePicker::make('start_date')
                             ->label('Start Date')
                             ->required()
@@ -73,7 +77,8 @@ class ProjectResource extends Resource
                             ->label('End Date')
                             ->minDate(fn($get) => $get('start_date'))
                             ->required()
-                            ->after('start_date'),
+                            ->after('start_date')
+                            ->live(),
                         Forms\Components\Select::make('status')
                             ->label('Status')
                             ->required()
@@ -84,7 +89,8 @@ class ProjectResource extends Resource
                                 'completed' => 'Completed',
                                 'cancelled' => 'Cancelled',
                             ])
-                            ->default('planning'),
+                            ->default('planning')
+                            ->live(),
                     ])
                     ->columns(2),
             ]);

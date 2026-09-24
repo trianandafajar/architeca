@@ -7,21 +7,38 @@ use App\Models\User;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Forms\Components\Wizard;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
 use Filament\Support\Enums\Alignment;
 
 class CreateProject extends CreateRecord
 {
-    use HasWizard;
+    use HasWizard {
+        HasWizard::form as baseWizardForm;
+    }
 
     protected static string $resource = ProjectResource::class;
 
     public function getFormActionsAlignment(): string|Alignment
     {
         return Alignment::End;
+    }
+
+    public function form(Form $form): Form
+    {
+        $form = $this->baseWizardForm($form);
+
+        foreach ($form->getComponents() as $component) {
+            if ($component instanceof Wizard) {
+                $component->persistStepInQueryString();
+            }
+        }
+
+        return $form;
     }
 
     protected function getWizardNextAction(): Action
@@ -66,6 +83,33 @@ class CreateProject extends CreateRecord
         return static::getResource()::getUrl('index');
     }
 
+    protected function fillForm(): void
+    {
+        $this->form->fill(session()->get('contractor_create_project_data', []));
+    }
+
+    public function updated($propertyName): void
+    {
+        session()->put('contractor_create_project_data', $this->form->getState());
+    }
+
+    protected function handleRecordCreation(array $data): \Illuminate\Database\Eloquent\Model
+    {
+        $budgetItems = $data['budgetItems'] ?? [];
+        $members = $data['members'] ?? [];
+
+        unset($data['budgetItems'], $data['members']);
+
+        $record = parent::handleRecordCreation($data);
+
+        $record->budgetItems()->createMany($budgetItems);
+        $record->members()->createMany($members);
+
+        session()->forget('contractor_create_project_data');
+
+        return $record;
+    }
+
     public function getSteps(): array
     {
         return [
@@ -79,14 +123,14 @@ class CreateProject extends CreateRecord
                 ->schema([
                     Forms\Components\Repeater::make('budgetItems')
                         ->label('Budget Items')
-                        ->relationship('budgetItems')
                         ->defaultItems(0)
                         ->addActionLabel('Add Budget Item')
                         ->schema([
                             Forms\Components\TextInput::make('item_name')
                                 ->label('Item Name')
                                 ->required()
-                                ->maxLength(255),
+                                ->maxLength(255)
+                                ->live(onBlur: true),
                             Forms\Components\TextInput::make('unit')
                                 ->label('Unit')
                                 ->numeric()
@@ -96,7 +140,8 @@ class CreateProject extends CreateRecord
                                     'onkeydown' => "return !['e', 'E', '+', '-', '.'].includes(event.key)",
                                 ])
                                 ->default(0)
-                                ->rules(['required', 'numeric', 'min:0']),
+                                ->rules(['required', 'numeric', 'min:0'])
+                                ->live(onBlur: true),
                             Forms\Components\TextInput::make('unit_price')
                                 ->label('Unit Price')
                                 ->numeric()
@@ -133,7 +178,6 @@ class CreateProject extends CreateRecord
                 ->schema([
                     Forms\Components\Repeater::make('members')
                         ->label('Project Members')
-                        ->relationship('members')
                         ->defaultItems(0)
                         ->minItems(1)
                         ->validationMessages([
@@ -150,6 +194,7 @@ class CreateProject extends CreateRecord
                                 ->required()
                                 ->searchable()
                                 ->preload()
+                                ->live()
                                 ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                 ->createOptionForm([
                                     Forms\Components\TextInput::make('name')
@@ -189,7 +234,8 @@ class CreateProject extends CreateRecord
                                     'worker' => 'Staff',
                                 ])
                                 ->default('worker')
-                                ->required(),
+                                ->required()
+                                ->live(),
                         ])
                         ->columns(2),
                 ]),

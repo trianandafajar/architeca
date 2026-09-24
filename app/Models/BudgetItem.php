@@ -21,7 +21,9 @@ class BudgetItem extends Model
     protected static function booted(): void
     {
         static::saving(function (BudgetItem $budgetItem): void {
-            $budgetItem->total_price = (float) ($budgetItem->unit_price ?? 0);
+            $unitPrice = (float) ($budgetItem->unit_price ?? 0);
+            $unit = (float) ($budgetItem->unit ?? 0);
+            $budgetItem->total_price = $unitPrice * $unit;
         });
 
         static::saved(function (BudgetItem $budgetItem): void {

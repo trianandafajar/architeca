@@ -42,7 +42,7 @@ class BudgetItemsRelationManager extends RelationManager
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Get $get, Set $set): mixed => $set(
                         'total_price',
-                        (float) ($get('unit_price') ?? 0),
+                        (float) ($get('unit_price') ?? 0) * (float) ($get('unit') ?? 0),
                     )),
                 Forms\Components\TextInput::make('total_price')
                     ->label('Total Price')

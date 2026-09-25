@@ -34,7 +34,9 @@ class TasksRelationManager extends RelationManager
                     ->required(),
                 Forms\Components\Select::make('assigned_to')
                     ->label('Assignee')
-                    ->relationship('user', 'name', modifyQueryUsing: fn(Builder $query) => $query->where('role', 'staff'))
+                    ->relationship('user', 'name', function (Builder $query, RelationManager $livewire) {
+                        $query->whereIn('id', $livewire->getOwnerRecord()->members()->pluck('user_id'));
+                    })
                     ->searchable()
                     ->preload()
                     ->placeholder('Select staff')
@@ -74,7 +76,9 @@ class TasksRelationManager extends RelationManager
                     ->form([
                         Forms\Components\Select::make('assigned_to_all')
                             ->label('Assignee for All Tasks')
-                            ->relationship('user', 'name', modifyQueryUsing: fn(Builder $query) => $query->where('role', 'staff'))
+                            ->relationship('user', 'name', function (Builder $query, RelationManager $livewire) {
+                                $query->whereIn('id', $livewire->getOwnerRecord()->members()->pluck('user_id'));
+                            })
                             ->searchable()
                             ->preload()
                             ->placeholder('Select staff to assign to all')
@@ -132,7 +136,9 @@ class TasksRelationManager extends RelationManager
                             ->required(),
                         Forms\Components\Select::make('assigned_to')
                             ->label('Assignee')
-                            ->relationship('user', 'name', modifyQueryUsing: fn(Builder $query) => $query->where('role', 'staff'))
+                            ->relationship('user', 'name', function (Builder $query, RelationManager $livewire) {
+                                $query->whereIn('id', $livewire->getOwnerRecord()->members()->pluck('user_id'));
+                            })
                             ->searchable()
                             ->preload()
                             ->placeholder('Select staff')

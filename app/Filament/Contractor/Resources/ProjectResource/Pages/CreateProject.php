@@ -129,8 +129,7 @@ class CreateProject extends CreateRecord
                             Forms\Components\TextInput::make('item_name')
                                 ->label('Item Name')
                                 ->required()
-                                ->maxLength(255)
-                                ->live(onBlur: true),
+                                ->maxLength(255),
                             Forms\Components\TextInput::make('unit')
                                 ->label('Unit')
                                 ->numeric()
@@ -140,8 +139,7 @@ class CreateProject extends CreateRecord
                                     'onkeydown' => "return !['e', 'E', '+', '-', '.'].includes(event.key)",
                                 ])
                                 ->default(0)
-                                ->rules(['required', 'numeric', 'min:0'])
-                                ->live(onBlur: true),
+                                ->rules(['required', 'numeric', 'min:0']),
                             Forms\Components\TextInput::make('unit_price')
                                 ->label('Unit Price')
                                 ->numeric()

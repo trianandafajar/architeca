@@ -85,12 +85,22 @@ class CreateProject extends CreateRecord
 
     protected function fillForm(): void
     {
-        $this->form->fill(session()->get('create_project_data', []));
+        parent::fillForm();
+
+        if (session()->has('create_project_data')) {
+            $this->form->fill(session()->get('create_project_data'));
+        }
     }
 
     public function updated($propertyName): void
     {
+        parent::updated($propertyName);
         session()->put('create_project_data', $this->form->getState());
+    }
+
+    protected function getFormSchema(): array
+    {
+        return $this->getSteps();
     }
 
     protected function handleRecordCreation(array $data): \Illuminate\Database\Eloquent\Model
@@ -129,8 +139,7 @@ class CreateProject extends CreateRecord
                             Forms\Components\TextInput::make('item_name')
                                 ->label('Item Name')
                                 ->required()
-                                ->maxLength(255)
-                                ->live(onBlur: true),
+                                ->maxLength(255),
                             Forms\Components\TextInput::make('unit')
                                 ->label('Unit')
                                 ->numeric()
@@ -140,8 +149,7 @@ class CreateProject extends CreateRecord
                                     'onkeydown' => "return !['e', 'E', '+', '-', '.'].includes(event.key)",
                                 ])
                                 ->default(0)
-                                ->rules(['required', 'numeric', 'min:0'])
-                                ->live(onBlur: true),
+                                ->rules(['required', 'numeric', 'min:0']),
                             Forms\Components\TextInput::make('unit_price')
                                 ->label('Unit Price')
                                 ->numeric()

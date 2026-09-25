@@ -92,11 +92,11 @@ class CreateProject extends CreateRecord
         }
     }
 
-    public function updated($propertyName): void
-    {
-        parent::updated($propertyName);
-        session()->put('create_project_data', $this->form->getState());
-    }
+    // public function updated($propertyName): void
+    // {
+    //     parent::updated($propertyName);
+    //     session()->put('create_project_data', $this->form->getState());
+    // }
 
     protected function getFormSchema(): array
     {

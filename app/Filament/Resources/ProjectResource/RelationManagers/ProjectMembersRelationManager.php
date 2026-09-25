@@ -30,7 +30,7 @@ class ProjectMembersRelationManager extends RelationManager
             ->schema([
                 Forms\Components\Select::make('user_id')
                     ->label('User')
-                    ->options(fn (Get $get): array => $this->getAvailableProjectMemberUserOptions($get))
+                    ->options(fn(Get $get): array => $this->getAvailableProjectMemberUserOptions($get))
                     ->required()
                     ->searchable()
                     ->preload()
@@ -38,11 +38,8 @@ class ProjectMembersRelationManager extends RelationManager
                 Forms\Components\Select::make('role')
                     ->label('Role')
                     ->options([
-                        'owner' => 'Owner',
-                        'manager' => 'Manager',
-                        'supervisor' => 'Supervisor',
-                        'worker' => 'Worker',
-                        'viewer' => 'Viewer',
+                        'supervisor' => 'Contractor',
+                        'worker' => 'Staff',
                     ])
                     ->default('worker'),
             ]);
@@ -61,7 +58,7 @@ class ProjectMembersRelationManager extends RelationManager
                     ->label('Role')
                     ->badge()
                     ->color('primary')
-                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
+                    ->formatStateUsing(fn(string $state): string => ucfirst($state)),
             ])
             ->filters([
                 //

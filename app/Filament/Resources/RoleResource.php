@@ -130,6 +130,11 @@ class RoleResource extends Resource implements HasShieldPermissions
             ]);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->whereIn('name', ['admin', 'contractor', 'staff']);
+    }
+
     public static function getRelations(): array
     {
         return [

@@ -41,6 +41,7 @@ class ProjectMembersRelationManager extends RelationManager
                         'supervisor' => 'Contractor',
                         'worker' => 'Staff',
                     ])
+                    ->required()
                     ->default('worker'),
             ]);
     }

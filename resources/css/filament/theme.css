@@ -380,10 +380,16 @@ html.dark {
 }
 
 /* Relation manager dialogs: comfortable spacing, clear footer, and reliable action colors. */
+.fi-modal-window {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+}
+
 .architeca-project-modal {
     overflow: hidden;
     border: 1px solid var(--border);
     border-radius: calc(var(--radius) + 0.125rem);
+    margin: auto;
 }
 
 .architeca-project-modal .fi-modal-header {

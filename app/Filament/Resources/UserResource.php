@@ -44,10 +44,15 @@ class UserResource extends Resource
                             ->email()
                             ->required()
                             ->maxLength(255)
-                            ->unique(ignoreRecord: true),
+                            ->unique(ignoreRecord: true)
+                            ->disabled(fn(string $operation): bool => $operation === 'edit')
+                            ->dehydrated(fn(string $operation): bool => $operation === 'create'),
+
                         Forms\Components\TextInput::make('password')
                             ->label('Password')
                             ->password()
+                            ->revealable()
+                            ->live(onBlur: true)
                             ->afterStateHydrated(function (Forms\Components\TextInput $component): void {
                                 $component->state(null);
                             })
@@ -57,12 +62,15 @@ class UserResource extends Resource
                             ->helperText(fn(string $operation): ?string => $operation === 'edit'
                                 ? 'Leave empty to keep current password.'
                                 : null),
+
                         Forms\Components\TextInput::make('password_confirmation')
                             ->label('Confirm Password')
                             ->password()
+                            ->revealable()
                             ->same('password')
                             ->dehydrated(false)
-                            ->required(fn(string $operation): bool => $operation === 'create')
+                            ->requiredWith('password')
+                            ->maxLength(255)
                             ->helperText(fn(string $operation): ?string => $operation === 'edit'
                                 ? 'Fill only if you want to change password.'
                                 : null),
@@ -130,7 +138,7 @@ class UserResource extends Resource
                             ? url('/contractor')
                             : url('/staff')),
                     Tables\Actions\EditAction::make()->icon('heroicon-o-pencil')
-                    ->color('success'),
+                        ->color('success'),
                     Tables\Actions\DeleteAction::make()->icon('heroicon-o-trash'),
                 ])
             ])

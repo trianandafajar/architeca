@@ -475,6 +475,10 @@ button[aria-disabled="true"],
     transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
+.fi-input-wrp-suffix {
+    border-inline-start-width: 0 !important;
+}
+
 .fi-input-wrp:focus-within {
     border-color: var(--ring);
     box-shadow: 0 0 0 1px var(--ring);

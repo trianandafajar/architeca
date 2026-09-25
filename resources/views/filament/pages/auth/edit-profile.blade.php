@@ -27,16 +27,6 @@
                 <div class="pf-remove">{{ $this->removeAvatarAction }}</div>
             </div>
 
-            <dl class="pf-stats">
-                @foreach (['projects' => 'Projects', 'reports' => 'Reports', 'expenses' => 'Expenses'] as $key =>
-                $label)
-                <div>
-                    <dd>{{ $stats[$key] }}</dd>
-                    <dt>{{ $label }}</dt>
-                </div>
-                @endforeach
-            </dl>
-
             <div class="pf-joined">
                 <x-heroicon-m-calendar-days style="width:1rem;height:1rem;flex-shrink:0" />
                 Joined {{ $user->created_at->format('M Y') }}

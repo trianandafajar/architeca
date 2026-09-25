@@ -85,9 +85,7 @@ class ViewProjectTasks extends Page
     {
         $task = $this->findTask($taskId);
 
-        if (! $task->is_completed) {
-            $this->persist($task);
-        }
+        $this->persist($task);
 
         $task->update(['is_completed' => ! $task->is_completed]);
         $this->tasks = $this->tasksQuery()->get();

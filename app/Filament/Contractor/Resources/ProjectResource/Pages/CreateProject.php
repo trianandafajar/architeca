@@ -85,12 +85,18 @@ class CreateProject extends CreateRecord
 
     protected function fillForm(): void
     {
-        $this->form->fill(session()->get('contractor_create_project_data', []));
     }
 
-    public function updated($propertyName): void
+    public function getFooter(): ?\Illuminate\Contracts\View\View
     {
-        session()->put('contractor_create_project_data', $this->form->getState());
+        return view('filament.resources.project-resource.pages.create-project-footer', [
+            'storageKey' => 'contractor_create_project_data_' . auth()->id(),
+        ]);
+    }
+
+    protected function getFormSchema(): array
+    {
+        return $this->getSteps();
     }
 
     protected function handleRecordCreation(array $data): \Illuminate\Database\Eloquent\Model
@@ -105,7 +111,8 @@ class CreateProject extends CreateRecord
         $record->budgetItems()->createMany($budgetItems);
         $record->members()->createMany($members);
 
-        session()->forget('contractor_create_project_data');
+        // Beritahu browser supaya localStorage draft dibersihkan.
+        $this->dispatch('project-created');
 
         return $record;
     }
@@ -129,7 +136,8 @@ class CreateProject extends CreateRecord
                             Forms\Components\TextInput::make('item_name')
                                 ->label('Item Name')
                                 ->required()
-                                ->maxLength(255),
+                                ->maxLength(255)
+                                ->live(onBlur: true),
                             Forms\Components\TextInput::make('unit')
                                 ->label('Unit')
                                 ->numeric()
@@ -139,7 +147,12 @@ class CreateProject extends CreateRecord
                                     'onkeydown' => "return !['e', 'E', '+', '-', '.'].includes(event.key)",
                                 ])
                                 ->default(0)
-                                ->rules(['required', 'numeric', 'min:0']),
+                                ->rules(['required', 'numeric', 'min:0'])
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn(Get $get, Set $set): mixed => $set(
+                                    'total_price',
+                                    (float) ($get('unit_price') ?? 0) * (float) ($get('unit') ?? 0),
+                                )),
                             Forms\Components\TextInput::make('unit_price')
                                 ->label('Unit Price')
                                 ->numeric()

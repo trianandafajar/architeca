@@ -19,7 +19,7 @@ class ProjectTaskController extends Controller
         abort_unless($request->user()->can('view_any_project::task'), 403);
         $record = ProjectAccess::findAvailable($request->user(), $project);
         $tasks = $record->tasks()
-            ->when($request->user()->hasRole('staff'), fn ($query) => $query->where('assigned_to', $request->user()->id))
+            ->when($request->user()->hasRole('staff'), fn($query) => $query->where('assigned_to', $request->user()->id))
             ->with('user:id,name')
             ->latest()
             ->paginate(max(1, min($request->integer('per_page', 15), 100)));
@@ -56,12 +56,14 @@ class ProjectTaskController extends Controller
         ]);
         abort_unless($record->members()->where('user_id', $data['assigned_to'])->exists(), 422, 'The assignee must be a member of this project.');
 
-        $tasks = DB::transaction(fn () => collect($data['tasks'])->map(fn (array $task) => $record->tasks()->create([
+        $tasks = DB::transaction(fn() => collect($data['tasks'])->map(fn(array $task) => $record->tasks()->create([
             ...$task,
             'assigned_to' => $data['assigned_to'],
         ])));
 
-        return ProjectTaskResource::collection($tasks->load('user:id,name'));
+        $tasks->each->load('user:id,name');
+
+        return ProjectTaskResource::collection($tasks);
     }
 
     public function show(Request $request, int $task): ProjectTaskResource
@@ -118,7 +120,7 @@ class ProjectTaskController extends Controller
                 'user_id' => $user->id,
                 'file_path' => $path,
                 'file_type' => Storage::disk('public')->mimeType($path),
-                'caption' => 'Evidence for task: '.$record->title,
+                'caption' => 'Evidence for task: ' . $record->title,
             ]);
         }
 
@@ -148,8 +150,8 @@ class ProjectTaskController extends Controller
     private function visibleTasks(Request $request)
     {
         return ProjectTask::query()
-            ->whereHas('project', fn ($projects) => $projects->availableTo($request->user()))
-            ->when($request->user()->hasRole('staff'), fn ($tasks) => $tasks->where('assigned_to', $request->user()->id));
+            ->whereHas('project', fn($projects) => $projects->availableTo($request->user()))
+            ->when($request->user()->hasRole('staff'), fn($tasks) => $tasks->where('assigned_to', $request->user()->id));
     }
 
     private function authorizeTaskManagement(Request $request, Project $project, string $permission): void

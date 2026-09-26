@@ -1,8 +1,8 @@
 <div class="fixed inset-0 flex min-h-screen w-full overflow-y-auto font-sans" x-data>
-    <div class="hidden min-h-screen lg:flex lg:w-1/2 lg:shrink-0 flex-col justify-between bg-[#F97316] px-12 py-12">
+    <div class="hidden min-h-screen lg:flex lg:w-1/2 lg:shrink-0 flex-col justify-between bg-[#121212] px-12 py-12">
         <div class="flex items-center gap-3">
             <div class="flex items-center justify-center rounded-xl">
-                <img src="{{ asset('images/logo-2.png') }}" alt="Architeca Logo" class="h-12 w-12" />
+                <img src="{{ asset('images/logo.png') }}" alt="Architeca Logo" class="h-12 w-12" />
             </div>
             <span class="text-2xl font-bold text-white">ARCHITECA</span>
         </div>

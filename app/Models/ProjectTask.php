@@ -17,6 +17,16 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
     'evidence_path',
     'evidence_paths',
 ])]
+/**
+ * @property int $project_id
+ * @property string $title
+ * @property float $percentage_weight
+ * @property bool $is_completed
+ * @property string|null $notes
+ * @property int|null $assigned_to ID of the assigned user (must be a project member)
+ * @property string|null $evidence_path
+ * @property array|null $evidence_paths
+ */
 class ProjectTask extends Model
 {
     protected $casts = [

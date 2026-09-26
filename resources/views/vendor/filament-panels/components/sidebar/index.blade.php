@@ -84,7 +84,7 @@ $hasTopNav = filament()->hasTopNavigation();
                         " x-tooltip.html="tooltip" @endif
                         @class([ 'flex items-center gap-3 rounded-lg h-11 text-sm font-medium transition-colors'
                         , 'bg-primary text-white'=> $item->isActive(),
-                        'text-gray-300 hover:bg-gray-800 hover:text-white' => ! $item->isActive(),
+                        'text-gray-300 hover:bg-[#212121] hover:text-white' => ! $item->isActive(),
                         ])
                         @if ($item->isActive()) aria-current="page" @endif
                         @if ($collapsibleOnDesktop || $fullyCollapsible)

@@ -24,15 +24,8 @@ class AttachmentController extends Controller
 
         if ($request->user()->hasRole('staff')) {
             $query->where(function (Builder $attachments) use ($request): void {
-                $attachments
-                    ->where(function (Builder $reports) use ($request): void {
-                        $reports->where('attachable_type', (new DailyReport)->getMorphClass())
-                            ->whereIn('attachable_id', DailyReport::query()->where('user_id', $request->user()->id)->select('id'));
-                    })
-                    ->orWhere(function (Builder $tasks) use ($request): void {
-                        $tasks->where('attachable_type', (new ProjectTask)->getMorphClass())
-                            ->whereIn('attachable_id', ProjectTask::query()->where('assigned_to', $request->user()->id)->select('id'));
-                    });
+                $attachments->where('attachable_type', (new ProjectTask)->getMorphClass())
+                    ->whereIn('attachable_id', ProjectTask::query()->where('assigned_to', $request->user()->id)->select('id'));
             });
         }
 
@@ -45,7 +38,7 @@ class AttachmentController extends Controller
     {
         $record = ProjectAccess::findAvailable($request->user(), $project);
         $data = $request->validate([
-            'target_type' => ['required', 'in:project,expense,task,daily_report,progress_update'],
+            'target_type' => ['required', 'in:project,task'],
             'target_id' => ['required', 'integer'],
             'file' => ['required', 'file', 'mimes:jpg,jpeg,png,gif,webp,mp4,mov,webm,pdf', 'max:10240'],
             'caption' => ['nullable', 'string', 'max:255'],
@@ -53,15 +46,12 @@ class AttachmentController extends Controller
 
         $target = match ($data['target_type']) {
             'project' => Project::query()->whereKey($data['target_id'])->whereKey($record->id)->firstOrFail(),
-            'expense' => $record->expenses()->findOrFail($data['target_id']),
             'task' => $record->tasks()->findOrFail($data['target_id']),
-            'daily_report' => $record->dailyReports()->findOrFail($data['target_id']),
-            'progress_update' => $record->progressUpdates()->findOrFail($data['target_id']),
         };
 
         if ($request->user()->hasRole('staff')) {
             abort_unless(
-                $target instanceof DailyReport && (int) $target->user_id === (int) $request->user()->id,
+                $target instanceof ProjectTask && (int) $target->assigned_to === (int) $request->user()->id,
                 403,
             );
         } else {
@@ -89,8 +79,7 @@ class AttachmentController extends Controller
         ProjectAccess::findAvailable($request->user(), $record->project_id);
 
         if ($request->user()->hasRole('staff')) {
-            $allowed = ($record->attachable instanceof DailyReport && (int) $record->attachable->user_id === (int) $request->user()->id)
-                || ($record->attachable instanceof ProjectTask && (int) $record->attachable->assigned_to === (int) $request->user()->id);
+            $allowed = ($record->attachable instanceof ProjectTask && (int) $record->attachable->assigned_to === (int) $request->user()->id);
             abort_unless($allowed, 403);
         }
 

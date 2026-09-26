@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -66,16 +67,49 @@ class Project extends Model
         return $this->hasMany(Attachment::class);
     }
 
+    public function progressUpdates(): HasMany
+    {
+        return $this->hasMany(ProgressUpdate::class);
+    }
+
+    public function dailyReports(): HasMany
+    {
+        return $this->hasMany(DailyReport::class);
+    }
+
     public function tasks(): HasMany
     {
         return $this->hasMany(ProjectTask::class);
     }
 
+    public function scopeAvailableTo(Builder $query, User $user): Builder
+    {
+        if ($user->hasAnyRole(['super_admin', 'admin'])) {
+            return $query;
+        }
+
+        if ($user->hasRole('contractor')) {
+            return $query->where(function (Builder $projects) use ($user): void {
+                $projects->where('owner_id', $user->id)
+                    ->orWhereHas('members', fn (Builder $members) => $members->where('user_id', $user->id));
+            });
+        }
+
+        if ($user->hasRole('staff')) {
+            return $query->whereHas('members', fn (Builder $members) => $members->where('user_id', $user->id));
+        }
+
+        return $query->whereRaw('1 = 0');
+    }
+
     public function getProgressAttribute(): float
     {
         $total = $this->tasks()->count();
-        if ($total === 0) return 0;
+        if ($total === 0) {
+            return 0;
+        }
         $completed = $this->tasks()->where('is_completed', true)->count();
+
         return ($completed / $total) * 100;
     }
 }

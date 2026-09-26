@@ -20,7 +20,7 @@ class AttachmentResource extends JsonResource
             'file_name' => basename($this->file_path),
             'file_type' => $this->file_type,
             'caption' => $this->caption,
-            'download_url' => route('api.v1.attachments.download', $this->id),
+            'download_url' => route('api.attachments.download', $this->id),
             'user' => $this->whenLoaded('user', fn () => $this->user ? ['id' => $this->user->id, 'name' => $this->user->name] : null),
             'created_at' => $this->created_at?->toISOString(),
         ];
